@@ -2,7 +2,17 @@
 //  log_in_view.swift
 //  HopSpot.
 //
-//  Created by Ben Roman on 2024-07-05.
+//  Created by Ben Roman on 2024-07-10.
 //
 
-import Foundation
+import SwiftUI
+
+struct log_in_view: View {
+    var body: some View {
+        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+    }
+}
+
+#Preview {
+    log_in_view()
+}

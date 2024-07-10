@@ -65,13 +65,16 @@ struct reg_or_log: View {
             
             Rectangle()
                 .foregroundColor(.clear)
-                .frame(width: 153, height: 77)
+                .frame(width: 150, height: 77)
                 .background(
                     Image("rabbit_logo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 250, height: 100) // Adjust these values as needed
                         .offset(x: 6.50, y: -159.50)
-                )
+                    )
         }
-        .frame(width: 390, height: 844)
+        .frame(width: 400, height: 844)
         .background(Color.pink)
     }
     

@@ -6,6 +6,7 @@
 //
 import FirebaseCore
 import SwiftUI
+import MapKit
 
 @main
 struct HopSpot_App: App {
