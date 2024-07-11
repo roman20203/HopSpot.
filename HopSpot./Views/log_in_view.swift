@@ -2,7 +2,7 @@
 //  log_in_view.swift
 //  HopSpot.
 //
-//  Created by Ben Roman on 2024-07-10.
+//  Created by Mina Mansour on 2024-07-11.
 //
 
 import SwiftUI
