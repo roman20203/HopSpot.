@@ -34,7 +34,7 @@ struct reg_or_log: View {
             
             VStack {
                 
-                Button(action: signUp) {
+                NavigationLink(destination: log_in_view()) {
                     Text("Sign Up")
                         .foregroundColor(.white)
                         .frame(width: 358, height: 56)
@@ -49,8 +49,7 @@ struct reg_or_log: View {
                     .foregroundColor(.black)
                     .offset(x: 0.50, y: 0.50)
                 
-                // Sign In Button
-                Button(action: logIn) {
+                NavigationLink(destination: log_in_view()) {
                     Text("Log In")
                         .foregroundColor(.white)
                         .frame(width: 358, height: 56)
@@ -81,15 +80,15 @@ struct reg_or_log: View {
     // Function to handle Sign In action
     func logIn() {
         // Perform sign in logic here
-
         print("Log In button tapped")
     }
     func signUp() {
         // Perform sign in logic here
         //Go to sign up page
         print("Sign Up button tapped")
+        
     }
-    
+
 }
 
 #Preview {

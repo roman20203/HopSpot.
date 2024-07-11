@@ -9,6 +9,14 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
+        
+        NavigationView{
+            reg_or_log()
+            
+        }
+        
+        
+/*
         TabView {
             home_view()
                 .tabItem {
@@ -17,20 +25,22 @@ struct ContentView: View {
             
             map_view()
                 .tabItem {
-                    Label("Search", systemImage: "magnifyingglass")
+                    Label("Search", systemImage: "map")
                 }
             
             notification_view()
                 .tabItem {
-                    Label("Favorites", systemImage: "star")
+                    Label("Notifications", systemImage: "bell")
                 }
             
             profile_view()
                 .tabItem {
-                    Label("Profile", systemImage: "person")
+                    Label("Profile", systemImage: "circle")
                 }
              
         }
+ 
+ */
     }
 }
 

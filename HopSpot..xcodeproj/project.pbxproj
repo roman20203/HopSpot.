@@ -12,6 +12,9 @@
 		ADA1A5252C3F50A4006844E7 /* profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5242C3F50A4006844E7 /* profile_view.swift */; };
 		ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5262C3F50BB006844E7 /* register_view.swift */; };
 		ADA1A5292C3F50D0006844E7 /* log_in_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5282C3F50D0006844E7 /* log_in_view.swift */; };
+		ADA1A52B2C3F597C006844E7 /* log_in_view_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A52A2C3F597C006844E7 /* log_in_view_model.swift */; };
+		ADA1A52D2C3F5C5E006844E7 /* register_view_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A52C2C3F5C5E006844E7 /* register_view_model.swift */; };
+		ADA1A52F2C3F63CB006844E7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADA1A52E2C3F63CB006844E7 /* Launch Screen.storyboard */; };
 		ADA297942C36217D00D2A7E9 /* HopSpot_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297932C36217D00D2A7E9 /* HopSpot_App.swift */; };
 		ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297952C36217D00D2A7E9 /* ContentView.swift */; };
 		ADA297982C36217E00D2A7E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADA297972C36217E00D2A7E9 /* Assets.xcassets */; };
@@ -28,7 +31,6 @@
 		ADA297D12C37BFEF00D2A7E9 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ADA297D02C37BFEF00D2A7E9 /* FirebaseFirestoreSwift */; };
 		ADA297D32C37C0E100D2A7E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */; };
 		ADA297D92C37C30900D2A7E9 /* map_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297D82C37C30900D2A7E9 /* map_view.swift */; };
-		ADA297DE2C37C35600D2A7E9 /* launch_screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADA297DD2C37C35600D2A7E9 /* launch_screen.storyboard */; };
 		ADA297E02C37C3B600D2A7E9 /* user.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297DF2C37C3B600D2A7E9 /* user.swift */; };
 		ADA297E22C37C3C700D2A7E9 /* location.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297E12C37C3C700D2A7E9 /* location.swift */; };
 /* End PBXBuildFile section */
@@ -56,6 +58,9 @@
 		ADA1A5242C3F50A4006844E7 /* profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile_view.swift; sourceTree = "<group>"; };
 		ADA1A5262C3F50BB006844E7 /* register_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view.swift; sourceTree = "<group>"; };
 		ADA1A5282C3F50D0006844E7 /* log_in_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log_in_view.swift; sourceTree = "<group>"; };
+		ADA1A52A2C3F597C006844E7 /* log_in_view_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log_in_view_model.swift; sourceTree = "<group>"; };
+		ADA1A52C2C3F5C5E006844E7 /* register_view_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view_model.swift; sourceTree = "<group>"; };
+		ADA1A52E2C3F63CB006844E7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		ADA297902C36217D00D2A7E9 /* HopSpot..app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HopSpot..app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA297932C36217D00D2A7E9 /* HopSpot_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HopSpot_App.swift; sourceTree = "<group>"; };
 		ADA297952C36217D00D2A7E9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -69,7 +74,6 @@
 		ADA297C22C3621F400D2A7E9 /* reg_or_log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reg_or_log.swift; sourceTree = "<group>"; };
 		ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ADA297D82C37C30900D2A7E9 /* map_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = map_view.swift; sourceTree = "<group>"; };
-		ADA297DD2C37C35600D2A7E9 /* launch_screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = launch_screen.storyboard; sourceTree = "<group>"; };
 		ADA297DF2C37C3B600D2A7E9 /* user.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user.swift; sourceTree = "<group>"; };
 		ADA297E12C37C3C700D2A7E9 /* location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = location.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -168,12 +172,12 @@
 				ADA297952C36217D00D2A7E9 /* ContentView.swift */,
 				ADA297C22C3621F400D2A7E9 /* reg_or_log.swift */,
 				ADA297D82C37C30900D2A7E9 /* map_view.swift */,
-				ADA297DD2C37C35600D2A7E9 /* launch_screen.storyboard */,
 				ADA1A5202C3F5061006844E7 /* home_view.swift */,
 				ADA1A5222C3F508E006844E7 /* notification_view.swift */,
 				ADA1A5242C3F50A4006844E7 /* profile_view.swift */,
 				ADA1A5262C3F50BB006844E7 /* register_view.swift */,
 				ADA1A5282C3F50D0006844E7 /* log_in_view.swift */,
+				ADA1A52E2C3F63CB006844E7 /* Launch Screen.storyboard */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -181,6 +185,8 @@
 		ADA297BE2C36219F00D2A7E9 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				ADA1A52A2C3F597C006844E7 /* log_in_view_model.swift */,
+				ADA1A52C2C3F5C5E006844E7 /* register_view_model.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -320,8 +326,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA2979B2C36217E00D2A7E9 /* Preview Assets.xcassets in Resources */,
-				ADA297DE2C37C35600D2A7E9 /* launch_screen.storyboard in Resources */,
 				ADA297982C36217E00D2A7E9 /* Assets.xcassets in Resources */,
+				ADA1A52F2C3F63CB006844E7 /* Launch Screen.storyboard in Resources */,
 				ADA297D32C37C0E100D2A7E9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -347,6 +353,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ADA1A52B2C3F597C006844E7 /* log_in_view_model.swift in Sources */,
+				ADA1A52D2C3F5C5E006844E7 /* register_view_model.swift in Sources */,
 				ADA297C32C3621F400D2A7E9 /* reg_or_log.swift in Sources */,
 				ADA1A5212C3F5061006844E7 /* home_view.swift in Sources */,
 				ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */,
@@ -530,6 +538,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -566,6 +575,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
