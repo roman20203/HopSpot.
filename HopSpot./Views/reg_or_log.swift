@@ -76,7 +76,8 @@ struct reg_or_log: View {
                     )
         }
         .frame(width: 400, height: 844)
-        .background(Color(red: 1, green: 0.2, blue: 0.6))
+        //.background(Color(red: 1, green: 0.2, blue: 0.6))
+        .background(white)
     }
     
     // Function to handle Sign In action
