@@ -214,9 +214,9 @@
 		ADA297C12C3621BA00D2A7E9 /* Other */ = {
 			isa = PBXGroup;
 			children = (
-				ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */,
 				ADA297972C36217E00D2A7E9 /* Assets.xcassets */,
 				ADA297932C36217D00D2A7E9 /* HopSpot_App.swift */,
+				ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */,
 			);
 			path = Other;
 			sourceTree = "<group>";
