@@ -38,7 +38,7 @@ struct reg_or_log: View {
                     Text("Sign Up")
                         .foregroundColor(.white)
                         .frame(width: 358, height: 56)
-                        .background(Color(red: 0.24, green: 0.24, blue: 0.24))
+                        .background(.blue)
                         .cornerRadius(26)
                 }
                 .offset(x: 0, y: -10)
@@ -49,11 +49,13 @@ struct reg_or_log: View {
                     .foregroundColor(.black)
                     .offset(x: 0.50, y: 0.50)
                 
+                
+                
                 NavigationLink(destination: log_in_view()) {
                     Text("Log In")
                         .foregroundColor(.white)
                         .frame(width: 358, height: 56)
-                        .background(Color(red: 0.24, green: 0.24, blue: 0.24))
+                        .background(.black)
                         .cornerRadius(26)
                 }
                 .offset(x: 0, y: 0)
@@ -74,7 +76,7 @@ struct reg_or_log: View {
                     )
         }
         .frame(width: 400, height: 844)
-        .background(Color.pink)
+        .background(Color(red: 1, green: 0.2, blue: 0.6))
     }
     
     // Function to handle Sign In action

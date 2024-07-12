@@ -108,6 +108,5 @@ struct log_in_view: View {
 
 
 #Preview {
-    
     log_in_view()
 }
