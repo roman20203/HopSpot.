@@ -15,6 +15,7 @@
 		ADA1A52B2C3F597C006844E7 /* log_in_view_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A52A2C3F597C006844E7 /* log_in_view_model.swift */; };
 		ADA1A52D2C3F5C5E006844E7 /* register_view_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A52C2C3F5C5E006844E7 /* register_view_model.swift */; };
 		ADA1A52F2C3F63CB006844E7 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ADA1A52E2C3F63CB006844E7 /* Launch Screen.storyboard */; };
+		ADA1A5332C40F004006844E7 /* InputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5322C40F004006844E7 /* InputView.swift */; };
 		ADA297942C36217D00D2A7E9 /* HopSpot_App.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297932C36217D00D2A7E9 /* HopSpot_App.swift */; };
 		ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297952C36217D00D2A7E9 /* ContentView.swift */; };
 		ADA297982C36217E00D2A7E9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ADA297972C36217E00D2A7E9 /* Assets.xcassets */; };
@@ -61,6 +62,7 @@
 		ADA1A52A2C3F597C006844E7 /* log_in_view_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = log_in_view_model.swift; sourceTree = "<group>"; };
 		ADA1A52C2C3F5C5E006844E7 /* register_view_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view_model.swift; sourceTree = "<group>"; };
 		ADA1A52E2C3F63CB006844E7 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		ADA1A5322C40F004006844E7 /* InputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputView.swift; sourceTree = "<group>"; };
 		ADA297902C36217D00D2A7E9 /* HopSpot..app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HopSpot..app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ADA297932C36217D00D2A7E9 /* HopSpot_App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HopSpot_App.swift; sourceTree = "<group>"; };
 		ADA297952C36217D00D2A7E9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		ADA1A5312C40EFE8006844E7 /* Templates */ = {
+			isa = PBXGroup;
+			children = (
+				ADA1A5322C40F004006844E7 /* InputView.swift */,
+			);
+			path = Templates;
+			sourceTree = "<group>";
+		};
 		ADA297872C36217D00D2A7E9 = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +142,7 @@
 		ADA297922C36217D00D2A7E9 /* HopSpot. */ = {
 			isa = PBXGroup;
 			children = (
+				ADA1A5312C40EFE8006844E7 /* Templates */,
 				ADA297C12C3621BA00D2A7E9 /* Other */,
 				ADA297C02C3621B100D2A7E9 /* Models */,
 				ADA297BE2C36219F00D2A7E9 /* ViewModels */,
@@ -354,6 +365,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA1A52B2C3F597C006844E7 /* log_in_view_model.swift in Sources */,
+				ADA1A5332C40F004006844E7 /* InputView.swift in Sources */,
 				ADA1A52D2C3F5C5E006844E7 /* register_view_model.swift in Sources */,
 				ADA297C32C3621F400D2A7E9 /* reg_or_log.swift in Sources */,
 				ADA1A5212C3F5061006844E7 /* home_view.swift in Sources */,
