@@ -11,6 +11,7 @@ import SwiftData
 struct reg_or_log: View {
     var body: some View {
         ZStack {
+            
             Text("HopSpot.")
                 //.font(.custom("arial_black", size: 45))
                 .font(.system(size: 45, weight: .black))
@@ -31,6 +32,7 @@ struct reg_or_log: View {
                 .tracking(0.60)
                 .foregroundColor(.black)
                 .offset(x: -0.50, y: 56)
+            
             
             VStack {
                 
@@ -75,10 +77,12 @@ struct reg_or_log: View {
                         .offset(x: 6.50, y: -159.50)
                     )
         }
+        
         .frame(width: 400, height: 844)
         //.background(Color(red: 1, green: 0.2, blue: 0.6))
         .background(.pink)
     }
+    
     
     // Function to handle Sign In action
     func logIn() {
@@ -91,9 +95,12 @@ struct reg_or_log: View {
         print("Sign Up button tapped")
         
     }
+    
 
 }
+
 
 #Preview {
     reg_or_log()
 }
+

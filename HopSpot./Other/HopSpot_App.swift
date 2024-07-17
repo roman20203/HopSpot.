@@ -7,9 +7,11 @@
 import FirebaseCore
 import SwiftUI
 import MapKit
+import Firebase
 
 @main
 struct HopSpot_App: App {
+    @StateObject var viewModel = log_in_view_model()
     
     init(){
         FirebaseApp.configure()

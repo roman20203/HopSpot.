@@ -16,35 +16,52 @@ enum Gender: String, Codable {
 
 //Password hashing
 
-struct user:Codable{
-    private var name: String
-    private var email: String
+struct User:Identifiable, Codable{
+    let id: String
+    var fullname: String
+    let email: String
     var passwordHash: String
     var joined: Date
     var gender: Gender
-    
-    var friends: [user] = []
+    var friends: [User] = []
     
     //Type here will need to be changed depending on what we use to identify the bars
     var favoriteClubs: [String] = []
     
+    var initials: String {
+        let formatter = PersonNameComponentsFormatter()
+        if let componenets = formatter.personNameComponents(from: fullname) {
+            formatter.style = .abbreviated
+            return formatter.string(from: componenets)
+        }
+        return ""
+    }
+}
+extension User{
+    static var MOCK_USER = User(id: UUID().uuidString, fullname: "Kobe Bryant", email: "test@gmail.com", passwordHash: User.hashPassword("password"), joined: Date(), gender: .male)
+
+     
     
-    private static func hashPassword(_ password: String) -> String {
+    
+    static func hashPassword(_ password: String) -> String {
         //implement more complex hashing algorithm
         return String(password.reversed())
     }
 
     init(name: String, email: String, password: String, joined: Date, gender: Gender) {
-        self.name = name
+        self.fullname = name
         self.email = email
-        self.passwordHash = user.hashPassword(password)
+        self.passwordHash = User.hashPassword(password)
         self.joined = joined
         self.gender = gender
+        self.friends = []
+        self.favoriteClubs = []
+        self.id = UUID().uuidString
 
     }
     
     func getName() ->String {
-        return self.name
+        return self.fullname
     }
     
     
@@ -54,17 +71,17 @@ struct user:Codable{
     
 
     mutating func updateName(newName: String) {
-        self.name = newName
+        self.fullname = newName
     }
     
-    mutating func addFriend(_ friend: user) {
+    mutating func addFriend(_ friend: User) {
         if !friends.contains(where: { $0.email == friend.email }) {
             friends.append(friend)
         }
     }
     
 
-    mutating func removeFriend(_ friend: user) {
+    mutating func removeFriend(_ friend: User) {
         friends.removeAll { $0.email == friend.email }
     }
     
@@ -81,5 +98,6 @@ struct user:Codable{
     }
     
 }
+
 
 

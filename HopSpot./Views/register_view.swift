@@ -13,6 +13,21 @@ struct register_view: View {
     }
 }
 
+
+
+
+extension register_view: AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@")
+        && !password.isEmpty
+        && password.count > 5
+        
+        && confirmPassword == password
+        && !fullname.isEmpty
+    }
+}
+
 #Preview {
     register_view()
 }
