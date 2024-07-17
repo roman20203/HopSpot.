@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var viewModel: log_in_view_model
     var body: some View {
         
         NavigationView{
@@ -15,35 +16,12 @@ struct ContentView: View {
             
         }
         
-        
-/*
-        TabView {
-            home_view()
-                .tabItem {
-                    Label("Home", systemImage: "house")
-                }
-            
-            map_view()
-                .tabItem {
-                    Label("Search", systemImage: "map")
-                }
-            
-            notification_view()
-                .tabItem {
-                    Label("Notifications", systemImage: "bell")
-                }
-            
-            profile_view()
-                .tabItem {
-                    Label("Profile", systemImage: "circle")
-                }
-             
-        }
- 
- */
     }
-}
+} 
 
-#Preview {
-    ContentView()
+
+struct ContentView_Previews: PreviewProvider {
+    static var previews: some View {
+        ContentView()
+    }
 }

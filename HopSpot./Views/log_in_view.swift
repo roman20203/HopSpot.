@@ -13,6 +13,7 @@ struct log_in_view: View {
     
     @State private var email = ""
     @State private var password = ""
+    @EnvironmentObject var viewModels: log_in_view_model
     var body: some View {
         
         NavigationStack{
@@ -64,9 +65,12 @@ struct log_in_view: View {
                     }
                     .foregroundColor(.black)
                     .frame(width: UIScreen.main.bounds.width - 32, height: 48)
+                    
                 }
                 .background(Color.pink)
                 .background(Color(.systemBlue))
+                .disabled(!formIsValid)
+                .opacity(formIsValid ? 1.0 : 0.8)
                 .cornerRadius(10)
                 .padding(.top, 24)
                 
@@ -79,7 +83,7 @@ struct log_in_view: View {
                 //sign up button
                 
                 NavigationLink {
-                    
+                    register_view()
                 } label: {
                     
                     HStack(spacing: 3){
@@ -105,7 +109,15 @@ struct log_in_view: View {
     }
     
 }
-
+extension log_in_view: AuthenticationFormProtocol {
+    var formIsValid: Bool {
+        return !email.isEmpty
+        && email.contains("@")
+        && !password.isEmpty
+        && password.count > 5
+    }
+    
+}
 
 #Preview {
     log_in_view()
