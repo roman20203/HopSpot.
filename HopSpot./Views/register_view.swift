@@ -41,8 +41,11 @@ struct register_view: View {
                     .autocapitalization(.none)
                 
                 InputView(text: $password, title: "Password", placeholder: "Enter your password", isSecureField: true)
+                    
+                    
                 
                 InputView(text: $confirmPassword, title: "Confirm Password", placeholder: "Re-enter your password", isSecureField: true)
+                
                 
                 Picker("Select your gender", selection: $gender) {
                     ForEach(Gender.allCases, id: \.self) { gender in
@@ -64,11 +67,10 @@ struct register_view: View {
                     Text("Register")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(formIsValid() ? Color.blue : Color.gray)
+                        .background(formIsValid() ? Color.pink : Color.gray)
                         .foregroundColor(.white)
                         .cornerRadius(8)
                 }
-                .padding()
                 .disabled(!formIsValid())
                 .opacity(formIsValid() ? 1.0 : 0.8)
                 .cornerRadius(10)
