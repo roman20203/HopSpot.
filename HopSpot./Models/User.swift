@@ -8,10 +8,12 @@
 import Foundation
 
 
-enum Gender: String, Codable {
-    case male
-    case female
-    case preferNotToSay
+enum Gender: String, CaseIterable, Identifiable, Codable {
+    case male = "Male"
+    case female = "Female"
+    case preferNotToSay = "Prefer Not To Say"
+    
+    var id: String { self.rawValue } 
 }
 
 //Password hashing
