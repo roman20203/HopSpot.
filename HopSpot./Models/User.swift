@@ -11,7 +11,7 @@ import Foundation
 enum Gender: String, CaseIterable, Identifiable, Codable {
     case male = "Male"
     case female = "Female"
-    case preferNotToSay = "Prefer Not To Say"
+    case other = "Other"
     
     var id: String { self.rawValue } 
 }
@@ -24,11 +24,17 @@ struct User:Identifiable, Codable{
     let email: String
     var passwordHash: String
     var joined: Date
+    var birthdate:Date
     var gender: Gender
-    var friends: [User] = []
     
+    
+    var friends: [User] = []
     //Type here will need to be changed depending on what we use to identify the bars
     var favoriteClubs: [String] = []
+    
+    var age: Int {
+            getAge(from: birthdate)
+        }
     
     var initials: String {
         let formatter = PersonNameComponentsFormatter()
@@ -38,27 +44,23 @@ struct User:Identifiable, Codable{
         }
         return ""
     }
-}
-extension User{
-    static var MOCK_USER = User(id: UUID().uuidString, fullname: "Kobe Bryant", email: "test@gmail.com", passwordHash: User.hashPassword("password"), joined: Date(), gender: .male)
 
-     
-    
-    
+
     static func hashPassword(_ password: String) -> String {
         //implement more complex hashing algorithm
         return String(password.reversed())
     }
 
-    init(name: String, email: String, password: String, joined: Date, gender: Gender) {
-        self.fullname = name
+    init(fullname: String,id: String, email: String, password: String, joined: Date, birthdate: Date, gender: Gender) {
+        self.fullname = fullname
         self.email = email
         self.passwordHash = User.hashPassword(password)
         self.joined = joined
+        self.birthdate = birthdate
         self.gender = gender
         self.friends = []
         self.favoriteClubs = []
-        self.id = UUID().uuidString
+        self.id = id
 
     }
     
@@ -69,6 +71,13 @@ extension User{
     
     func getEmail() ->String{
         return self.email
+    }
+    
+    private func getAge(from birthdate: Date) -> Int {
+        let calendar = Calendar.current
+        let now = Date()
+        let ageComponents = calendar.dateComponents([ .year ], from: birthdate, to: now)
+        return ageComponents.year ?? 0
     }
     
 

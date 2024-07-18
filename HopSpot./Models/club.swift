@@ -22,7 +22,7 @@ enum busynessType: String, Codable{
 
 
 
-struct club: Codable{
+struct Club: Codable{
     
     var id: String
     var name: String

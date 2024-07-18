@@ -35,14 +35,15 @@ class log_in_view_model: ObservableObject{
         }
     }
     
-    func createUser(withEmail email: String, password: String, fullname: String, joined: Date, gender: Gender) async throws {
+    func createUser(withEmail email: String, password: String, fullname: String, joined: Date, birthdate: Date, gender: Gender) async throws {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
-            let user = User(id: result.user.uid , fullname: fullname, email: email, passwordHash: User.hashPassword(password), joined: joined, gender: gender)
+            let user = User(fullname: fullname, id: result.user.uid, email: email, password: password, joined: joined, birthdate: birthdate, gender: gender)
+            //init(fullname: String,id: String, email: String, password: String, joined: Date, birthdate: Date, gender: Gender) {
             let encodeduser = try Firestore.Encoder().encode(user)
             
-            try await Firestore.firestore().collection("users ").document(user.id).setData(encodeduser)
+            try await Firestore.firestore().collection("users").document(user.id).setData(encodeduser)
             await fetchUser()
         } catch{
             print("DEBUG: Failed to create user with error\(error.localizedDescription )")
