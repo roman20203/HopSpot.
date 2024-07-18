@@ -15,6 +15,7 @@ struct register_view: View {
     @State private var confirmPassword = ""
     @State private var gender: Gender = .male // Assume male as default
     @State private var joined = Date()
+    @State private var birthdate = Date()
     
     var body: some View {
         ZStack {
@@ -43,7 +44,6 @@ struct register_view: View {
                 InputView(text: $password, title: "Password", placeholder: "Enter your password", isSecureField: true)
                     
                     
-                
                 InputView(text: $confirmPassword, title: "Confirm Password", placeholder: "Re-enter your password", isSecureField: true)
                 
                 
@@ -54,11 +54,15 @@ struct register_view: View {
                 }
                 .pickerStyle(.segmented) // Example of picker style
                 
+                
+                DatePicker("Birthdate", selection: $birthdate, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                
                 // Register button
                 Button(action: {
                     Task {
                         do {
-                            try await viewModels.createUser(withEmail: email, password: password, fullname: fullname, joined: joined, gender: gender)
+                            try await viewModels.createUser(withEmail: email, password: password, fullname: fullname, joined: joined, birthdate: birthdate, gender: gender)
                         } catch {
                             print("DEBUG: Failed to create user with error \(error.localizedDescription)")
                         }

@@ -33,7 +33,7 @@
 		ADA297D32C37C0E100D2A7E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */; };
 		ADA297D92C37C30900D2A7E9 /* map_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297D82C37C30900D2A7E9 /* map_view.swift */; };
 		ADA297E02C37C3B600D2A7E9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297DF2C37C3B600D2A7E9 /* User.swift */; };
-		ADA297E22C37C3C700D2A7E9 /* club.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297E12C37C3C700D2A7E9 /* club.swift */; };
+		ADA297E22C37C3C700D2A7E9 /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297E12C37C3C700D2A7E9 /* Club.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,7 +77,7 @@
 		ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ADA297D82C37C30900D2A7E9 /* map_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = map_view.swift; sourceTree = "<group>"; };
 		ADA297DF2C37C3B600D2A7E9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		ADA297E12C37C3C700D2A7E9 /* club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club.swift; sourceTree = "<group>"; };
+		ADA297E12C37C3C700D2A7E9 /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -206,7 +206,7 @@
 			isa = PBXGroup;
 			children = (
 				ADA297DF2C37C3B600D2A7E9 /* User.swift */,
-				ADA297E12C37C3C700D2A7E9 /* club.swift */,
+				ADA297E12C37C3C700D2A7E9 /* Club.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -371,7 +371,7 @@
 				ADA1A5212C3F5061006844E7 /* home_view.swift in Sources */,
 				ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */,
 				ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */,
-				ADA297E22C37C3C700D2A7E9 /* club.swift in Sources */,
+				ADA297E22C37C3C700D2A7E9 /* Club.swift in Sources */,
 				ADA1A5232C3F508E006844E7 /* notification_view.swift in Sources */,
 				ADA297E02C37C3B600D2A7E9 /* User.swift in Sources */,
 				ADA1A5252C3F50A4006844E7 /* profile_view.swift in Sources */,
