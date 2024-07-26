@@ -7,12 +7,12 @@
 
 import Foundation
 
-enum bcType: String, Codable{
+enum bcType: String, Codable {
     case Club
     case Bar
 }
 
-enum busynessType: String, Codable{
+enum busynessType: Int, Codable {
     case Empty
     case Light
     case Moderate
@@ -20,10 +20,7 @@ enum busynessType: String, Codable{
     case VeryBusy
 }
 
-
-
-struct Club: Codable{
-    
+struct Club: Codable, Identifiable {
     var id: String
     var name: String
     var address: String
@@ -33,10 +30,8 @@ struct Club: Codable{
     var latitude: Double
     var longitude: Double
     var busyness: busynessType
-    
-    
-    init(id:String, name:String , address:String, rating:Double, description: String, imageURL: String, latitude: Double, longitude:Double, busyness:busynessType){
-        
+
+    init(id: String, name: String, address: String, rating: Double, description: String, imageURL: String, latitude: Double, longitude: Double, busyness: Int) {
         self.id = id
         self.name = name
         self.address = address
@@ -45,28 +40,21 @@ struct Club: Codable{
         self.imageURL = imageURL
         self.latitude = latitude
         self.longitude = longitude
-        self.busyness = busyness
-        
+        self.busyness = Club.updateBusyness(from: busyness)
     }
-    
-    
-    mutating func updateRating(rating: Double){
-        self.rating = rating
-        
-    }
-    
-    mutating func updateBusyness(num: Int){
-        if num >= 0 && num < 10 {
-            self.busyness = .Empty
-        } else if num >= 10 && num < 30 {
-            self.busyness = .Moderate
-        } else if num >= 30 && num < 60 {
-            self.busyness = .Busy
-        } else if num >= 60 {
-            self.busyness = .VeryBusy
+
+    static func updateBusyness(from num: Int) -> busynessType {
+        switch num {
+        case 0..<10:
+            return .Empty
+        case 10..<30:
+            return .Light
+        case 30..<60:
+            return .Moderate
+        case 60..<90:
+            return .Busy
+        default:
+            return .VeryBusy
         }
-    
     }
-    
-    
 }
