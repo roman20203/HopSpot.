@@ -38,10 +38,9 @@ struct reg_or_log: View {
                 
                 NavigationLink(destination: register_view()) {
                     Text("Sign Up")
-                        .foregroundColor(.black)
-                        .bold()
+                        .foregroundColor(.white)
                         .frame(width: 358, height: 56)
-                        .background(.white)
+                        .background(.blue)
                         .cornerRadius(26)
                 }
                 .offset(x: 0, y: -10)
@@ -81,7 +80,7 @@ struct reg_or_log: View {
         
         .frame(width: 400, height: 844)
         //.background(Color(red: 1, green: 0.2, blue: 0.6))
-        .background(Color.accentColor)
+        .background(Color.pink)
     }
     
     
