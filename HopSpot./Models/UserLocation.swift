@@ -8,7 +8,7 @@
 import CoreLocation
 import Foundation
 
-class Location: NSObject, ObservableObject, CLLocationManagerDelegate {
+class UserLocation: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     private var locationManager = CLLocationManager()
 
