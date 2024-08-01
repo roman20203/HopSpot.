@@ -11,6 +11,7 @@ import Firebase
 
 @main
 struct HopSpot_App: App {
+    @StateObject private var vm = LocationsViewModel()
     @StateObject var viewModel = log_in_view_model()
     
     init(){
@@ -18,6 +19,8 @@ struct HopSpot_App: App {
     }
     var body: some Scene {
         WindowGroup {
+            map_view() 
+                .environmentObject(vm)
             ContentView()
                 .environmentObject(viewModel)
         }
