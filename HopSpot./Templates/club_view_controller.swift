@@ -14,7 +14,7 @@ import CoreLocation
 
 struct club_view_controller: View {
     @StateObject private var clubHandler = club_firebase_handler()
-    @StateObject private var locationManager = Location()
+    @StateObject private var locationManager = UserLocation()
 
     var body: some View {
         NavigationStack {

@@ -37,7 +37,7 @@
 		ADED5F802C4E9B3C003AB6A0 /* club_firebase_handler.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADED5F7F2C4E9B3C003AB6A0 /* club_firebase_handler.swift */; };
 		ADED5F822C515C90003AB6A0 /* image_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADED5F812C515C90003AB6A0 /* image_view.swift */; };
 		ADED5F842C515E34003AB6A0 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = ADED5F832C515E34003AB6A0 /* FirebaseStorage */; };
-		ADED5F862C592CA6003AB6A0 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADED5F852C592CA6003AB6A0 /* Location.swift */; };
+		ADED5F862C592CA6003AB6A0 /* UserLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADED5F852C592CA6003AB6A0 /* UserLocation.swift */; };
 		ADED5F882C5BC3F7003AB6A0 /* club_details_template.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,7 +85,7 @@
 		ADED5F7D2C4E9772003AB6A0 /* club_view_template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club_view_template.swift; sourceTree = "<group>"; };
 		ADED5F7F2C4E9B3C003AB6A0 /* club_firebase_handler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club_firebase_handler.swift; sourceTree = "<group>"; };
 		ADED5F812C515C90003AB6A0 /* image_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = image_view.swift; sourceTree = "<group>"; };
-		ADED5F852C592CA6003AB6A0 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		ADED5F852C592CA6003AB6A0 /* UserLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserLocation.swift; sourceTree = "<group>"; };
 		ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club_details_template.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -220,7 +220,7 @@
 			children = (
 				ADA297DF2C37C3B600D2A7E9 /* User.swift */,
 				ADA297E12C37C3C700D2A7E9 /* Club.swift */,
-				ADED5F852C592CA6003AB6A0 /* Location.swift */,
+				ADED5F852C592CA6003AB6A0 /* UserLocation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -385,7 +385,7 @@
 				ADA297C32C3621F400D2A7E9 /* reg_or_log.swift in Sources */,
 				ADA1A5212C3F5061006844E7 /* club_view_controller.swift in Sources */,
 				ADED5F802C4E9B3C003AB6A0 /* club_firebase_handler.swift in Sources */,
-				ADED5F862C592CA6003AB6A0 /* Location.swift in Sources */,
+				ADED5F862C592CA6003AB6A0 /* UserLocation.swift in Sources */,
 				ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */,
 				ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */,
 				ADA297E22C37C3C700D2A7E9 /* Club.swift in Sources */,
