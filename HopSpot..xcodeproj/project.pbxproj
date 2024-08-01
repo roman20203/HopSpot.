@@ -7,7 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39787CF82C546187007DD466 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39787CF72C546187007DD466 /* GoogleService-Info.plist */; };
+		39CB346E2C54692900DD415C /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB346D2C54692900DD415C /* Location.swift */; };
+		39CB34712C54B44800DD415C /* LocationsDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB34702C54B44800DD415C /* LocationsDataService.swift */; };
+		39CB34732C54BB8F00DD415C /* locations_view_model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB34722C54BB8F00DD415C /* locations_view_model.swift */; };
+		39CB34752C573F2B00DD415C /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB34742C573F2B00DD415C /* LocationsListView.swift */; };
+		39CB34772C58668300DD415C /* location_preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB34762C58668300DD415C /* location_preview.swift */; };
+		39CB34792C5960C000DD415C /* LocationMapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB34782C5960C000DD415C /* LocationMapAnnotationView.swift */; };
+		39CB347B2C59663000DD415C /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39CB347A2C59663000DD415C /* LocationDetailView.swift */; };
 		ADA1A5212C3F5061006844E7 /* club_view_controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5202C3F5061006844E7 /* club_view_controller.swift */; };
+
 		ADA1A5232C3F508E006844E7 /* notification_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5222C3F508E006844E7 /* notification_view.swift */; };
 		ADA1A5252C3F50A4006844E7 /* profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5242C3F50A4006844E7 /* profile_view.swift */; };
 		ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5262C3F50BB006844E7 /* register_view.swift */; };
@@ -29,7 +38,6 @@
 		ADA297CD2C37BFEF00D2A7E9 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ADA297CC2C37BFEF00D2A7E9 /* FirebaseDatabaseSwift */; };
 		ADA297CF2C37BFEF00D2A7E9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = ADA297CE2C37BFEF00D2A7E9 /* FirebaseFirestore */; };
 		ADA297D12C37BFEF00D2A7E9 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ADA297D02C37BFEF00D2A7E9 /* FirebaseFirestoreSwift */; };
-		ADA297D32C37C0E100D2A7E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */; };
 		ADA297D92C37C30900D2A7E9 /* map_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297D82C37C30900D2A7E9 /* map_view.swift */; };
 		ADA297E02C37C3B600D2A7E9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297DF2C37C3B600D2A7E9 /* User.swift */; };
 		ADA297E22C37C3C700D2A7E9 /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297E12C37C3C700D2A7E9 /* Club.swift */; };
@@ -59,7 +67,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+
+		39787CF72C546187007DD466 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		39CB346D2C54692900DD415C /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		39CB34702C54B44800DD415C /* LocationsDataService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsDataService.swift; sourceTree = "<group>"; };
+		39CB34722C54BB8F00DD415C /* locations_view_model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = locations_view_model.swift; sourceTree = "<group>"; };
+		39CB34742C573F2B00DD415C /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
+		39CB34762C58668300DD415C /* location_preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = location_preview.swift; sourceTree = "<group>"; };
+		39CB34782C5960C000DD415C /* LocationMapAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapAnnotationView.swift; sourceTree = "<group>"; };
+		39CB347A2C59663000DD415C /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
 		ADA1A5202C3F5061006844E7 /* club_view_controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club_view_controller.swift; sourceTree = "<group>"; };
+
 		ADA1A5222C3F508E006844E7 /* notification_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notification_view.swift; sourceTree = "<group>"; };
 		ADA1A5242C3F50A4006844E7 /* profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile_view.swift; sourceTree = "<group>"; };
 		ADA1A5262C3F50BB006844E7 /* register_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view.swift; sourceTree = "<group>"; };
@@ -78,7 +96,6 @@
 		ADA297AE2C36217E00D2A7E9 /* HopSpot_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HopSpot_UITests.swift; sourceTree = "<group>"; };
 		ADA297B02C36217E00D2A7E9 /* HopSpot_UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HopSpot_UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		ADA297C22C3621F400D2A7E9 /* reg_or_log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reg_or_log.swift; sourceTree = "<group>"; };
-		ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ADA297D82C37C30900D2A7E9 /* map_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = map_view.swift; sourceTree = "<group>"; };
 		ADA297DF2C37C3B600D2A7E9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ADA297E12C37C3C700D2A7E9 /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
@@ -121,6 +138,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		39CB346F2C54B42F00DD415C /* DataServices */ = {
+			isa = PBXGroup;
+			children = (
+				39CB34702C54B44800DD415C /* LocationsDataService.swift */,
+			);
+			path = DataServices;
+			sourceTree = "<group>";
+		};
 		ADA1A5312C40EFE8006844E7 /* Templates */ = {
 			isa = PBXGroup;
 			children = (
@@ -136,6 +161,7 @@
 		ADA297872C36217D00D2A7E9 = {
 			isa = PBXGroup;
 			children = (
+				39CB346F2C54B42F00DD415C /* DataServices */,
 				ADA297922C36217D00D2A7E9 /* HopSpot. */,
 				ADA297A32C36217E00D2A7E9 /* HopSpot.Tests */,
 				ADA297AD2C36217E00D2A7E9 /* HopSpot.UITests */,
@@ -202,6 +228,10 @@
 				ADA1A5262C3F50BB006844E7 /* register_view.swift */,
 				ADA1A5282C3F50D0006844E7 /* log_in_view.swift */,
 				ADA1A52E2C3F63CB006844E7 /* Launch Screen.storyboard */,
+				39CB34742C573F2B00DD415C /* LocationsListView.swift */,
+				39CB34762C58668300DD415C /* location_preview.swift */,
+				39CB34782C5960C000DD415C /* LocationMapAnnotationView.swift */,
+				39CB347A2C59663000DD415C /* LocationDetailView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -210,7 +240,9 @@
 			isa = PBXGroup;
 			children = (
 				ADA1A52A2C3F597C006844E7 /* log_in_view_model.swift */,
+				39CB34722C54BB8F00DD415C /* locations_view_model.swift */,
 				ADED5F7F2C4E9B3C003AB6A0 /* club_firebase_handler.swift */,
+
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -220,7 +252,8 @@
 			children = (
 				ADA297DF2C37C3B600D2A7E9 /* User.swift */,
 				ADA297E12C37C3C700D2A7E9 /* Club.swift */,
-				ADED5F852C592CA6003AB6A0 /* Location.swift */,
+				39CB346D2C54692900DD415C /* Location.swift */,
+
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -228,9 +261,9 @@
 		ADA297C12C3621BA00D2A7E9 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				39787CF72C546187007DD466 /* GoogleService-Info.plist */,
 				ADA297972C36217E00D2A7E9 /* Assets.xcassets */,
 				ADA297932C36217D00D2A7E9 /* HopSpot_App.swift */,
-				ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -352,9 +385,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA2979B2C36217E00D2A7E9 /* Preview Assets.xcassets in Resources */,
+				39787CF82C546187007DD466 /* GoogleService-Info.plist in Resources */,
 				ADA297982C36217E00D2A7E9 /* Assets.xcassets in Resources */,
 				ADA1A52F2C3F63CB006844E7 /* Launch Screen.storyboard in Resources */,
-				ADA297D32C37C0E100D2A7E9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -381,6 +414,7 @@
 			files = (
 				ADA1A52B2C3F597C006844E7 /* log_in_view_model.swift in Sources */,
 				ADA1A5332C40F004006844E7 /* InputView.swift in Sources */,
+				39CB34752C573F2B00DD415C /* LocationsListView.swift in Sources */,
 				ADED5F882C5BC3F7003AB6A0 /* club_details_template.swift in Sources */,
 				ADA297C32C3621F400D2A7E9 /* reg_or_log.swift in Sources */,
 				ADA1A5212C3F5061006844E7 /* club_view_controller.swift in Sources */,
@@ -388,15 +422,22 @@
 				ADED5F862C592CA6003AB6A0 /* Location.swift in Sources */,
 				ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */,
 				ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */,
+				39CB346E2C54692900DD415C /* Location.swift in Sources */,
 				ADA297E22C37C3C700D2A7E9 /* Club.swift in Sources */,
 				ADED5F822C515C90003AB6A0 /* image_view.swift in Sources */,
 				ADA1A5232C3F508E006844E7 /* notification_view.swift in Sources */,
+				39CB34792C5960C000DD415C /* LocationMapAnnotationView.swift in Sources */,
 				ADA297E02C37C3B600D2A7E9 /* User.swift in Sources */,
 				ADA1A5252C3F50A4006844E7 /* profile_view.swift in Sources */,
+				39CB34712C54B44800DD415C /* LocationsDataService.swift in Sources */,
 				ADA1A5292C3F50D0006844E7 /* log_in_view.swift in Sources */,
 				ADA297942C36217D00D2A7E9 /* HopSpot_App.swift in Sources */,
+				39CB347B2C59663000DD415C /* LocationDetailView.swift in Sources */,
 				ADA297D92C37C30900D2A7E9 /* map_view.swift in Sources */,
+				39CB34732C54BB8F00DD415C /* locations_view_model.swift in Sources */,
+				39CB34772C58668300DD415C /* location_preview.swift in Sources */,
 				ADED5F7E2C4E9772003AB6A0 /* club_view_template.swift in Sources */,
+
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

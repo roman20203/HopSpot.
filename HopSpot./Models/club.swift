@@ -62,4 +62,5 @@ struct Club: Codable, Identifiable {
     var location: CLLocation {
             return CLLocation(latitude: latitude, longitude: longitude)
         }
+
 }
