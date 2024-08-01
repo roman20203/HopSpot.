@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 enum bcType: String, Codable {
     case Club
@@ -57,4 +58,8 @@ struct Club: Codable, Identifiable {
             return .VeryBusy
         }
     }
+    
+    var location: CLLocation {
+            return CLLocation(latitude: latitude, longitude: longitude)
+        }
 }
