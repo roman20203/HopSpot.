@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProfileView: View {
+struct profile_view: View {
     var body: some View {
         ZStack {
             // Background color for the entire view
@@ -217,6 +217,6 @@ struct ProfileView: View {
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
-        ProfileView()
+        profile_view()
     }
 }
