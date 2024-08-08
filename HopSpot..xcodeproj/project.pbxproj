@@ -46,6 +46,7 @@
 		ADF113C42C5C573300BD4038 /* LocationMapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C32C5C573300BD4038 /* LocationMapAnnotationView.swift */; };
 		ADF113C62C5C575100BD4038 /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C52C5C575100BD4038 /* LocationsListView.swift */; };
 		ADF113C82C5C57FB00BD4038 /* location_preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C72C5C57FB00BD4038 /* location_preview.swift */; };
+		ADF113CA2C65260C00BD4038 /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C92C65260C00BD4038 /* main_view.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		ADF113C32C5C573300BD4038 /* LocationMapAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapAnnotationView.swift; sourceTree = "<group>"; };
 		ADF113C52C5C575100BD4038 /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
 		ADF113C72C5C57FB00BD4038 /* location_preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = location_preview.swift; sourceTree = "<group>"; };
+		ADF113C92C65260C00BD4038 /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 				ADF113C32C5C573300BD4038 /* LocationMapAnnotationView.swift */,
 				ADF113C52C5C575100BD4038 /* LocationsListView.swift */,
 				ADF113C72C5C57FB00BD4038 /* location_preview.swift */,
+				ADF113C92C65260C00BD4038 /* main_view.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				ADA297C32C3621F400D2A7E9 /* reg_or_log.swift in Sources */,
 				ADF113BE2C5C567900BD4038 /* LocationsDataService.swift in Sources */,
 				ADA1A5212C3F5061006844E7 /* club_view_controller.swift in Sources */,
+				ADF113CA2C65260C00BD4038 /* main_view.swift in Sources */,
 				ADED5F802C4E9B3C003AB6A0 /* club_firebase_handler.swift in Sources */,
 				ADED5F862C592CA6003AB6A0 /* UserLocation.swift in Sources */,
 				ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */,

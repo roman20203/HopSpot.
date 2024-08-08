@@ -66,7 +66,7 @@ struct club_view_controller: View {
         guard let userLocation = locationManager.userLocation else { return [] }
 
         // Define a distance threshold (e.g., 10 kilometers)
-        let distanceThreshold: CLLocationDistance = 50_000_000  // 10 kilometers
+        let distanceThreshold: CLLocationDistance = 200_000  // 10 kilometers
 
         // Filter clubs within the distance threshold
         let nearYouClubs = clubHandler.clubs.filter { club in
