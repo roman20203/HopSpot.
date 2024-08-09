@@ -17,6 +17,8 @@ struct register_view: View {
     @State private var joined = Date()
     @State private var birthdate = Date()
     
+    @State private var registrationSuccess = false
+    
     var body: some View {
         ZStack {
             Text("HopSpot.")
@@ -26,14 +28,12 @@ struct register_view: View {
         }
         
         VStack {
-            // Logo image
             Image("rabbit_logo")
                 .resizable()
                 .scaledToFill()
                 .frame(width: 250, height: 90)
                 .padding(.vertical, 3)
             
-            // Form fields
             VStack(spacing: 24) {
                 InputView(text: $fullname, title: "Full Name", placeholder: "Full Name")
                     .autocapitalization(.none)
@@ -43,26 +43,24 @@ struct register_view: View {
                 
                 InputView(text: $password, title: "Password", placeholder: "Enter your password", isSecureField: true)
                     
-                    
                 InputView(text: $confirmPassword, title: "Confirm Password", placeholder: "Re-enter your password", isSecureField: true)
-                
                 
                 Picker("Select your gender", selection: $gender) {
                     ForEach(Gender.allCases, id: \.self) { gender in
                         Text(gender.rawValue)
                     }
                 }
-                .pickerStyle(.segmented) // Example of picker style
-                
+                .pickerStyle(.segmented)
                 
                 DatePicker("Birthdate", selection: $birthdate, displayedComponents: .date)
                     .datePickerStyle(.compact)
                 
-                // Register button
                 Button(action: {
                     Task {
                         do {
                             try await viewModels.createUser(withEmail: email, password: password, fullname: fullname, joined: joined, birthdate: birthdate, gender: gender)
+                            registrationSuccess = true
+                            print("DEBUG: Registration successful. Redirecting to app.")
                         } catch {
                             print("DEBUG: Failed to create user with error \(error.localizedDescription)")
                         }
@@ -81,26 +79,26 @@ struct register_view: View {
                 .padding(.top, 24)
                 
                 Spacer()
+                
+                if registrationSuccess {
+                    NavigationLink(destination: main_view()) {
+                        Text("Proceed to App")
+                    }
+                    .padding()
+                }
             }
             .padding()
-            
         }
-        
-        
     }
     
     func formIsValid() -> Bool {
+        let age = Calendar.current.dateComponents([.year], from: birthdate, to: Date()).year ?? 0
         return !email.isEmpty
             && email.contains("@")
             && !password.isEmpty
             && password.count > 5
             && confirmPassword == password
             && !fullname.isEmpty
+            && age >= 19
     }
 }
-
-    #Preview {
-        register_view()
-    }
-    
-
