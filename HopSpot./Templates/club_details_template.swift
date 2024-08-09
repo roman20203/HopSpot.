@@ -78,7 +78,7 @@ struct club_details_template: View {
 
 struct club_details_view_Previews: PreviewProvider {
     static var previews: some View {
-        let sampleClub = Club(id: "1", name: "Sample Club", address: "123 Main St", rating: 4.5, description: "A great place to have fun.", imageURL: "path/to/image.jpg", latitude: 0.0, longitude: 0.0, busyness: 75)
+        let sampleClub = Club(id: "1", name: "Sample Club", address: "123 Main St", rating: 4.5, description: "A great place to have fun.", imageURL: "path/to/image.jpg", latitude: 0.0, longitude: 0.0, busyness: 75, website: "www.blah.com", city:"Waterloo")
         club_details_template(club: sampleClub)
     }
 }

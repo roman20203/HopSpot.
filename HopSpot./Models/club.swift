@@ -8,11 +8,6 @@
 import Foundation
 import CoreLocation
 
-enum bcType: String, Codable {
-    case Club
-    case Bar
-}
-
 enum busynessType: Int, Codable {
     case Empty
     case Light
@@ -31,8 +26,10 @@ struct Club: Codable, Identifiable {
     var latitude: Double
     var longitude: Double
     var busyness: busynessType
+    var website: String
+    var city: String
 
-    init(id: String, name: String, address: String, rating: Double, description: String, imageURL: String, latitude: Double, longitude: Double, busyness: Int) {
+    init(id: String, name: String, address: String, rating: Double, description: String, imageURL: String, latitude: Double, longitude: Double, busyness: Int, website: String, city: String) {
         self.id = id
         self.name = name
         self.address = address
@@ -42,6 +39,8 @@ struct Club: Codable, Identifiable {
         self.latitude = latitude
         self.longitude = longitude
         self.busyness = Club.updateBusyness(from: busyness)
+        self.website = website
+        self.city = city
     }
 
     static func updateBusyness(from num: Int) -> busynessType {
@@ -60,6 +59,6 @@ struct Club: Codable, Identifiable {
     }
     
     var location: CLLocation {
-            return CLLocation(latitude: latitude, longitude: longitude)
-        }
+        return CLLocation(latitude: latitude, longitude: longitude)
+    }
 }

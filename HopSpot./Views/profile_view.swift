@@ -220,7 +220,7 @@ struct profile_view: View {
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         profile_view()
-            .environmentObject(log_in_view_model()) // Provide an instance of your view model
+            .environmentObject(log_in_view_model())
     }
 }
 

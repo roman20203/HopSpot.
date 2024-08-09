@@ -50,6 +50,7 @@ struct main_view: View {
                             .foregroundColor(.white)
                     }
                 }
+                .environmentObject(log_in_view_model())
         }
         .accentColor(.pink) // Set the color of the selected tab icon
 

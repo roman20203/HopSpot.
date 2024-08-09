@@ -10,6 +10,7 @@
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
+import CoreLocation
 
 class club_firebase_handler: ObservableObject {
     @Published var clubs = [Club]()
@@ -47,19 +48,39 @@ class club_firebase_handler: ObservableObject {
                           let imageURL = data["imageURL"] as? String,
                           let latitude = data["latitude"] as? Double,
                           let longitude = data["longitude"] as? Double,
-                          let busyness = data["busyness"] as? Int else {
+                          let busyness = data["busyness"] as? Int,
+                          let website = data["website"] as? String,
+                          let city = data["city"] as? String else {
                         print("Error decoding document data for Club: \(data)")
                         return nil
                     }
-
-                    return Club(id: id, name: name, address: address, rating: rating, description: description, imageURL: imageURL, latitude: latitude, longitude: longitude, busyness: busyness)
+                    
+                    return Club(id: id, name: name, address: address, rating: rating, description: description, imageURL: imageURL, latitude: latitude, longitude: longitude, busyness: busyness, website: website, city: city)
                 }
                 // Debugging: Print all clubs
                 print("Fetched \(self?.clubs.count ?? 0) clubs")
                 self?.clubs.forEach { club in
-                    print("Club: \(club.name), Rating: \(club.rating)")
+                    print("Club: \(club.name), Rating: \(club.rating), Website: \(club.website), City: \(club.city)")
                 }
             }
+        }
+    }
+    
+    func displayPopularClubs(userLocation: CLLocation, distanceThreshold: CLLocationDistance) -> [Club] {
+        return clubs.filter { club in
+            let clubLocation = CLLocation(latitude: club.latitude, longitude: club.longitude)
+            let distance = clubLocation.distance(from: userLocation)
+            print("Club \(club.name) is \(distance) meters away") // Debugging
+            return distance <= distanceThreshold && (club.busyness == .VeryBusy || club.busyness == .Busy)
+        }
+    }
+    
+    func displayNearYouClubs(userLocation: CLLocation, distanceThreshold: CLLocationDistance) -> [Club] {
+        return clubs.filter { club in
+            let clubLocation = CLLocation(latitude: club.latitude, longitude: club.longitude)
+            let distance = clubLocation.distance(from: userLocation)
+            print("Club \(club.name) is \(distance) meters away") // Debugging
+            return distance <= distanceThreshold
         }
     }
 }

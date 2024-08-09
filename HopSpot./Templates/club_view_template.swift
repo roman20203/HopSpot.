@@ -13,13 +13,14 @@ struct club_view_template: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             FirebaseImageView(imagePath: club.imageURL)
-                .frame(width: 280, height: 150)
+                //.frame(width: 280, height: 150)
+                .frame(width: 350, height: 170)
                 .cornerRadius(10)
                 .clipped()
             
             VStack(alignment: .leading) {
                 Text(club.name)
-                    .foregroundColor(.white)
+                    .foregroundColor(.black)
                     .font(.headline)
                     .padding(.bottom, 2)
                 
@@ -43,10 +44,11 @@ struct club_view_template: View {
             }
             .padding(5)
             .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.pink)
-            .cornerRadius(0)
+            .background(Color.white)
+            .cornerRadius(10)
         }
-        .frame(width: 280, height: 150)
+        //.frame(width: 280, height: 150)
+        .frame(width: 350, height: 170)
         .cornerRadius(10)
         .shadow(radius: 5)
         .padding(.horizontal, 10)
@@ -57,7 +59,7 @@ struct club_view_template: View {
 
 
 
-/*
+
 struct club_view_template_Previews: PreviewProvider {
     static var previews: some View {
         let sampleClub = Club(
@@ -69,10 +71,12 @@ struct club_view_template_Previews: PreviewProvider {
             imageURL: "rabbit_logo",
             latitude: 37.7749,
             longitude: -122.4194,
-            busyness: .Moderate
+            busyness: 60,
+            website: "https.www.ljfnsdlj.com/",
+            city: "Waterloo, ON"
         )
         club_view_template(club: sampleClub)
     }
 }
 
-*/
+
