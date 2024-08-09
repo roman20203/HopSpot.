@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct profile_view: View {
+    @EnvironmentObject var viewModel: log_in_view_model
+    @State private var user: User?
+    
     var body: some View {
         ZStack {
             // Background color for the entire view
@@ -57,17 +60,13 @@ struct profile_view: View {
                                     .offset(x: -10, y: -27) // Adjust position of the profile picture
                                 
                                 VStack(alignment: .leading) {
-                                    Text("Nathanscott_23_")
+                                    Text(user?.fullname ?? "Username")
                                         .font(.system(size: 20, weight: .black))
                                         .tracking(0.9)
                                         .foregroundColor(.black)
-                                    
-                                    Text("Nathan Scott")
-                                        .font(.system(size: 17, weight: .black))
-                                        .tracking(0.9)
-                                        .foregroundColor(.black)
+            
                                 }
-                                .offset(x: -10, y: -45) // Adjust position of the user name and details
+                                .offset(x: -10, y: -45) 
                                 
                                 Spacer()
                             }
@@ -88,22 +87,22 @@ struct profile_view: View {
                                     Text("Edit Profile")
                                         .font(Font.custom("Forma DJR Text", size: 12).weight(.bold))
                                         .padding()
-                                        .frame(width: 100, height: 30) // Size of the Edit Profile button
+                                        .frame(width: 100, height: 30)
                                         .background(Color(red: 0.95, green: 0.95, blue: 0.95))
                                         .cornerRadius(26)
                                 }
                             }
-                            .offset(x: 10, y: -30) // Adjust position of the buttons
+                            .offset(x: 10, y: -30)
                             
                             // User statistics
                             HStack(spacing: 30) {
                                 VStack {
                                     Image(systemName: "flame.fill")
-                                    Text("2004")
+                                    Text("\(user?.favoriteClubs.count ?? 0)")
                                 }
                                 VStack {
                                     Image(systemName: "mappin.and.ellipse")
-                                    Text("15 Visits")
+                                    Text("\(user?.friends.count ?? 0) Visits")
                                 }
                                 VStack {
                                     Image(systemName: "graduationcap.fill")
@@ -212,11 +211,16 @@ struct profile_view: View {
                 }
             }
         }
+        .onAppear {
+            self.user = viewModel.currentUser
+        }
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         profile_view()
+            .environmentObject(log_in_view_model()) // Provide an instance of your view model
     }
 }
+
