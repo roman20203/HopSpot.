@@ -1,5 +1,5 @@
 //
-//  Location.swift
+//  UserLocation.swift
 //  HopSpot.
 //
 //  Created by Ben Roman on 2024-07-30.
@@ -23,7 +23,6 @@ class UserLocation: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
 
     private func checkLocationAuthorization() {
-        // Directly use the locationManager instance to check authorization status
         switch locationManager.authorizationStatus {
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
@@ -32,13 +31,15 @@ class UserLocation: NSObject, ObservableObject, CLLocationManagerDelegate {
             print("Location access restricted or denied.")
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.startUpdatingLocation()
-        default:
-            break
+        @unknown default:
+            print("Unknown authorization status.")
         }
     }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
+            // Debugging: Print updated location
+            print("Updated location: \(location.coordinate.latitude), \(location.coordinate.longitude)")
             DispatchQueue.main.async {
                 self.userLocation = location
             }
@@ -46,6 +47,8 @@ class UserLocation: NSObject, ObservableObject, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        // Debugging: Print location error
+        print("Location update failed with error: \(error.localizedDescription)")
         DispatchQueue.main.async {
             self.locationError = error
         }
@@ -56,11 +59,12 @@ class UserLocation: NSObject, ObservableObject, CLLocationManagerDelegate {
         case .authorizedWhenInUse, .authorizedAlways:
             locationManager.startUpdatingLocation()
         case .denied, .restricted:
+            // Handle denied or restricted access
             print("Location access denied or restricted.")
         case .notDetermined:
             locationManager.requestWhenInUseAuthorization()
         @unknown default:
-            break
+            print("Unknown authorization status.")
         }
     }
 }
