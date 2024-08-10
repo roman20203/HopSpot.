@@ -16,7 +16,7 @@ struct main_view: View {
     }
     var body: some View {
         TabView {
-            club_view_controller()
+            home_view()
                 .tabItem {
                     VStack() {
                         Image(systemName: "house.fill")
@@ -31,7 +31,7 @@ struct main_view: View {
             map_view()
                 .tabItem {
                     VStack {
-                        Image(systemName: "magnifyingglass")
+                        Image(systemName: "map")
                             .foregroundColor(.white)
                         Text("Search")
                             .font(.caption)
