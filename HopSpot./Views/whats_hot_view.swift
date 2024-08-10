@@ -78,7 +78,8 @@ struct whats_hot_view: View {
                 }
                 .background(Color.black.edgesIgnoringSafeArea(.all))
             }
-            .navigationTitle("What's Hot")
+            .navigationTitle("What's Hot.") // Set the title here
+            .navigationBarTitleDisplayMode(.large) // Ensure the title display mode is large
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button(action: {
