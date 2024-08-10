@@ -13,41 +13,49 @@ struct club_view_template: View {
     var body: some View {
         ZStack(alignment: .bottomLeading) {
             FirebaseImageView(imagePath: club.imageURL)
-                //.frame(width: 280, height: 150)
                 .frame(width: 350, height: 170)
                 .cornerRadius(10)
                 .clipped()
             
             VStack(alignment: .leading) {
-                Text(club.name)
-                    .foregroundColor(.black)
-                    .font(.headline)
-                    .padding(.bottom, 2)
-                
-                HStack(spacing: 2) {
-                    ForEach(0..<Int(floor(club.rating)), id: \.self) { _ in
-                        Image(systemName: "star.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 10, height: 10)
-                            .foregroundColor(.yellow)
-                    }
-                    // To handle half stars
-                    if club.rating.truncatingRemainder(dividingBy: 1) != 0 {
-                        Image(systemName: "star.leadinghalf.fill")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 10, height: 10)
-                            .foregroundColor(.yellow)
+                HStack {
+                    Text(club.name)
+                        .foregroundColor(.black)
+                        .font(.headline)
+                    
+                    // Stars directly beside the name
+                    HStack(spacing: 2) {
+                        ForEach(0..<Int(floor(club.rating)), id: \.self) { _ in
+                            Image(systemName: "star.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 10, height: 10)
+                                .foregroundColor(.yellow)
+                        }
+                        // Handle half stars
+                        if club.rating.truncatingRemainder(dividingBy: 1) != 0 {
+                            Image(systemName: "star.leadinghalf.fill")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 10, height: 10)
+                                .foregroundColor(.yellow)
+                        }
                     }
                 }
+                .padding(.bottom, 2) // Adjust if needed
+                
+                Text(club.description)
+                    .font(.subheadline)
+                    .foregroundColor(.black)
+                    .lineLimit(1) // Limit to 1 line
+                    .truncationMode(.tail) // Add ellipsis if text is too long
+                    .padding(.bottom, 5)
             }
             .padding(5)
             .frame(maxWidth: .infinity, alignment: .leading)
             .background(Color.white)
             .cornerRadius(10)
         }
-        //.frame(width: 280, height: 150)
         .frame(width: 350, height: 170)
         .cornerRadius(10)
         .shadow(radius: 5)
@@ -55,10 +63,6 @@ struct club_view_template: View {
         .padding(.vertical, 5)
     }
 }
-
-
-
-
 
 struct club_view_template_Previews: PreviewProvider {
     static var previews: some View {
@@ -78,5 +82,3 @@ struct club_view_template_Previews: PreviewProvider {
         club_view_template(club: sampleClub)
     }
 }
-
-
