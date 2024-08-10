@@ -61,4 +61,16 @@ struct Club: Codable, Identifiable {
     var location: CLLocation {
         return CLLocation(latitude: latitude, longitude: longitude)
     }
+    
+    func distance(userLocation: CLLocation) -> (distanceKm: Double, estimatedMinutes: Double) {
+            let clubLocation = self.location
+            let distanceInMeters = userLocation.distance(from: clubLocation)
+            let distanceInKm = distanceInMeters / 1_000 // Convert to kilometers
+            
+        let averageSpeedKmPerHour = 6.4 // Average walking speed
+            let estimatedMinutes = (distanceInKm / averageSpeedKmPerHour) * 60.0 // Convert to minutes
+            
+            return (distanceKm: distanceInKm, estimatedMinutes: estimatedMinutes)
+        }
+    
 }
