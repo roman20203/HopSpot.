@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		ADA1A5212C3F5061006844E7 /* club_view_controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5202C3F5061006844E7 /* club_view_controller.swift */; };
 		ADA1A5232C3F508E006844E7 /* notification_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5222C3F508E006844E7 /* notification_view.swift */; };
 		ADA1A5252C3F50A4006844E7 /* profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5242C3F50A4006844E7 /* profile_view.swift */; };
 		ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5262C3F50BB006844E7 /* register_view.swift */; };
@@ -70,7 +69,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		ADA1A5202C3F5061006844E7 /* club_view_controller.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club_view_controller.swift; sourceTree = "<group>"; };
 		ADA1A5222C3F508E006844E7 /* notification_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notification_view.swift; sourceTree = "<group>"; };
 		ADA1A5242C3F50A4006844E7 /* profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile_view.swift; sourceTree = "<group>"; };
 		ADA1A5262C3F50BB006844E7 /* register_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view.swift; sourceTree = "<group>"; };
@@ -146,7 +144,6 @@
 		ADA1A5312C40EFE8006844E7 /* Templates */ = {
 			isa = PBXGroup;
 			children = (
-				ADA1A5202C3F5061006844E7 /* club_view_controller.swift */,
 				ADA1A5322C40F004006844E7 /* InputView.swift */,
 				ADED5F7D2C4E9772003AB6A0 /* club_view_template.swift */,
 				ADED5F812C515C90003AB6A0 /* image_view.swift */,
@@ -429,7 +426,6 @@
 				ADF113C42C5C573300BD4038 /* LocationMapAnnotationView.swift in Sources */,
 				ADA297C32C3621F400D2A7E9 /* reg_or_log.swift in Sources */,
 				ADF113BE2C5C567900BD4038 /* LocationsDataService.swift in Sources */,
-				ADA1A5212C3F5061006844E7 /* club_view_controller.swift in Sources */,
 				ADF113CE2C66846700BD4038 /* whats_hot_view.swift in Sources */,
 				ADF113CA2C65260C00BD4038 /* main_view.swift in Sources */,
 				ADED5F802C4E9B3C003AB6A0 /* club_firebase_handler.swift in Sources */,

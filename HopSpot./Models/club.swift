@@ -21,6 +21,7 @@ struct Club: Codable, Identifiable {
     var name: String
     var address: String
     var rating: Double
+    var reviewCount: Int // New field to track the number of reviews
     var description: String
     var imageURL: String
     var latitude: Double
@@ -29,11 +30,12 @@ struct Club: Codable, Identifiable {
     var website: String
     var city: String
 
-    init(id: String, name: String, address: String, rating: Double, description: String, imageURL: String, latitude: Double, longitude: Double, busyness: Int, website: String, city: String) {
+    init(id: String, name: String, address: String, rating: Double, reviewCount: Int, description: String, imageURL: String, latitude: Double, longitude: Double, busyness: Int, website: String, city: String) {
         self.id = id
         self.name = name
         self.address = address
         self.rating = rating
+        self.reviewCount = reviewCount // Initialize the new field
         self.description = description
         self.imageURL = imageURL
         self.latitude = latitude
@@ -63,14 +65,13 @@ struct Club: Codable, Identifiable {
     }
     
     func distance(userLocation: CLLocation) -> (distanceKm: Double, estimatedMinutes: Double) {
-            let clubLocation = self.location
-            let distanceInMeters = userLocation.distance(from: clubLocation)
-            let distanceInKm = distanceInMeters / 1_000 // Convert to kilometers
-            
+        let clubLocation = self.location
+        let distanceInMeters = userLocation.distance(from: clubLocation)
+        let distanceInKm = distanceInMeters / 1_000 // Convert to kilometers
+        
         let averageSpeedKmPerHour = 6.4 // Average walking speed
-            let estimatedMinutes = (distanceInKm / averageSpeedKmPerHour) * 60.0 // Convert to minutes
-            
-            return (distanceKm: distanceInKm, estimatedMinutes: estimatedMinutes)
-        }
-    
+        let estimatedMinutes = (distanceInKm / averageSpeedKmPerHour) * 60.0 // Convert to minutes
+        
+        return (distanceKm: distanceInKm, estimatedMinutes: estimatedMinutes)
+    }
 }

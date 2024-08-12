@@ -23,7 +23,9 @@ struct club_view_template: View {
                         .foregroundColor(.black)
                         .font(.headline)
                     
-                    // Stars directly beside the name
+                    //Spacer() // if you want it to the right then uncomment this
+
+                    // Star rating
                     HStack(spacing: 2) {
                         ForEach(0..<Int(floor(club.rating)), id: \.self) { _ in
                             Image(systemName: "star.fill")
@@ -40,6 +42,11 @@ struct club_view_template: View {
                                 .frame(width: 10, height: 10)
                                 .foregroundColor(.yellow)
                         }
+                        
+                        // Display review count
+                        Text("(\(club.reviewCount))")
+                            .font(.caption)
+                            .foregroundColor(.gray)
                     }
                 }
                 .padding(.bottom, 2) // Adjust if needed
@@ -71,12 +78,13 @@ struct club_view_template_Previews: PreviewProvider {
             name: "Sample Club",
             address: "123 Club Lane",
             rating: 2.5,
+            reviewCount: 0,
             description: "This is a sample club description. It's a great place to hang out and enjoy some music.",
             imageURL: "rabbit_logo",
             latitude: 37.7749,
             longitude: -122.4194,
             busyness: 60,
-            website: "https.www.ljfnsdlj.com/",
+            website: "https://www.sampleclub.com/",
             city: "Waterloo, ON"
         )
         club_view_template(club: sampleClub)
