@@ -50,9 +50,10 @@ struct main_view: View {
                             .foregroundColor(.white)
                     }
                 }
-                .environmentObject(log_in_view_model())
+                .environmentObject(log_in_view_model())//gives access to currentUser
+            
         }
-        .accentColor(.pink) // Set the color of the selected tab icon
+        .accentColor(AppColor.color) // Set the color of the selected tab icon
 
     }
 }

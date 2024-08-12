@@ -51,7 +51,7 @@ struct whats_hot_view: View {
                             searchText = ""
                         }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.white)
+                                .foregroundColor(AppColor.color)
                         }
                         .padding(.trailing)
                     }
@@ -86,7 +86,7 @@ struct whats_hot_view: View {
                         showSearchBar.toggle()
                     }) {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(.white)
+                            .foregroundColor(AppColor.color)
                     }
                 }
             }

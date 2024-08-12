@@ -84,4 +84,100 @@ class club_firebase_handler: ObservableObject {
             return distance <= distanceThreshold
         }
     }
+    
+    func submitRating(for club: Club, newRating: Int, userId: String, completion: @escaping (Bool) -> Void) {
+        let db = Firestore.firestore()
+        let clubRef = db.collection("Clubs").document(club.id)
+        let starReviewsRef = clubRef.collection("StarReviews")
+        
+        // Step 1: Query by userId
+        starReviewsRef.whereField("userId", isEqualTo: userId)
+        .getDocuments { [weak self] snapshot, error in
+            if let error = error {
+                print("Error checking reviews: \(error)")
+                completion(false)
+                return
+            }
+            
+            // Step 2: Filter results by timestamp manually
+            let todayStart = Calendar.current.startOfDay(for: Date())
+            let reviewsToday = snapshot?.documents.filter {
+                let timestamp = $0.data()["timestamp"] as? Timestamp ?? Timestamp(date: Date.distantPast)
+                return timestamp.dateValue() >= todayStart
+            } ?? []
+            
+            if !reviewsToday.isEmpty {
+                // User has already reviewed this club today
+                print("User has already reviewed this club today.")
+                completion(false)
+                return
+            }
+            
+            // Proceed to submit the rating
+            starReviewsRef.addDocument(data: [
+                "userId": userId,
+                "rating": newRating,
+                "timestamp": Timestamp(date: Date())
+            ]) { error in
+                if let error = error {
+                    print("Error submitting review: \(error)")
+                    completion(false)
+                    return
+                }
+                
+                // Update the club's average rating
+                self?.updateClubRating(clubRef: clubRef, newRating: newRating)
+                completion(true)
+            }
+        }
+    }
+
+    
+
+    func updateClubRating(clubRef: DocumentReference, newRating: Int) {
+        let starReviewsRef = clubRef.collection("StarReviews")
+
+        // Firestore transaction to safely increment review count and update rating
+        Firestore.firestore().runTransaction({ (transaction, errorPointer) -> Any? in
+            let clubDocument: DocumentSnapshot
+            do {
+                // Attempt to fetch the club document
+                clubDocument = try transaction.getDocument(clubRef)
+            } catch let fetchError as NSError {
+                print("Error fetching club document: \(fetchError.localizedDescription)")
+                errorPointer?.pointee = fetchError
+                return nil
+            }
+
+            // Fetch the current review count and rating
+            let currentReviewCount = clubDocument.data()?["reviewCount"] as? Int ?? 0
+            let currentRating = clubDocument.data()?["rating"] as? Double ?? 0.0
+
+            // Increment the review count
+            let newReviewCount = currentReviewCount + 1
+
+            // Calculate the new average rating
+            let totalRatings = (currentRating * Double(currentReviewCount)) + Double(newRating)
+            let averageRating = newReviewCount == 0 ? 0.0 : totalRatings / Double(newReviewCount)
+
+            // Update the club document with new values
+            transaction.updateData([
+                "rating": averageRating,
+                "reviewCount": newReviewCount
+            ], forDocument: clubRef)
+
+            return nil
+        }) { (result, error) in
+            if let error = error {
+                print("Error updating rating and review count: \(error)")
+                return
+            }
+
+            print("Successfully updated club rating and review count")
+        }
+    }
+
+
+
 }
+

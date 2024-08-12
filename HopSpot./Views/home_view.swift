@@ -10,6 +10,7 @@ import SwiftUI
 
 struct home_view: View {
     @EnvironmentObject var locationManager: UserLocation
+    
     var body: some View {
         NavigationStack {
             ZStack {
