@@ -11,11 +11,12 @@ import CoreLocation
 
 struct near_by_view: View {
     @StateObject private var clubHandler = club_firebase_handler()
-    @StateObject private var locationManager = UserLocation()
+    @EnvironmentObject var locationManager: UserLocation
     @State private var searchText = ""
     @State private var showSearchBar = false
     
     init() {
+        
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = UIColor.black
         appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
@@ -100,5 +101,7 @@ struct near_by_view: View {
 struct near_by_view_Previews: PreviewProvider {
     static var previews: some View {
         near_by_view()
+            .environmentObject(UserLocation())
+        
     }
 }

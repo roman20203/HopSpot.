@@ -11,7 +11,7 @@ import CoreLocation
 
 struct whats_hot_view: View {
     @StateObject private var clubHandler = club_firebase_handler()
-    @StateObject private var locationManager = UserLocation()
+    @EnvironmentObject var locationManager: UserLocation 
     @State private var searchText = ""
     @State private var showSearchBar = false
     
@@ -40,11 +40,11 @@ struct whats_hot_view: View {
                 if showSearchBar {
                     HStack {
                         TextField("Search...", text: $searchText)
-                            .textFieldStyle(PlainTextFieldStyle()) // Use PlainTextFieldStyle for custom styling
+                            .textFieldStyle(PlainTextFieldStyle())
                             .padding()
                             .background(Color.black)
-                            .foregroundColor(.white) // White text color
-                            .cornerRadius(7) // Rounded corners for the text field
+                            .foregroundColor(.white)
+                            .cornerRadius(7)
                         
                         Button(action: {
                             showSearchBar = false
@@ -56,7 +56,7 @@ struct whats_hot_view: View {
                         .padding(.trailing)
                     }
                     .padding(.top)
-                    .background(Color.black) // Black background for the search bar container
+                    .background(Color.black)
                 }
                 
                 ScrollView {
@@ -78,8 +78,8 @@ struct whats_hot_view: View {
                 }
                 .background(Color.black.edgesIgnoringSafeArea(.all))
             }
-            .navigationTitle("What's Hot.") // Set the title here
-            .navigationBarTitleDisplayMode(.large) // Ensure the title display mode is large
+            .navigationTitle("What's Hot.")
+            .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     Button(action: {
@@ -100,5 +100,6 @@ struct whats_hot_view: View {
 struct whats_hot_view_Previews: PreviewProvider {
     static var previews: some View {
         whats_hot_view()
+            .environmentObject(UserLocation()) // Preview with an environment object
     }
 }

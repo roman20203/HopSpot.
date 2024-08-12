@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct home_view: View {
+    @EnvironmentObject var locationManager: UserLocation
     var body: some View {
         NavigationStack {
             ZStack {
@@ -235,5 +236,6 @@ struct home_view: View {
 struct home_view_Previews: PreviewProvider {
     static var previews: some View {
         home_view()
+            .environmentObject(UserLocation())
     }
 }

@@ -12,6 +12,7 @@ import Firebase
 @main
 struct HopSpot_App: App {
     @StateObject var viewModel = log_in_view_model()
+    @StateObject var userLocation = UserLocation()
     
     init(){
         FirebaseApp.configure()
@@ -20,6 +21,8 @@ struct HopSpot_App: App {
         WindowGroup {
             ContentView()
                 .environmentObject(viewModel)
+                .environmentObject(userLocation)
+
         }
     }
 }
