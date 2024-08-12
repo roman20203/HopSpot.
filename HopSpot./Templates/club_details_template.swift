@@ -9,8 +9,16 @@ import SwiftUI
 import CoreLocation
 
 struct club_details_template: View {
+    @EnvironmentObject var viewModel: log_in_view_model
+
+    
     let club: Club
+    
     @EnvironmentObject var userLocation: UserLocation
+    @State private var showRatingView = false
+    @State private var showReviewView = false
+    @State private var hasSubmittedRating = false
+
 
     var body: some View {
         GeometryReader { geometry in
@@ -94,14 +102,62 @@ struct club_details_template: View {
                         }
                         .padding(.horizontal)
                     }
-
+                    HStack(spacing: 5){
+                        //Star rating
+                        Button(action: {
+                            showRatingView = true
+                        }) {
+                            Text(hasSubmittedRating ? "Done!" : "Rate Me")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(width:90, height:10)
+                                .padding()
+                                .background(AppColor.color)
+                                .cornerRadius(10)
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 10)
+                        .disabled(hasSubmittedRating)
+                        //we must handle incase somehow the user is not signed in
+                        //currentUser is a optional variable which means it may be nil
+                        //we use an if and else statement to make sure that we dont pass nil
+                        //we are sure that it cannot be nil, because this view and the app cannot
+                        //be accessed without being signed in 
+                        .sheet(isPresented: $showRatingView) {
+                            if let currentUser = viewModel.currentUser {
+                                StarRatingTemplate(isPresented: $showRatingView, hasSubmittedRating: $hasSubmittedRating,
+                                                   club: club, user: currentUser)
+                            } else {
+                                // Handle the case where currentUser is nil (e.g., show an error message or default view)
+                                Text("User not logged in")
+                            }
+                        }
+                        
+                        //Written review
+                        Button(action: {
+                            showReviewView = true
+                        }) {
+                            Text("Review")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .frame(width:90, height:10)
+                                .padding()
+                                .background(AppColor.color)
+                                .cornerRadius(10)
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 10)
+                        
+                    }
+                    .padding(.horizontal)
+                
                     Spacer()
                 }
                 .padding()
-                .background(Color(UIColor.systemBackground)) // Light background color
+                .background(Color(UIColor.systemBackground))
                 .cornerRadius(15)
                 .shadow(radius: 10)
-                .frame(width: geometry.size.width) // Ensure the content fits the width of the screen
+                .frame(width: geometry.size.width) 
             }
             .navigationTitle(club.name)
             .navigationBarTitleDisplayMode(.inline)
@@ -142,5 +198,6 @@ struct club_details_template_Previews: PreviewProvider {
         )
         club_details_template(club: sampleClub)
             .environmentObject(UserLocation()) 
+            .environmentObject(log_in_view_model())//gives access to currentUser
     }
 }
