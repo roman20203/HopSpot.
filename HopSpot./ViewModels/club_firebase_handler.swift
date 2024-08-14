@@ -135,7 +135,7 @@ class club_firebase_handler: ObservableObject {
     
 
     func updateClubRating(clubRef: DocumentReference, newRating: Int) {
-        let starReviewsRef = clubRef.collection("StarReviews")
+       // let starReviewsRef = clubRef.collection("StarReviews")
 
         // Firestore transaction to safely increment review count and update rating
         Firestore.firestore().runTransaction({ (transaction, errorPointer) -> Any? in

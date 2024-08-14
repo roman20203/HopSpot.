@@ -46,8 +46,17 @@ class LocationsViewModel: ObservableObject {
         }
     }
     func showNextLocation(location: Location) {
+        
+        /*
         withAnimation(.easeInOut) {
             MapLocation = location
+            showLocationsList = false
+        }
+         */
+        MapLocation = location
+
+        // Perform the animation block separately
+        withAnimation(.easeInOut) {
             showLocationsList = false
         }
     }
