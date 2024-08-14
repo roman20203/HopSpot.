@@ -62,7 +62,7 @@ struct near_by_view: View {
                 
                 ScrollView {
                     VStack(alignment: .leading) {
-                        if let userLocation = locationManager.userLocation {
+                        if locationManager.userLocation != nil {
                             LazyVStack {
                                 ForEach(filteredClubs, id: \.id) { club in
                                     NavigationLink(destination: club_details_template(club: club)) {
