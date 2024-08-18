@@ -1,4 +1,11 @@
 //
+//  manager_main.swift
+//  HopSpot.
+//
+//  Created by Ben Roman on 2024-08-14.
+//
+
+//
 //  main_view.swift
 //  HopSpot.
 //
@@ -7,11 +14,8 @@
 
 import SwiftUI
 
-struct main_view: View {
-    
-    @EnvironmentObject var locationManager: UserLocation
+struct manager_main: View {
     @EnvironmentObject var viewModel: log_in_view_model
-    @EnvironmentObject var locationViewModel: LocationsViewModel
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor.black
@@ -21,7 +25,7 @@ struct main_view: View {
     }
     var body: some View {
         TabView {
-            home_view()
+            the_count_view()
                 .tabItem {
                     VStack() {
                         Image(systemName: "house.fill")
@@ -33,30 +37,27 @@ struct main_view: View {
                     
                 }
 
-            map_view()
+            other_clubs_view()
                 .tabItem {
                     VStack {
                         Image(systemName: "map")
                             .foregroundColor(.white)
-                        Text("Search")
+                        Text("Locations")
                             .font(.caption)
                             .foregroundColor(.white)
                     }
                 }
-                .environmentObject(locationManager)
-                .environmentObject(locationViewModel)
 
-            profile_view()
+            manager_promotions()
                 .tabItem {
                     VStack {
-                        Image(systemName: "person.fill")
+                        Image(systemName: "bell")
                             .foregroundColor(.white)
-                        Text("Profile")
+                        Text("Promotions")
                             .font(.caption)
                             .foregroundColor(.white)
                     }
                 }
-                .environmentObject(viewModel)//gives access to currentUser
             
         }
         .accentColor(AppColor.color) // Set the color of the selected tab icon
@@ -64,11 +65,9 @@ struct main_view: View {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
+struct Manager_Main_Previews: PreviewProvider {
     static var previews: some View {
-        main_view()
-            .environmentObject(UserLocation())
+        manager_main()
             .environmentObject(log_in_view_model())
-            .environmentObject(LocationsViewModel())
     }
 }
