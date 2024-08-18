@@ -72,7 +72,7 @@ struct near_by_view: View {
                             }
                             .padding(.horizontal)
                         } else {
-                            Text("Loading location...")
+                            Text("Please Allow Location Services")
                                 .foregroundColor(.white)
                         }
                     }

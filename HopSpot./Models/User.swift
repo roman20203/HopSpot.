@@ -16,7 +16,12 @@ enum Gender: String, CaseIterable, Identifiable, Codable {
     var id: String { self.rawValue } 
 }
 
-//Password hashing
+enum UserRole: String, Codable {
+    case regularUser = "RegularUser"
+    case bouncer = "Bouncer"
+    case manager = "Manager"
+}
+
 
 struct User:Identifiable, Codable{
     let id: String
@@ -26,6 +31,7 @@ struct User:Identifiable, Codable{
     var joined: Date
     var birthdate:Date
     var gender: Gender
+    var role: UserRole
     
     
     var friends: [User] = []
@@ -51,7 +57,7 @@ struct User:Identifiable, Codable{
         return String(password.reversed())
     }
 
-    init(fullname: String,id: String, email: String, password: String, joined: Date, birthdate: Date, gender: Gender) {
+    init(fullname: String,id: String, email: String, password: String, joined: Date, birthdate: Date, gender: Gender, role: UserRole) {
         self.fullname = fullname
         self.email = email
         self.passwordHash = User.hashPassword(password)
@@ -61,6 +67,7 @@ struct User:Identifiable, Codable{
         self.friends = []
         self.favoriteClubs = []
         self.id = id
+        self.role = role
 
     }
     

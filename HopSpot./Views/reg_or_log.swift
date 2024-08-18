@@ -12,7 +12,7 @@ struct reg_or_log: View {
     var body: some View {
         NavigationView {
             ZStack {
-                Color.pink
+                AppColor.color
                     .edgesIgnoringSafeArea(.all)
 
                 VStack {
@@ -79,5 +79,6 @@ struct reg_or_log: View {
 
 #Preview {
     reg_or_log()
+        .environmentObject(log_in_view_model())
 }
 
