@@ -7,18 +7,18 @@
 
 import SwiftUI
 import CoreLocation
+import Firebase
+import FirebaseFirestoreSwift
 
 struct club_details_template: View {
     @EnvironmentObject var viewModel: log_in_view_model
-
-    
-    let club: Club
-    
     @EnvironmentObject var userLocation: UserLocation
     @State private var showRatingView = false
     @State private var showReviewView = false
     @State private var hasSubmittedRating = false
-
+    @State private var promotions: [Promotion] = []
+    
+    let club: Club
 
     var body: some View {
         GeometryReader { geometry in
@@ -63,7 +63,7 @@ struct club_details_template: View {
                     // Description
                     Text(club.description)
                         .font(.body)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.white)
                         .padding(.horizontal)
                         .padding(.bottom, 15)
 
@@ -71,10 +71,10 @@ struct club_details_template: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Address")
                             .font(.headline)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.white)
                         Text(club.address)
                             .font(.body)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.white)
                     }
                     .padding(.horizontal)
                     
@@ -82,10 +82,10 @@ struct club_details_template: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Busyness")
                             .font(.headline)
-                            .foregroundColor(.primary)
+                            .foregroundColor(.white)
                         Text(busynessDescription(for: club.busyness))
                             .font(.body)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(.white)
                     }
                     .padding(.horizontal)
                     
@@ -95,22 +95,58 @@ struct club_details_template: View {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Distance")
                                 .font(.headline)
-                                .foregroundColor(.primary)
+                                .foregroundColor(.white)
                             Text(String(format: "%.1f km | Approx. Time: %.0f mins", distanceInfo.distanceKm, distanceInfo.estimatedMinutes))
                                 .font(.body)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.white)
                         }
                         .padding(.horizontal)
                     }
-                    HStack(spacing: 5){
-                        //Star rating
+
+                    // Promotions Section
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Promotions")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(.top, 20)
+
+                        if promotions.isEmpty {
+                            Text("No current promotions")
+                                .font(.body)
+                                .foregroundColor(.white)
+                        } else {
+                            ForEach(promotions) { promotion in
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Text(promotion.title)
+                                        .font(.headline)
+                                        .foregroundColor(.white)
+                                    Text(promotion.description)
+                                        .font(.body)
+                                        .foregroundColor(.white)
+                                    if let link = promotion.link, !link.isEmpty {
+                                        Link("View Tickets", destination: URL(string: link)!)
+                                            .font(.body)
+                                            .foregroundColor(AppColor.color)
+                                    }
+                                }
+                                .padding()
+                                .background(Color.black.opacity(0.8))
+                                .cornerRadius(8)
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+
+                    // Actions Section
+                    HStack(spacing: 5) {
+                        // Star rating
                         Button(action: {
                             showRatingView = true
                         }) {
                             Text(hasSubmittedRating ? "Done!" : "Rate Me")
                                 .font(.headline)
                                 .foregroundColor(.white)
-                                .frame(width:90, height:10)
+                                .frame(width: 90, height: 10)
                                 .padding()
                                 .background(AppColor.color)
                                 .cornerRadius(10)
@@ -118,29 +154,23 @@ struct club_details_template: View {
                         .padding(.horizontal)
                         .padding(.top, 10)
                         .disabled(hasSubmittedRating)
-                        //we must handle incase somehow the user is not signed in
-                        //currentUser is a optional variable which means it may be nil
-                        //we use an if and else statement to make sure that we dont pass nil
-                        //we are sure that it cannot be nil, because this view and the app cannot
-                        //be accessed without being signed in 
                         .sheet(isPresented: $showRatingView) {
                             if let currentUser = viewModel.currentUser {
                                 StarRatingTemplate(isPresented: $showRatingView, hasSubmittedRating: $hasSubmittedRating,
                                                    club: club, user: currentUser)
                             } else {
-                                // Handle the case where currentUser is nil (e.g., show an error message or default view)
                                 Text("User not logged in")
                             }
                         }
-                        
-                        //Written review
+
+                        // Written review
                         Button(action: {
                             showReviewView = true
                         }) {
                             Text("Review")
                                 .font(.headline)
                                 .foregroundColor(.white)
-                                .frame(width:90, height:10)
+                                .frame(width: 90, height: 10)
                                 .padding()
                                 .background(AppColor.color)
                                 .cornerRadius(10)
@@ -154,13 +184,16 @@ struct club_details_template: View {
                     Spacer()
                 }
                 .padding()
-                .background(Color(UIColor.systemBackground))
+                .background(Color.black) // Set background to black
                 .cornerRadius(15)
                 .shadow(radius: 10)
-                .frame(width: geometry.size.width) 
+                .frame(width: geometry.size.width)
             }
             .navigationTitle(club.name)
             .navigationBarTitleDisplayMode(.inline)
+            .task {
+                await loadPromotions()
+            }
         }
     }
 
@@ -178,9 +211,20 @@ struct club_details_template: View {
             return "Very Busy"
         }
     }
+
+    private func loadPromotions() async {
+        let clubId = club.id // No need for optional binding
+        
+        do {
+            let promotionsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").getDocuments()
+            promotions = promotionsSnapshot.documents.compactMap { try? $0.data(as: Promotion.self) }
+        } catch {
+            print("DEBUG: Failed to load promotions with error: \(error.localizedDescription)")
+        }
+    }
 }
 
-struct club_details_template_Previews: PreviewProvider {
+struct ClubDetailsTemplate_Previews: PreviewProvider {
     static var previews: some View {
         let sampleClub = Club(
             id: "1",
@@ -192,12 +236,12 @@ struct club_details_template_Previews: PreviewProvider {
             imageURL: "path/to/image.jpg",
             latitude: 0.0,
             longitude: 0.0,
-            busyness: 75,
+            busyness: 90,
             website: "www.blah.com",
             city: "Waterloo"
         )
         club_details_template(club: sampleClub)
-            .environmentObject(UserLocation()) 
-            .environmentObject(log_in_view_model())//gives access to currentUser
+            .environmentObject(UserLocation())
+            .environmentObject(log_in_view_model())
     }
 }

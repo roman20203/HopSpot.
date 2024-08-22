@@ -14,9 +14,13 @@
 		AD4713212C6D1DE00087607D /* manager_home_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713202C6D1DE00087607D /* manager_home_view.swift */; };
 		AD4713232C6D1E1F0087607D /* other_clubs_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713222C6D1E1F0087607D /* other_clubs_view.swift */; };
 		AD4713252C6D1E300087607D /* the_count_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713242C6D1E300087607D /* the_count_view.swift */; };
-		AD4713272C6D1E410087607D /* manager_promotions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713262C6D1E410087607D /* manager_promotions.swift */; };
 		AD4713292C6D1E500087607D /* manager_main.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713282C6D1E500087607D /* manager_main.swift */; };
 		AD47132B2C6D24FE0087607D /* ClubSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD47132A2C6D24FE0087607D /* ClubSelectionView.swift */; };
+		AD47132D2C7755130087607D /* Promotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD47132C2C7755130087607D /* Promotion.swift */; };
+		AD47132F2C7755BF0087607D /* PromotionEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD47132E2C7755BF0087607D /* PromotionEditView.swift */; };
+		AD4713312C77563C0087607D /* PromotionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713302C77563C0087607D /* PromotionsView.swift */; };
+		AD4713332C77DC820087607D /* manager_profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713322C77DC820087607D /* manager_profile_view.swift */; };
+		AD4713392C77FE920087607D /* InAppClubSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713382C77FE920087607D /* InAppClubSelection.swift */; };
 		ADA1A5232C3F508E006844E7 /* notification_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5222C3F508E006844E7 /* notification_view.swift */; };
 		ADA1A5252C3F50A4006844E7 /* profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5242C3F50A4006844E7 /* profile_view.swift */; };
 		ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5262C3F50BB006844E7 /* register_view.swift */; };
@@ -86,9 +90,13 @@
 		AD4713202C6D1DE00087607D /* manager_home_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = manager_home_view.swift; sourceTree = "<group>"; };
 		AD4713222C6D1E1F0087607D /* other_clubs_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = other_clubs_view.swift; sourceTree = "<group>"; };
 		AD4713242C6D1E300087607D /* the_count_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = the_count_view.swift; sourceTree = "<group>"; };
-		AD4713262C6D1E410087607D /* manager_promotions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = manager_promotions.swift; sourceTree = "<group>"; };
 		AD4713282C6D1E500087607D /* manager_main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = manager_main.swift; sourceTree = "<group>"; };
 		AD47132A2C6D24FE0087607D /* ClubSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClubSelectionView.swift; sourceTree = "<group>"; };
+		AD47132C2C7755130087607D /* Promotion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promotion.swift; sourceTree = "<group>"; };
+		AD47132E2C7755BF0087607D /* PromotionEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionEditView.swift; sourceTree = "<group>"; };
+		AD4713302C77563C0087607D /* PromotionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionsView.swift; sourceTree = "<group>"; };
+		AD4713322C77DC820087607D /* manager_profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = manager_profile_view.swift; sourceTree = "<group>"; };
+		AD4713382C77FE920087607D /* InAppClubSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppClubSelection.swift; sourceTree = "<group>"; };
 		ADA1A5222C3F508E006844E7 /* notification_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notification_view.swift; sourceTree = "<group>"; };
 		ADA1A5242C3F50A4006844E7 /* profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile_view.swift; sourceTree = "<group>"; };
 		ADA1A5262C3F50BB006844E7 /* register_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view.swift; sourceTree = "<group>"; };
@@ -167,9 +175,12 @@
 				AD4713202C6D1DE00087607D /* manager_home_view.swift */,
 				AD4713222C6D1E1F0087607D /* other_clubs_view.swift */,
 				AD4713242C6D1E300087607D /* the_count_view.swift */,
-				AD4713262C6D1E410087607D /* manager_promotions.swift */,
 				AD4713282C6D1E500087607D /* manager_main.swift */,
 				AD47132A2C6D24FE0087607D /* ClubSelectionView.swift */,
+				AD47132E2C7755BF0087607D /* PromotionEditView.swift */,
+				AD4713302C77563C0087607D /* PromotionsView.swift */,
+				AD4713322C77DC820087607D /* manager_profile_view.swift */,
+				AD4713382C77FE920087607D /* InAppClubSelection.swift */,
 			);
 			path = ManagerView;
 			sourceTree = "<group>";
@@ -183,6 +194,7 @@
 				ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */,
 				AD4713112C6A92CD0087607D /* AppColor.swift */,
 				AD4713132C6A96360087607D /* StarRatingTemplate.swift */,
+				AD47132C2C7755130087607D /* Promotion.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -464,22 +476,25 @@
 				ADF113C82C5C57FB00BD4038 /* location_preview.swift in Sources */,
 				ADED5F882C5BC3F7003AB6A0 /* club_details_template.swift in Sources */,
 				AD4713252C6D1E300087607D /* the_count_view.swift in Sources */,
+				AD4713392C77FE920087607D /* InAppClubSelection.swift in Sources */,
 				ADF113C42C5C573300BD4038 /* LocationMapAnnotationView.swift in Sources */,
 				ADA297C32C3621F400D2A7E9 /* reg_or_log.swift in Sources */,
+				AD47132D2C7755130087607D /* Promotion.swift in Sources */,
 				ADF113BE2C5C567900BD4038 /* LocationsDataService.swift in Sources */,
 				ADF113CE2C66846700BD4038 /* whats_hot_view.swift in Sources */,
 				ADF113CA2C65260C00BD4038 /* main_view.swift in Sources */,
 				ADED5F802C4E9B3C003AB6A0 /* club_firebase_handler.swift in Sources */,
 				AD4713142C6A96360087607D /* StarRatingTemplate.swift in Sources */,
 				ADED5F862C592CA6003AB6A0 /* UserLocation.swift in Sources */,
+				AD47132F2C7755BF0087607D /* PromotionEditView.swift in Sources */,
 				ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */,
 				ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */,
 				AD4713212C6D1DE00087607D /* manager_home_view.swift in Sources */,
-				AD4713272C6D1E410087607D /* manager_promotions.swift in Sources */,
 				ADA297E22C37C3C700D2A7E9 /* Club.swift in Sources */,
 				AD4713292C6D1E500087607D /* manager_main.swift in Sources */,
 				ADCAE6162C66E90E004BBD13 /* home_view.swift in Sources */,
 				ADED5F822C515C90003AB6A0 /* image_view.swift in Sources */,
+				AD4713312C77563C0087607D /* PromotionsView.swift in Sources */,
 				ADA1A5232C3F508E006844E7 /* notification_view.swift in Sources */,
 				ADA297E02C37C3B600D2A7E9 /* User.swift in Sources */,
 				AD4713122C6A92CD0087607D /* AppColor.swift in Sources */,
@@ -489,6 +504,7 @@
 				ADA297942C36217D00D2A7E9 /* HopSpot_App.swift in Sources */,
 				ADA297D92C37C30900D2A7E9 /* map_view.swift in Sources */,
 				ADF113C62C5C575100BD4038 /* LocationsListView.swift in Sources */,
+				AD4713332C77DC820087607D /* manager_profile_view.swift in Sources */,
 				AD47131A2C6C7F330087607D /* Business.swift in Sources */,
 				ADED5F7E2C4E9772003AB6A0 /* club_view_template.swift in Sources */,
 				ADF113C02C5C56AB00BD4038 /* locations_view_model.swift in Sources */,

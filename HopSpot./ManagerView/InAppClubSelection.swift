@@ -1,21 +1,20 @@
 //
-//  ClubSelectionView.swift
+//  InAppClubSelection.swift
 //  HopSpot.
 //
-//  Created by Ben Roman on 2024-08-14.
+//  Created by Ben Roman on 2024-08-22.
 //
-
 
 import SwiftUI
 import Firebase
 import FirebaseFirestoreSwift
 
-struct ClubSelectionView: View {
+struct InAppClubSelection: View {
     @EnvironmentObject var viewModel: log_in_view_model
+    @Environment(\.presentationMode) private var presentationMode
     @State private var selectedClub: Business?
     @State private var businesses: [Business] = []
-    @State private var navigateToManagerMain = false
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -31,7 +30,8 @@ struct ClubSelectionView: View {
                         selectedClub = business
                         Task {
                             await viewModel.setActiveBusiness(for: business)
-                            navigateToManagerMain = true
+                            // Dismiss the view
+                            presentationMode.wrappedValue.dismiss()
                         }
                     }) {
                         HStack {
@@ -47,19 +47,20 @@ struct ClubSelectionView: View {
                                 .foregroundColor(.primary)
                         }
                         .padding()
-                        .background(RoundedRectangle(cornerRadius: 10).fill(Color(uiColor: .systemBackground)))
-                        .overlay(RoundedRectangle(cornerRadius: 10).stroke(AppColor.color, lineWidth: 2))
+                        .background(
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(isActiveClub(business) ? AppColor.color.opacity(0.2) : Color(uiColor: .systemBackground))
+                        )
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(AppColor.color, lineWidth: isActiveClub(business) ? 3 : 2)
+                        )
                     }
                 }
                 .listStyle(PlainListStyle())
                 .padding(.horizontal)
             }
             .background(Color(uiColor: .systemBackground).ignoresSafeArea())
-            .navigationDestination(isPresented: $navigateToManagerMain) {
-                manager_main()
-                    .environmentObject(viewModel)
-                    .navigationBarBackButtonHidden(true)
-            }
             .task {
                 await loadBusinesses()
             }
@@ -82,10 +83,13 @@ struct ClubSelectionView: View {
             }
         }
     }
+    
+    private func isActiveClub(_ business: Business) -> Bool {
+        return viewModel.currentManager?.activeBusiness?.id == business.id
+    }
 }
 
-
 #Preview {
-    ClubSelectionView()
+    InAppClubSelection()
         .environmentObject(log_in_view_model())
 }
