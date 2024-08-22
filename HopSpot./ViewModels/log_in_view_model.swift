@@ -128,15 +128,21 @@ class log_in_view_model: ObservableObject {
         guard let user = Auth.auth().currentUser else { return }
         
         do {
-            // Delete user from Firestore
+            
             try await Firestore.firestore().collection("users").document(user.uid).delete()
-            // Delete user from Firebase Auth
+           
             try await user.delete()
             signOut()
         } catch {
             print("DEBUG: Failed to delete account with error \(error.localizedDescription)")
         }
     }
+    
+    func setActiveBusiness(for business: Business) async {
+        currentManager?.changeActiveBusiness(to: business)
+    }
+
+    
     
     deinit {
         if let handle = authStateListenerHandle {

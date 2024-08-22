@@ -18,6 +18,18 @@ struct manager_main: View {
     @EnvironmentObject var viewModel: log_in_view_model
     
     init() {
+        
+        /*
+        if viewModel.currentManager?.activeBusiness == nil{
+            NavigationLink(destination: ClubSelectionView()) {
+                EmptyView()
+            }
+            .hidden()
+            
+        }
+         */
+        
+        
         UITabBar.appearance().backgroundColor = UIColor.black
         UITabBar.appearance().barTintColor = UIColor.black
         UITabBar.appearance().unselectedItemTintColor = UIColor.white
