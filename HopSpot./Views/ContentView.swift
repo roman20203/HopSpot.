@@ -16,7 +16,7 @@ struct ContentView: View {
             if viewModel.userSession != nil {
                 // Check if the current user is a manager or a regular user
                 if let _ = viewModel.currentManager {
-                    manager_main() // Navigate to Manager's View
+                    ClubSelectionView()// Navigate to Manager's View
                 } else if let _ = viewModel.currentUser {
                     main_view() // Navigate to User's View
                 }

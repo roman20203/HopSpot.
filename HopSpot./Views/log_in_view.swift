@@ -83,7 +83,7 @@ struct log_in_view: View {
                 
                 if loginSuccess {
                     if isManager {
-                        NavigationLink(destination: manager_main()) {
+                        NavigationLink(destination: ClubSelectionView()) {
                             EmptyView()
                         }
                         .hidden() // Hide the NavigationLink as it's only for navigation purposes
