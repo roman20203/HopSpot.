@@ -14,7 +14,7 @@ class Manager: Identifiable, Codable {
     var password: String
     var name: String
     var businessIds: [String] // IDs of businesses the manager has access to
-    var activeBusiness: Business? // ID of the business currently active for this manager
+    var activeBusiness: Business? //business currently active for this manager
 
     // Hash the password (implement a more secure hashing algorithm in a real app)
     static func hashPassword(_ password: String) -> String {
@@ -32,9 +32,11 @@ class Manager: Identifiable, Codable {
 
     // Method to change the active business which will then change the apps view
     
+    /*
     func changeActiveBusiness(to activeBusiness: Business) {
         self.activeBusiness = activeBusiness
     }
+     */
      
 }
 

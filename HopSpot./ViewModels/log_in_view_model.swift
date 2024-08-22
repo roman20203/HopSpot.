@@ -139,7 +139,7 @@ class log_in_view_model: ObservableObject {
     }
     
     func setActiveBusiness(for business: Business) async {
-        currentManager?.changeActiveBusiness(to: business)
+        currentManager?.activeBusiness = business
     }
 
     

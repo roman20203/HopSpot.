@@ -5,31 +5,13 @@
 //  Created by Ben Roman on 2024-08-14.
 //
 
-//
-//  main_view.swift
-//  HopSpot.
-//
-//  Created by Ben Roman on 2024-08-08.
-//
-
 import SwiftUI
 
 struct manager_main: View {
     @EnvironmentObject var viewModel: log_in_view_model
     
     init() {
-        
-        /*
-        if viewModel.currentManager?.activeBusiness == nil{
-            NavigationLink(destination: ClubSelectionView()) {
-                EmptyView()
-            }
-            .hidden()
-            
-        }
-         */
-        
-        
+
         UITabBar.appearance().backgroundColor = UIColor.black
         UITabBar.appearance().barTintColor = UIColor.black
         UITabBar.appearance().unselectedItemTintColor = UIColor.white
@@ -37,7 +19,7 @@ struct manager_main: View {
     }
     var body: some View {
         TabView {
-            the_count_view()
+            manager_home_view()
                 .tabItem {
                     VStack() {
                         Image(systemName: "house.fill")
@@ -60,12 +42,22 @@ struct manager_main: View {
                     }
                 }
 
-            manager_promotions()
+            PromotionsView()
                 .tabItem {
                     VStack {
                         Image(systemName: "bell")
                             .foregroundColor(.white)
                         Text("Promotions")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                    }
+                }
+            manager_profile_view()
+                .tabItem {
+                    VStack {
+                        Image(systemName: "person")
+                            .foregroundColor(.white)
+                        Text("Profile")
                             .font(.caption)
                             .foregroundColor(.white)
                     }
@@ -77,7 +69,7 @@ struct manager_main: View {
     }
 }
 
-struct Manager_Main_Previews: PreviewProvider {
+struct manager_main_preview: PreviewProvider {
     static var previews: some View {
         manager_main()
             .environmentObject(log_in_view_model())
