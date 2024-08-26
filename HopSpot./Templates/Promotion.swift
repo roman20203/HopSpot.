@@ -14,7 +14,31 @@ struct Promotion: Identifiable, Codable {
     var description: String
     var startDate: Date
     var endDate: Date
-    var startTime: Date // Add time component
-    var endTime: Date // Add time component
-    var link: String? // Optional link for tickets or additional information
+    var startTime: Date
+    var endTime: Date
+    var link: String?
+
+    func formattedStartDateTime() -> String {
+        return startDate.formattedDateTime()
+    }
+
+
+    func formattedEndDateTime() -> String {
+        return endDate.formattedDateTime()
+    }
+}
+
+extension Date {
+    func formattedDateTime() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+        dateFormatter.timeStyle = .short
+        return dateFormatter.string(from: self)
+    }
+
+    func formattedTime() -> String {
+        let timeFormatter = DateFormatter()
+        timeFormatter.timeStyle = .short
+        return timeFormatter.string(from: self)
+    }
 }

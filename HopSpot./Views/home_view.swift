@@ -17,11 +17,20 @@ struct home_view: View {
                 // Full screen black background
                 Color.black.edgesIgnoringSafeArea(.all)
                 
+                
                 // Scrollable content
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) { // Adjusted spacing for alignment
                         
                         // Section 1: "Discover." Text with Images
+                        
+                        HStack(){
+                            Text("Waterloo, ON")
+                            Image(systemName:"location")
+                            
+                        }
+                        
+                        
                         NavigationLink(destination: near_by_view()) {
                             VStack(alignment: .leading, spacing: 6) { // Adjusted spacing
                                 Text("Near You.")
