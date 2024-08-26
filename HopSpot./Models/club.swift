@@ -75,3 +75,11 @@ struct Club: Codable, Identifiable {
         return (distanceKm: distanceInKm, estimatedMinutes: estimatedMinutes)
     }
 }
+
+extension Club {
+    struct LineReport: Identifiable, Codable {
+        var id: String
+        var lineLengthOption: String // Updated field name
+        var timestamp: Date
+    }
+}

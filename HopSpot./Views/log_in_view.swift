@@ -21,7 +21,7 @@ struct log_in_view: View {
                 Text("HopSpot.")
                     .font(.system(size: 45, weight: .black))
                     .tracking(1.35)
-                    .foregroundColor(.black)
+                    .foregroundColor(.primary)
             }
             
             VStack {
@@ -34,6 +34,7 @@ struct log_in_view: View {
                 VStack(spacing: 24) {
                     InputView(text: $email, title: "Email Address", placeholder: "name@example.com")
                         .autocapitalization(.none)
+                        
                     
                     InputView(text: $password, title: "Password", placeholder: "Enter your password", isSecureField: true)
                         .autocapitalization(.none)

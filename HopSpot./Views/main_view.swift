@@ -38,7 +38,7 @@ struct main_view: View {
                     VStack {
                         Image(systemName: "map")
                             .foregroundColor(.white)
-                        Text("Search")
+                        Text("Map")
                             .font(.caption)
                             .foregroundColor(.white)
                     }
