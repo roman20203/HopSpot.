@@ -27,6 +27,12 @@ struct PromotionsView: View {
                                 Text(promotion.description)
                                     .font(.subheadline)
                                     .foregroundColor(.primary) // Adapts to light and dark mode
+                                Text("Start: \(promotion.formattedStartDateTime())")
+                                    .font(.subheadline)
+                                    .foregroundColor(.primary) // Adapts to light and dark mode
+                                Text("End: \(promotion.formattedEndDateTime())")
+                                    .font(.subheadline)
+                                    .foregroundColor(.primary) // Adapts to light and dark mode
                                 if let link = promotion.link, !link.isEmpty {
                                     Link("View Tickets", destination: URL(string: link)!)
                                         .font(.subheadline)
@@ -85,7 +91,8 @@ struct PromotionsView: View {
         
         do {
             let promotionsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").getDocuments()
-            promotions = promotionsSnapshot.documents.compactMap { try? $0.data(as: Promotion.self) }
+            let loadedPromotions = promotionsSnapshot.documents.compactMap { try? $0.data(as: Promotion.self) }
+            promotions = loadedPromotions.sorted { $0.startDate < $1.startDate }
         } catch {
             print("DEBUG: Failed to load promotions with error: \(error.localizedDescription)")
         }

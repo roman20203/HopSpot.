@@ -22,29 +22,28 @@ struct home_view: View {
                 ScrollView {
                     VStack(alignment: .leading, spacing: 16) { // Adjusted spacing for alignment
                         
-                        // Section 1: "Discover." Text with Images
                         
                         HStack(){
                             Text("Waterloo, ON")
+                                .foregroundStyle(.white)
                             Image(systemName:"location")
-                            
+                                .foregroundStyle(.white)
                         }
                         
-                        
                         NavigationLink(destination: near_by_view()) {
-                            VStack(alignment: .leading, spacing: 6) { // Adjusted spacing
+                            VStack(alignment: .leading, spacing: 6) {
                                 Text("Near You.")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
                                     .tracking(0.78)
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                 
                                 Text("Find new spots around you")
                                     .font(Font.custom("Arial", size: 12))
                                     .tracking(0.36)
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                 
-                                // Image Grid 1
-                                HStack(spacing: 6) { // Adjusted spacing between images
+                        
+                                HStack(spacing: 6) {
                                     Image("IMG_0201")
                                         .resizable()
                                         .frame(width: 100, height: 150)
@@ -72,14 +71,14 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                 }
-                                .frame(maxWidth: .infinity, alignment: .leading) // Push images to the left
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             .padding(.vertical, 10)
                         }
                         
-                        // Section 2: "Trending." Text with Images
+                        //Whats Hot
                         NavigationLink(destination: whats_hot_view()) {
-                            VStack(alignment: .leading, spacing: 6) { // Adjusted spacing
+                            VStack(alignment: .leading, spacing: 6) {
                                 Text("What's Hot.")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
                                     .tracking(0.78)
@@ -90,8 +89,8 @@ struct home_view: View {
                                     .tracking(0.36)
                                     .foregroundColor(.white)
                                 
-                                // Image Grid 2
-                                HStack(spacing: 6) { // Adjusted spacing between images
+                            
+                                HStack(spacing: 6) {
                                     Image("IMG_0204")
                                         .resizable()
                                         .frame(width: 100, height: 140)
@@ -119,14 +118,14 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                 }
-                                .frame(maxWidth: .infinity, alignment: .leading) // Push images to the left
+                                .frame(maxWidth: .infinity, alignment: .leading)
                             }
                             .padding(.vertical, 10)
                         }
  
-                        // Section 3: "Events." Text with Images
+                        // Events
                         NavigationLink(destination: near_by_view()) {
-                            VStack(alignment: .leading, spacing: 6) { // Adjusted spacing
+                            VStack(alignment: .leading, spacing: 6) {
                                 Text("Events.")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
                                     .tracking(0.78)

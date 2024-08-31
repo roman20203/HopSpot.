@@ -10,8 +10,8 @@ import SwiftUI
 import CoreLocation
 
 struct whats_hot_view: View {
-    @StateObject private var clubHandler = club_firebase_handler()
-    @EnvironmentObject var locationManager: UserLocation 
+    @EnvironmentObject var clubHandler: club_firebase_handler
+    @EnvironmentObject var locationManager: UserLocation
     @State private var searchText = ""
     @State private var showSearchBar = false
     
@@ -101,6 +101,7 @@ struct whats_hot_view: View {
 struct whats_hot_view_Previews: PreviewProvider {
     static var previews: some View {
         whats_hot_view()
-            .environmentObject(UserLocation()) // Preview with an environment object
+            .environmentObject(UserLocation())
+            .environmentObject(club_firebase_handler())
     }
 }

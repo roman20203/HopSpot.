@@ -8,7 +8,7 @@
 import FirebaseStorage
 import SwiftUI
 
-struct FirebaseImageView: View {
+struct image_view: View {
     @State private var image: Image? = nil
     @State private var isLoading: Bool = true
 

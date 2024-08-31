@@ -14,6 +14,7 @@ struct HopSpot_App: App {
     @StateObject var viewModel = log_in_view_model()
     @StateObject var userLocation = UserLocation()
     @StateObject var locationViewModel = LocationsViewModel()
+    @StateObject private var clubHandler = club_firebase_handler()
     
     init(){
         FirebaseApp.configure()
@@ -24,6 +25,7 @@ struct HopSpot_App: App {
                 .environmentObject(viewModel)
                 .environmentObject(userLocation)
                 .environmentObject(locationViewModel)
+                .environmentObject(clubHandler)
 
         }
     }

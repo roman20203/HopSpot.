@@ -14,13 +14,15 @@ struct Business: Identifiable, Codable {
     var name: String
     var club_id: String
     var associatedclubs: [String] 
+    var imageURL: String
     
     // Initialize Business
-    init(id: String , name: String, club_id: String, associatedclubs: [String]) {
+    init(id: String , name: String, club_id: String, associatedclubs: [String], imageURL: String) {
         self.id = id
         self.name = name
         self.club_id = club_id
         self.associatedclubs = associatedclubs
+        self.imageURL = imageURL
     }
 
 }
