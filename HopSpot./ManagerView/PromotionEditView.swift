@@ -114,7 +114,7 @@ struct PromotionEditView: View {
                                                 second: 0,
                                                 of: endDate) ?? endDate
 
-        let newPromotion = Promotion(id: promotion?.id, title: title, description: description, startDate: startDateTime, endDate: endDateTime, startTime: startTime, endTime: endTime, link: link)
+        let newPromotion = Promotion(id: promotion?.id, title: title, description: description, startDate: startDateTime, endDate: endDateTime, startTime: startTime, endTime: endTime, link: link,clubName: viewModel.currentManager?.activeBusiness?.name ?? "Unknown Club", clubImageURL: viewModel.currentManager?.activeBusiness?.imageURL ?? "placeholder_image_url")
     
         do {
             if let id = newPromotion.id {

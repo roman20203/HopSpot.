@@ -9,9 +9,17 @@ import Foundation
 import MapKit
 
 class LocationsDataService {
+
     
     static let locations: [Location] = [
         
+        /* for each club in club_firebase_handler.clubs{
+        
+         let temp = Location(name: club.name , cityName: club.city , coordinates: CLLocationCoordinate2D(latitude: club.latitude, longitude: club.longitude), description: club.description , imageNames: club.imageURL, link: club.website)
+        
+        locations.append(temp) 
+        }
+         */
         Location(
             name: "Pub on King",
             cityName: "Waterloo, On",

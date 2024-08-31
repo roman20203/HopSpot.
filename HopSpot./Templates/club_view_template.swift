@@ -12,7 +12,7 @@ struct club_view_template: View {
 
     var body: some View {
         ZStack(alignment: .bottomLeading) {
-            FirebaseImageView(imagePath: club.imageURL)
+            image_view(imagePath: club.imageURL)
                 .frame(width: 350, height: 170)
                 .cornerRadius(10)
                 .clipped()

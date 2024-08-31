@@ -29,13 +29,14 @@ struct Club: Codable, Identifiable {
     var busyness: busynessType
     var website: String
     var city: String
+    var promotions: [Promotion] = []
 
-    init(id: String, name: String, address: String, rating: Double, reviewCount: Int, description: String, imageURL: String, latitude: Double, longitude: Double, busyness: Int, website: String, city: String) {
+    init(id: String, name: String, address: String, rating: Double, reviewCount: Int, description: String, imageURL: String, latitude: Double, longitude: Double, busyness: Int, website: String, city: String, promotions: [Promotion] = []) {
         self.id = id
         self.name = name
         self.address = address
         self.rating = rating
-        self.reviewCount = reviewCount // Initialize the new field
+        self.reviewCount = reviewCount 
         self.description = description
         self.imageURL = imageURL
         self.latitude = latitude
@@ -43,6 +44,7 @@ struct Club: Codable, Identifiable {
         self.busyness = Club.updateBusyness(from: busyness)
         self.website = website
         self.city = city
+        self.promotions = promotions
     }
 
     static func updateBusyness(from num: Int) -> busynessType {

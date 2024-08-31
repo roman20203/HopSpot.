@@ -45,7 +45,19 @@ struct main_view: View {
                 }
                 .environmentObject(locationManager)
                 .environmentObject(locationViewModel)
-
+            
+            user_promotion_view()
+                .tabItem {
+                    VStack() {
+                        Image(systemName: "bell.fill")
+                            .foregroundColor(.white)
+                        Text("Promotions")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                    }
+                    
+                }
+            
             profile_view()
                 .tabItem {
                     VStack {

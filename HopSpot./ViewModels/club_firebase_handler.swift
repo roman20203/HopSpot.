@@ -14,6 +14,8 @@ import CoreLocation
 
 class club_firebase_handler: ObservableObject {
     @Published var clubs = [Club]()
+    @Published var currentPromotions = [Promotion]()
+    @Published var upcomingPromotions = [Promotion]()
     
     private var db = Firestore.firestore()
     
@@ -33,39 +35,96 @@ class club_firebase_handler: ObservableObject {
                 return
             }
             
-            DispatchQueue.main.async {
-                self?.clubs = documents.compactMap { doc -> Club? in
-                    let data = doc.data()
-
-                    print("Document data: \(data)")
-
-                    guard let id = data["id"] as? String,
-                          let name = data["name"] as? String,
-                          let address = data["address"] as? String,
-                          let rating = data["rating"] as? Double,
-                          let reviewCount = data["reviewCount"] as? Int,
-                          let description = data["description"] as? String,
-                          let imageURL = data["imageURL"] as? String,
-                          let latitude = data["latitude"] as? Double,
-                          let longitude = data["longitude"] as? Double,
-                          let busyness = data["busyness"] as? Int,
-                          let website = data["website"] as? String,
-                          let city = data["city"] as? String else {
-                        print("Error decoding document data for Club: \(data)")
+            let dispatchGroup = DispatchGroup()
+            var fetchedClubs = [Club]()
+            var fetchedCurrentPromotions = [Promotion]()
+            var fetchedUpcomingPromotions = [Promotion]()
+            
+            for doc in documents {
+                let data = doc.data()
+                guard let id = data["id"] as? String,
+                      let name = data["name"] as? String,
+                      let address = data["address"] as? String,
+                      let rating = data["rating"] as? Double,
+                      let reviewCount = data["reviewCount"] as? Int,
+                      let description = data["description"] as? String,
+                      let imageURL = data["imageURL"] as? String,
+                      let latitude = data["latitude"] as? Double,
+                      let longitude = data["longitude"] as? Double,
+                      let busyness = data["busyness"] as? Int,
+                      let website = data["website"] as? String,
+                      let city = data["city"] as? String else {
+                    print("Error decoding document data for Club: \(data)")
+                    continue
+                }
+                
+                var club = Club(id: id, name: name, address: address, rating: rating, reviewCount: reviewCount, description: description, imageURL: imageURL, latitude: latitude, longitude: longitude, busyness: busyness, website: website, city: city, promotions: [])
+                
+                dispatchGroup.enter()
+                let promotionsRef = self?.db.collection("Clubs").document(id).collection("Promotions")
+                promotionsRef?.getDocuments { snapshot, error in
+                    if let error = error {
+                        print("Error fetching promotions: \(error)")
+                        dispatchGroup.leave()
+                        return
+                    }
+                    
+                    guard let promotionDocuments = snapshot?.documents else {
+                        print("No promotions found for club: \(club.name)")
+                        dispatchGroup.leave()
+                        return
+                    }
+                    
+                    let currentDate = Date()
+                    club.promotions = promotionDocuments.compactMap { promotionDoc -> Promotion? in
+                        if promotionDoc.documentID == "initial" {
+                            return nil
+                        }
+                        
+                        let promotionData = promotionDoc.data()
+                        let promotion = Promotion(id: promotionDoc.documentID,
+                                                  title: promotionData["title"] as? String ?? "",
+                                                  description: promotionData["description"] as? String ?? "",
+                                                  startDate: (promotionData["startDate"] as? Timestamp)?.dateValue() ?? Date(),
+                                                  endDate: (promotionData["endDate"] as? Timestamp)?.dateValue() ?? Date(),
+                                                  startTime: (promotionData["startTime"] as? Timestamp)?.dateValue() ?? Date(),
+                                                  endTime: (promotionData["endTime"] as? Timestamp)?.dateValue() ?? Date(),
+                                                  clubName: promotionData["clubName"] as? String ?? "",
+                                                  clubImageURL: promotionData["clubImageURL"] as? String ?? "")
+                        
+                        // Check if the promotion is either current or upcoming
+                        if (promotion.startDate <= currentDate && promotion.endDate >= currentDate) || promotion.startDate > currentDate {
+                            if Calendar.current.isDateInToday(promotion.startDate) || (promotion.startDate <= currentDate && promotion.endDate >= currentDate) {
+                                fetchedCurrentPromotions.append(promotion)
+                            } else if promotion.startDate > currentDate {
+                                fetchedUpcomingPromotions.append(promotion)
+                            }
+                            return promotion
+                        }
+                        
                         return nil
                     }
                     
-                    return Club(id: id, name: name, address: address, rating: rating, reviewCount: reviewCount, description: description, imageURL: imageURL, latitude: latitude, longitude: longitude, busyness: busyness, website: website, city: city)
+                    fetchedClubs.append(club)
+                    dispatchGroup.leave()
                 }
-                    
-                // Debugging: Print all clubs
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                self?.clubs = fetchedClubs
+                self?.currentPromotions = fetchedCurrentPromotions
+                self?.upcomingPromotions = fetchedUpcomingPromotions
                 print("Fetched \(self?.clubs.count ?? 0) clubs")
                 self?.clubs.forEach { club in
-                    print("Club: \(club.name), Rating: \(club.rating), Website: \(club.website), City: \(club.city)")
+                    print("Club: \(club.name), Rating: \(club.rating), Website: \(club.website), City: \(club.city), Promotions: \(club.promotions.count)")
                 }
             }
         }
     }
+
+
+
+
     
     func displayPopularClubs(userLocation: CLLocation, distanceThreshold: CLLocationDistance) -> [Club] {
         return clubs.filter { club in
@@ -90,7 +149,7 @@ class club_firebase_handler: ObservableObject {
         let clubRef = db.collection("Clubs").document(club.id)
         let starReviewsRef = clubRef.collection("StarReviews")
         
-        // Step 1: Query by userId
+
         starReviewsRef.whereField("userId", isEqualTo: userId)
         .getDocuments { [weak self] snapshot, error in
             if let error = error {
@@ -98,8 +157,7 @@ class club_firebase_handler: ObservableObject {
                 completion(false)
                 return
             }
-            
-            // Step 2: Filter results by timestamp manually
+          
             let todayStart = Calendar.current.startOfDay(for: Date())
             let reviewsToday = snapshot?.documents.filter {
                 let timestamp = $0.data()["timestamp"] as? Timestamp ?? Timestamp(date: Date.distantPast)
@@ -113,7 +171,6 @@ class club_firebase_handler: ObservableObject {
                 return
             }
             
-            // Proceed to submit the rating
             starReviewsRef.addDocument(data: [
                 "userId": userId,
                 "rating": newRating,

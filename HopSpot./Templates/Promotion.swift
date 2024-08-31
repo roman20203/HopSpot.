@@ -17,6 +17,8 @@ struct Promotion: Identifiable, Codable {
     var startTime: Date
     var endTime: Date
     var link: String?
+    var clubName: String?
+    var clubImageURL: String?
 
     func formattedStartDateTime() -> String {
         return startDate.formattedDateTime()

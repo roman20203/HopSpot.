@@ -32,7 +32,7 @@ struct club_details_template: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
                     // Club Image
-                    FirebaseImageView(imagePath: club.imageURL)
+                    image_view(imagePath: club.imageURL)
                         .frame(height: geometry.size.height * 0.3) // Adjust height relative to screen
                         .cornerRadius(15)
                         .clipped()
@@ -117,12 +117,15 @@ struct club_details_template: View {
                             .foregroundColor(.white)
                             .padding(.top, 20)
                         
-                        if promotions.isEmpty {
+                        // Fetch promotions from the club object
+                        let sortedPromotions = club.promotions.sorted { $0.startDate < $1.startDate }
+                        
+                        if sortedPromotions.isEmpty {
                             Text("No current promotions")
                                 .font(.body)
                                 .foregroundColor(.white)
                         } else {
-                            ForEach(promotions) { promotion in
+                            ForEach(sortedPromotions) { promotion in
                                 VStack(alignment: .leading, spacing: 10) {
                                     Text(promotion.title)
                                         .font(.headline)
@@ -130,8 +133,6 @@ struct club_details_template: View {
                                     Text(promotion.description)
                                         .font(.body)
                                         .foregroundColor(.white)
-                                    
-                                    // Display start and end info
                                     
                                     Text("Start: \(promotion.formattedStartDateTime())")
                                         .font(.body)
@@ -155,8 +156,6 @@ struct club_details_template: View {
                                 )
                                 .shadow(color: AppColor.color.opacity(0.5), radius: 4, x: 0, y: 2)
                             }
-
-
                         }
                     }
                     .padding(.horizontal)
@@ -265,7 +264,7 @@ struct club_details_template: View {
                             }
                         }
                         
-                        // Written review
+                        /* Written review
                         Button(action: {
                             showReviewView = true
                         }) {
@@ -279,6 +278,7 @@ struct club_details_template: View {
                         }
                         .padding(.horizontal)
                         .padding(.top, 10)
+                         */
                         
                     }
                     .padding(.horizontal)
@@ -315,33 +315,21 @@ struct club_details_template: View {
     }
     
     private func loadInitialData() async {
-        async let promotionsTask: () = loadPromotions()
         async let lineReportsTask: () = loadLineReports()
-        _ = await (promotionsTask, lineReportsTask)
+        _ = await (lineReportsTask)
 
     }
-    
-    private func loadPromotions() async {
-        let clubId = club.id
-        
-        do {
-            let promotionsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").getDocuments()
-            promotions = promotionsSnapshot.documents.compactMap { try? $0.data(as: Promotion.self) }
-        } catch {
-            print("DEBUG: Error fetching promotions: \(error.localizedDescription)")
-        }
-    }
+
     
     private func loadLineReports() async {
         let clubId = club.id
         
         do {
-            let reportsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("LineReports").order(by: "timestamp", descending: true).getDocuments()
-            
-            // Ensure each report has a unique ID from Firestore
+            let reportsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("lineReports").order(by: "timestamp", descending: true).getDocuments()
+         
             lineReports = reportsSnapshot.documents.compactMap { document in
                 var report = try? document.data(as: Club.LineReport.self)
-                report?.id = document.documentID // Assign Firestore document ID to the report's id
+                report?.id = document.documentID
                 return report
             }
         } catch {
@@ -361,7 +349,7 @@ struct club_details_template: View {
         isReportingAllowed = false
         
         let clubId = club.id
-        let reportRef = Firestore.firestore().collection("Clubs").document(clubId).collection("LineReports").document()
+        let reportRef = Firestore.firestore().collection("Clubs").document(clubId).collection("lineReports").document()
         let reportId = reportRef.documentID
         
         let report = Club.LineReport(
@@ -373,12 +361,12 @@ struct club_details_template: View {
         do {
             try reportRef.setData(from: report)
             reportSuccess = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 60) { // Allow another report after 60 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 60) { //  60 seconds delay
                 isReportingAllowed = true
             }
         } catch {
             print("DEBUG: Error submitting line report: \(error.localizedDescription)")
-            isReportingAllowed = true // Re-enable reporting on error
+            isReportingAllowed = true
         }
     }
 }
@@ -400,7 +388,8 @@ struct ClubDetailsTemplate_Previews: PreviewProvider {
             longitude: 0.0,
             busyness: 90,
             website: "www.blah.com",
-            city: "Waterloo"
+            city: "Waterloo",
+            promotions: []
         )
         club_details_template(club: sampleClub)
             .environmentObject(UserLocation())
