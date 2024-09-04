@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct LocationDetailView: View {
-    @EnvironmentObject private var vm: LocationsViewModel
+    @EnvironmentObject private var vm: club_firebase_handler
     let location: Location
     var body: some View {
         ScrollView {
@@ -40,13 +40,22 @@ struct LocationDetailView: View {
 struct LocationDataView_previews: PreviewProvider {
     static var previews: some View {
         LocationDetailView(location: LocationsDataService.locations.first!)
-            .environmentObject(LocationsViewModel())
+            .environmentObject(club_firebase_handler())
     }
 }
 
 extension LocationDetailView {
     private var imageSection: some View {
         TabView {
+            Image(location.imageNames) // Directly use the image name
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: UIScreen.main.bounds.width)
+                        .clipped()
+                        .frame(height: 500)
+            
+            //Again changes so instead of treating imageNames like [String] we teat it like String
+            /*
             ForEach(location.imageNames, id: \.self) {
                 Image($0)
                     .resizable()
@@ -54,6 +63,7 @@ extension LocationDetailView {
                     .frame(width: UIScreen.main.bounds.width)
                     .clipped()
             }
+             */
         }
         .frame(height: 500)
         .tabViewStyle(PageTabViewStyle())

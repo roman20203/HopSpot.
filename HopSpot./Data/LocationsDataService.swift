@@ -9,17 +9,58 @@ import Foundation
 import MapKit
 
 class LocationsDataService {
+    static var locations: [Location] = []
+    
+    // Populates the locations array with Location objects created from the clubs array
+    static func fetchLocations(from clubs: [Club]) {
+         guard locations.isEmpty else {
+             print("Locations already populated.")
+             return
+         }
+
+         print("Populating locations...")
+        //Iterate throught clubs list and create Location objects and insert them into locations array
+        
+        //map is a iterative feature that iterates through clubs array and for each object it assigns it into a new list, in this case Locations
+        //As we map it from clubs to locations we also change it from Club type to Location type by initializing it with the below code
+       
+        locations = clubs.map { club in
+            Location(
+                name: club.name,
+                cityName: club.city,
+                coordinates: CLLocationCoordinate2D(latitude: club.latitude, longitude: club.longitude),
+                description: club.description,
+                imageNames: club.imageURL,
+                link: club.website
+            )
+        }
+    }
+}
 
     
+    
+    
+    
+    
+    
+
+    /*
     static let locations: [Location] = [
         
-        /* for each club in club_firebase_handler.clubs{
+            for each club in club_firebase_handler.clubs{
         
          let temp = Location(name: club.name , cityName: club.city , coordinates: CLLocationCoordinate2D(latitude: club.latitude, longitude: club.longitude), description: club.description , imageNames: club.imageURL, link: club.website)
         
         locations.append(temp) 
         }
-         */
+         
+        
+        
+        
+        //OLD CODE
+        
+        
+        
         Location(
             name: "Pub on King",
             cityName: "Waterloo, On",
@@ -71,5 +112,7 @@ class LocationsDataService {
             ],
             link: "https://www.prohibitionwarehouse.com/"),
     ]
+         */
     
-}
+         
+

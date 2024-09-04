@@ -9,7 +9,7 @@ import SwiftUI
 
 struct location_preview: View {
     
-    @EnvironmentObject private var vm: LocationsViewModel
+    @EnvironmentObject private var vm: club_firebase_handler
     let location: Location
     var body: some View {
         HStack(alignment: .bottom, spacing: 0) {
@@ -45,13 +45,19 @@ struct LocationPreviewView_Previews: PreviewProvider {
             location_preview(location: LocationsDataService.locations.first!)
                 .padding()
         }
-        .environmentObject(LocationsViewModel())
+        .environmentObject(club_firebase_handler())
     }
 }
 
 extension location_preview {
     private var imageSection: some View {
             ZStack {
+                image_view(imagePath: location.imageNames)
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(10)
+                
+                //Instead of treating the imageNames, like a [String] type we treat it like a String type, which it now is after changes it in the Location.swift
+                /*
                 if let imageNames = location.imageNames.first {
                     Image(imageNames)
                         .resizable()
@@ -59,6 +65,7 @@ extension location_preview {
                         .frame(width: 100, height: 100)
                         .cornerRadius(10)
                 }
+                 */
             }
             .padding(6)
             .background(Color.white)
