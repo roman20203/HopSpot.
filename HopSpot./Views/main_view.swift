@@ -11,7 +11,6 @@ struct main_view: View {
     
     @EnvironmentObject var locationManager: UserLocation
     @EnvironmentObject var viewModel: log_in_view_model
-    @EnvironmentObject var locationViewModel: LocationsViewModel
     
     init() {
         UITabBar.appearance().backgroundColor = UIColor.black
@@ -44,7 +43,6 @@ struct main_view: View {
                     }
                 }
                 .environmentObject(locationManager)
-                .environmentObject(locationViewModel)
             
             user_promotion_view()
                 .tabItem {
@@ -81,6 +79,6 @@ struct MainView_Previews: PreviewProvider {
         main_view()
             .environmentObject(UserLocation())
             .environmentObject(log_in_view_model())
-            .environmentObject(LocationsViewModel())
+            .environmentObject(club_firebase_handler())
     }
 }

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: log_in_view_model
+    
 
     var body: some View {
         Group {
@@ -24,6 +25,7 @@ struct ContentView: View {
                     }
                 } else if viewModel.currentUser != nil {
                     main_view() // Navigate to User's View
+                        
     
                 }
             } else {

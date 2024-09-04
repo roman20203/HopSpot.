@@ -10,7 +10,7 @@ import SwiftUI
 import CoreLocation
 
 struct map_view: View {
-    @EnvironmentObject private var vm: LocationsViewModel
+    @EnvironmentObject private var vm: club_firebase_handler
    
     var body: some View{
         ZStack{
@@ -32,7 +32,7 @@ struct map_view: View {
 
 #Preview {
     map_view()
-        .environmentObject(LocationsViewModel())
+        .environmentObject(club_firebase_handler())
 }
 
 extension map_view {

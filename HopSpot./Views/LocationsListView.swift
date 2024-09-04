@@ -9,7 +9,7 @@ import SwiftUI
 
 struct LocationsListView: View {
     
-    @EnvironmentObject private var vm: LocationsViewModel
+    @EnvironmentObject private var vm: club_firebase_handler
     
     var body: some View {
         List {
@@ -32,7 +32,7 @@ struct LocationsListView: View {
 struct LocationsListView_Previews: PreviewProvider {
     static var previews: some View {
         LocationsListView()
-            .environmentObject(LocationsViewModel())
+            .environmentObject(club_firebase_handler())
     }
     
 }
@@ -40,6 +40,12 @@ struct LocationsListView_Previews: PreviewProvider {
 extension LocationsListView {
     private func listRowView(location: Location) -> some View  {
         HStack {
+            image_view(imagePath: location.imageNames)
+                .frame(width: 45, height: 45)
+                .cornerRadius(10)
+            
+            //Instead of treating the imageNames, like a [String] type we treat it like a String type, which it now is after changes it in the Location.swift
+            /*
             if let imageName = location.imageNames.first {
                 Image(imageName)
                     .resizable()
@@ -47,6 +53,7 @@ extension LocationsListView {
                     .frame(width: 45, height: 45)
                     .cornerRadius(10)
             }
+            */
             
             VStack(alignment: .leading) {
                 Text(location.name)
