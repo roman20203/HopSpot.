@@ -17,9 +17,9 @@ struct LocationMapAnnotationView: View {
                 .scaledToFit()
                 .frame(width: 30, height: 30)
                 .font(.headline)
-                .foregroundColor(.pink)
+                .foregroundColor(AppColor.color)
                 .padding(6)
-                .background(accentColor)
+                .background(.clear)
                 .cornerRadius(36)
             
             Image(systemName: "triangle.fill")
