@@ -93,7 +93,7 @@ extension location_preview {
         }
         .buttonStyle(.bordered)
         .foregroundColor(.white)
-        .background(Color.red)
+        .background(AppColor.color)
         .cornerRadius(10)
     }
     
@@ -106,7 +106,7 @@ extension location_preview {
                 .frame(width: 125, height: 35)
         }
         .buttonStyle(.bordered)
-        .foregroundColor(.red)
+        .foregroundColor(AppColor.color)
         .background(Color.clear)
         .cornerRadius(10)
     }
