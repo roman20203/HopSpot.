@@ -1,63 +1,65 @@
 //
-//  PromotionsView.swift
+//  EventsView.swift
 //  HopSpot.
 //
-//  Created by Ben Roman on 2024-08-22.
+//  Created by Ben Roman on 2024-09-07.
 //
+
+
 import SwiftUI
 import Firebase
 import FirebaseFirestoreSwift
 
-struct PromotionsView: View {
+struct EventsView: View {
     @EnvironmentObject var viewModel: log_in_view_model
-    @State private var promotions: [Promotion] = []
+    @State private var events: [Event] = []
     @State private var showCreateView = false
-    @State private var editPromotion: Promotion?
+    @State private var editEvent: Event?
 
     var body: some View {
         NavigationStack {
             VStack {
-                Text("Promotions")
+                Text("Events")
                     .font(.largeTitle)
                     .bold()
                     .foregroundColor(Color.primary) // Adapt to light and dark mode
                     .padding(.top, 20)
 
-                if promotions.isEmpty {
-                    Text("No promotions available.")
+                if events.isEmpty {
+                    Text("No events available.")
                         .font(.subheadline)
                         .foregroundColor(Color.secondary) // Adapt to light and dark mode
                         .padding()
                 }
 
                 List {
-                    ForEach(promotions) { promotion in
+                    ForEach(events) { event in
                         HStack {
                             VStack(alignment: .leading) {
-                                Text(promotion.title)
+                                Text(event.title)
                                     .font(.headline)
                                     .foregroundColor(Color.primary) // Adapt to light and dark mode
 
-                                Text(promotion.description)
+                                Text(event.description)
                                     .font(.subheadline)
                                     .foregroundColor(Color.primary) // Adapt to light and dark mode
 
-                                Text("Start: \(promotion.formattedStartDateTime())")
+                                Text("Start: \(event.formattedStartDateTime())")
                                     .font(.subheadline)
                                     .foregroundColor(Color.primary) // Adapt to light and dark mode
 
-                                Text("End: \(promotion.formattedEndDateTime())")
+                                Text("End: \(event.formattedEndDateTime())")
                                     .font(.subheadline)
                                     .foregroundColor(Color.primary) // Adapt to light and dark mode
 
-                                if promotion.endDate < Date() {
+                                if event.endDate < Date() {
                                     Text("Ended")
                                         .font(.subheadline)
-                                        .foregroundColor(.red) // Red for expired promotions
+                                        .foregroundColor(.red) // Red for expired events
                                 }
 
-                                if let link = promotion.link, !link.isEmpty {
-                                    Link("View Tickets", destination: URL(string: link)!)
+                                if let link = event.link, !link.isEmpty {
+                                    Link("View Details", destination: URL(string: link)!)
                                         .font(.subheadline)
                                         .foregroundColor(AppColor.color) // Custom color
                                 }
@@ -68,33 +70,33 @@ struct PromotionsView: View {
                         .background(Color(UIColor.secondarySystemBackground).opacity(0.8)) // Adapt to light and dark mode
                         .cornerRadius(8)
                         .onTapGesture {
-                            editPromotion = promotion
+                            editEvent = event
                         }
                     }
                 }
                 .listStyle(PlainListStyle())
                 .task {
-                    await loadPromotions()
+                    await loadEvents()
                 }
                 Spacer()
             }
             .background(Color(UIColor.systemBackground).ignoresSafeArea()) // Adapt to light and dark mode
-            .navigationTitle("Promotions")
+            .navigationTitle("Events")
             .sheet(isPresented: $showCreateView) {
-                PromotionCreateView(clubName: viewModel.currentManager?.activeBusiness?.name ?? "Unknown Club",
-                                    clubImageURL: viewModel.currentManager?.activeBusiness?.imageURL ?? "placeholder_image_url") {
+                EventsCreateView(clubName: viewModel.currentManager?.activeBusiness?.name ?? "Unknown Club",
+                                clubImageURL: viewModel.currentManager?.activeBusiness?.imageURL ?? "placeholder_image_url") {
                     Task {
-                        await loadPromotions()
+                        await loadEvents()
                     }
                 }
             }
-            .sheet(item: $editPromotion) { promotion in
-                PromotionEditView(promotion: Binding(
-                    get: { promotion },
-                    set: { editPromotion = $0 }
+            .sheet(item: $editEvent) { event in
+                EventsEditView(event: Binding(
+                    get: { event },
+                    set: { editEvent = $0 }
                 )) {
                     Task {
-                        await loadPromotions()
+                        await loadEvents()
                     }
                 }
             }
@@ -117,23 +119,23 @@ struct PromotionsView: View {
         }
     }
 
-    private func loadPromotions() async {
+    private func loadEvents() async {
         guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
             print("DEBUG: No club ID found")
             return
         }
         
         do {
-            let promotionsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").getDocuments()
-            let loadedPromotions = promotionsSnapshot.documents.compactMap { try? $0.data(as: Promotion.self) }
-            promotions = loadedPromotions.sorted { $0.startDate < $1.startDate }
+            let eventsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("Events").getDocuments()
+            let loadedEvents = eventsSnapshot.documents.compactMap { try? $0.data(as: Event.self) }
+            events = loadedEvents.sorted { $0.startDate < $1.startDate }
         } catch {
-            print("DEBUG: Failed to load promotions with error: \(error.localizedDescription)")
+            print("DEBUG: Failed to load events with error: \(error.localizedDescription)")
         }
     }
 }
 
 #Preview {
-    PromotionsView()
+    EventsView()
         .environmentObject(log_in_view_model())
 }

@@ -13,6 +13,7 @@ struct manager_home_view: View {
     @EnvironmentObject var viewModel: log_in_view_model
     @State private var averageRating: Double = 0.0
     @State private var reviewCount: Int = 0
+    @State private var recentRatings: [StarReview] = []
     
     var body: some View {
         NavigationStack {
@@ -21,9 +22,9 @@ struct manager_home_view: View {
                 Text(viewModel.currentManager?.activeBusiness?.name ?? "Your Club")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.primary) // Adapts to light and dark mode
+                    .foregroundColor(.primary)
                     .padding(.top)
-                
+
                 // Star Rating and Review Count
                 HStack(spacing: 2) {
                     ForEach(0..<Int(floor(averageRating)), id: \.self) { _ in
@@ -44,33 +45,87 @@ struct manager_home_view: View {
                         .font(.caption)
                         .foregroundColor(.gray)
                 }
-                
+
+                // Recent Ratings
+                VStack(alignment: .leading) {
+                    Text("Recent Ratings")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .padding(.top)
+                        .padding(.bottom, 10)
+
+                    ForEach(recentRatings) { review in
+                        VStack(alignment: .leading, spacing: 5) {
+                            HStack {
+                                Text("Rating:")
+                                    .font(.headline)
+                                    .foregroundColor(.primary)
+                                Text("\(Int(review.rating))") // Remove decimal places
+                                    .font(.headline)
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.primary)
+                            }
+                        Text("Time: \(review.timestamp)")
+                            .font(.caption)
+                            .foregroundColor(.primary)
+                        }
+                        .padding()
+                        .background(Color(UIColor.systemBackground))
+                        .cornerRadius(8)
+                        .overlay(
+                        RoundedRectangle(cornerRadius: 8)
+                                .stroke(Color(UIColor.separator), lineWidth: 1)
+                        )
+                        .padding(.bottom, 10)
+                    }
+                }
+                .padding(.horizontal)
+                .padding(.top)
+
                 Spacer()
             }
-            .background(Color(UIColor.systemBackground).ignoresSafeArea()) // Adapts to light and dark mode
+            .background(Color(UIColor.systemBackground).ignoresSafeArea())
             .navigationTitle("Manager Dashboard")
             .navigationBarTitleDisplayMode(.inline)
             .task {
                 await loadRatingAndReviewCount()
+                await loadRecentRatings() // Load recent ratings
             }
         }
     }
-    
+
     private func loadRatingAndReviewCount() async {
         guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else { return }
-        
+
         do {
             let clubDocument = try await Firestore.firestore().collection("Clubs").document(clubId).getDocument()
             if let data = clubDocument.data() {
                 averageRating = data["rating"] as? Double ?? 0.0
-                
-                let ratingsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("Rating").getDocuments()
-                reviewCount = ratingsSnapshot.documents.count
+                reviewCount = data["reviewCount"] as? Int ?? 0
             }
         } catch {
             print("DEBUG: Failed to load rating and review count with error: \(error.localizedDescription)")
         }
     }
+
+    private func loadRecentRatings() async {
+        guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else { return }
+
+        do {
+            let reviewsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("StarReviews").order(by: "timestamp", descending: true).limit(to: 10).getDocuments()
+            recentRatings = reviewsSnapshot.documents.compactMap { try? $0.data(as: StarReview.self) }
+        } catch {
+            print("DEBUG: Failed to load recent ratings with error: \(error.localizedDescription)")
+        }
+    }
+}
+
+// Assuming you have a StarReview model
+struct StarReview: Identifiable, Codable {
+    @DocumentID var id: String?
+    var userId: String?
+    let rating: Double
+    let timestamp: Date
 }
 
 #Preview {

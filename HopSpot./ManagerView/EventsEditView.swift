@@ -1,62 +1,63 @@
 //
-//  PromotionEditView.swift
+//  EventsEditView.swift
 //  HopSpot.
 //
-//  Created by Ben Roman on 2024-08-22.
+//  Created by Ben Roman on 2024-09-07.
 //
 import SwiftUI
 import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
-struct PromotionEditView: View {
-    @Binding var promotion: Promotion?
-    @State private var title: String = ""
-    @State private var description: String = ""
-    @State private var startDate: Date = Date()
-    @State private var endDate: Date = Date().addingTimeInterval(3600 * 24)
-    @State private var startTime: Date = Date()
-    @State private var endTime: Date = Date().addingTimeInterval(3600 * 24)
-    @State private var link: String = ""
-    @State private var showDeleteConfirmation = false
+struct EventsEditView: View {
     @EnvironmentObject var viewModel: log_in_view_model
-    @Environment(\.presentationMode) var presentationMode
+    @Binding var event: Event?
     var onSave: () -> Void
+
+    @State private var title = ""
+    @State private var description = ""
+    @State private var startDate = Date()
+    @State private var endDate = Date()
+    @State private var startTime = Date()
+    @State private var endTime = Date()
+    @State private var location = ""
+    @State private var link = ""
+    @State private var showDeleteConfirmation = false
+    @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Promotion Details")) {
+                Section(header: Text("Event Details")) {
                     TextField("Title", text: $title)
                     TextField("Description", text: $description)
-                    
                     DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
                     DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
-                    
                     DatePicker("Start Time", selection: $startTime, displayedComponents: [.hourAndMinute])
                     DatePicker("End Time", selection: $endTime, displayedComponents: [.hourAndMinute])
-                    
+                    TextField("Location", text: $location)
                     TextField("Link (optional)", text: $link)
                 }
-                
-                if promotion != nil {
+
+                if event != nil {
                     Button(action: {
                         showDeleteConfirmation = true
                     }) {
-                        Text("Delete Promotion")
+                        Text("Delete Event")
                             .foregroundColor(.red)
                     }
                 }
             }
-            .navigationTitle(promotion == nil ? "New Promotion" : "Edit Promotion")
+            .navigationTitle(event == nil ? "New Event" : "Edit Event")
             .onAppear {
-                if let promotion = promotion {
-                    title = promotion.title
-                    description = promotion.description
-                    startDate = promotion.startDate
-                    endDate = promotion.endDate
-                    startTime = promotion.startTime
-                    endTime = promotion.endTime
-                    link = promotion.link ?? ""
+                if let event = event {
+                    title = event.title
+                    description = event.description
+                    startDate = event.startDate
+                    endDate = event.endDate
+                    startTime = event.startTime
+                    endTime = event.endTime
+                    location = event.location
+                    link = event.link ?? ""
                 } else {
                     resetFields()
                 }
@@ -64,10 +65,10 @@ struct PromotionEditView: View {
             .alert(isPresented: $showDeleteConfirmation) {
                 Alert(
                     title: Text("Confirm Deletion"),
-                    message: Text("Are you sure you want to delete this promotion?"),
+                    message: Text("Are you sure you want to delete this event?"),
                     primaryButton: .destructive(Text("Delete")) {
                         Task {
-                            await deletePromotion()
+                            await deleteEvent()
                         }
                     },
                     secondaryButton: .cancel()
@@ -78,7 +79,7 @@ struct PromotionEditView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
                         Task {
-                            await savePromotion()
+                            await saveEvent()
                         }
                     }
                     .foregroundStyle(AppColor.color)
@@ -87,9 +88,9 @@ struct PromotionEditView: View {
         }
     }
 
-    private func savePromotion() async {
-        guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
-            print("DEBUG: No club ID found")
+    private func saveEvent() async {
+        guard let eventId = event?.id, let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
+            print("DEBUG: No event ID or club ID found")
             return
         }
 
@@ -102,46 +103,41 @@ struct PromotionEditView: View {
                                                 second: 0,
                                                 of: endDate) ?? endDate
 
-        let newPromotion = Promotion(
-            id: promotion?.id, // Use existing ID for update or nil for new promotion
+        let updatedEvent = Event(
+            id: eventId,
             title: title,
             description: description,
             startDate: startDateTime,
             endDate: endDateTime,
             startTime: startTime,
             endTime: endTime,
-            link: link,
-            clubName: viewModel.currentManager?.activeBusiness?.name ?? "Unknown Club",
-            clubImageURL: viewModel.currentManager?.activeBusiness?.imageURL ?? "placeholder_image_url"
+            location: location,
+            clubName: event?.clubName,
+            clubImageURL: event?.clubImageURL,
+            link: link
         )
         
         do {
-            if let id = newPromotion.id {
-                // Update existing promotion
-                try Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").document(id).setData(from: newPromotion)
-            } else {
-                // Create new promotion
-                _ = try Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").addDocument(from: newPromotion)
-            }
+            try Firestore.firestore().collection("Clubs").document(clubId).collection("Events").document(eventId).setData(from: updatedEvent)
             onSave()
             presentationMode.wrappedValue.dismiss()
         } catch {
-            print("DEBUG: Failed to save promotion with error: \(error.localizedDescription)")
+            print("DEBUG: Failed to update event with error: \(error.localizedDescription)")
         }
     }
 
-    private func deletePromotion() async {
-        guard let id = promotion?.id, let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
-            print("DEBUG: No promotion ID or club ID found")
+    private func deleteEvent() async {
+        guard let id = event?.id, let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
+            print("DEBUG: No event ID or club ID found")
             return
         }
 
         do {
-            try await Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").document(id).delete()
+            try await Firestore.firestore().collection("Clubs").document(clubId).collection("Events").document(id).delete()
             onSave()
             presentationMode.wrappedValue.dismiss()
         } catch {
-            print("DEBUG: Failed to delete promotion with error: \(error.localizedDescription)")
+            print("DEBUG: Failed to delete event with error: \(error.localizedDescription)")
         }
     }
 
@@ -152,11 +148,12 @@ struct PromotionEditView: View {
         endDate = Date().addingTimeInterval(3600 * 24)
         startTime = Date()
         endTime = Date().addingTimeInterval(3600 * 24)
+        location = ""
         link = ""
     }
 }
 
 #Preview {
-    PromotionEditView(promotion: .constant(nil), onSave: {})
+    EventsEditView(event: .constant(nil), onSave: {})
         .environmentObject(log_in_view_model())
 }
