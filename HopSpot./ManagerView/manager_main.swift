@@ -30,24 +30,22 @@ struct manager_main: View {
                     }
                     
                 }
-
-            other_clubs_view()
-                .tabItem {
-                    VStack {
-                        Image(systemName: "map")
-                            .foregroundColor(.white)
-                        Text("Locations")
-                            .font(.caption)
-                            .foregroundColor(.white)
-                    }
-                }
-
             PromotionsView()
                 .tabItem {
                     VStack {
                         Image(systemName: "bell")
                             .foregroundColor(.white)
                         Text("Promotions")
+                            .font(.caption)
+                            .foregroundColor(.white)
+                    }
+                }
+            EventsView()
+                .tabItem {
+                    VStack {
+                        Image(systemName: "party.popper")
+                            .foregroundColor(.white)
+                        Text("Events")
                             .font(.caption)
                             .foregroundColor(.white)
                     }
