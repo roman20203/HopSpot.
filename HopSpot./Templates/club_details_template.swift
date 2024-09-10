@@ -11,6 +11,8 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct club_details_template: View {
+    let club: Club
+    
     @EnvironmentObject var viewModel: log_in_view_model
     @EnvironmentObject var userLocation: UserLocation
     @State private var showRatingView = false
@@ -24,7 +26,7 @@ struct club_details_template: View {
     @State private var lastReportTime: Date? = nil
     @State private var isReportingAllowed: Bool = true
     
-    let club: Club
+    
     let distanceThreshold: Double = 30.0 //in Meters
 
     
@@ -338,9 +340,21 @@ struct club_details_template: View {
     private func loadLineReports() async {
         let clubId = club.id
         
+
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: Date())
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? Date()
         do {
-            let reportsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("lineReports").order(by: "timestamp", descending: true).getDocuments()
-         
+            let reportsSnapshot = try await Firestore.firestore()
+                .collection("Clubs")
+                .document(clubId)
+                .collection("lineReports")
+                .whereField("timestamp", isGreaterThanOrEqualTo: startOfDay) // Filter reports from today
+                .whereField("timestamp", isLessThan: endOfDay) // Ensure the report is within today
+                .order(by: "timestamp", descending: true) // Sort by timestamp in descending order
+                .limit(to: 3) // Limit to the 3 most recent reports
+                .getDocuments()
+             
             lineReports = reportsSnapshot.documents.compactMap { document in
                 var report = try? document.data(as: Club.LineReport.self)
                 report?.id = document.documentID
@@ -350,7 +364,7 @@ struct club_details_template: View {
             print("DEBUG: Error fetching line reports: \(error.localizedDescription)")
         }
     }
-    
+
     private func reportLineLength() {
         guard let user = viewModel.currentUser else { return }
         
@@ -419,4 +433,4 @@ struct ClubDetailsTemplate_Previews: PreviewProvider {
     }
 }
 
-// Testing Coordinates 43.4738, -80.5275 43.47538586997971
+// Testing Coordinates 43.4738, -80.5275

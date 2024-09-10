@@ -76,6 +76,7 @@ struct Club: Codable, Identifiable {
         
         return (distanceKm: distanceInKm, estimatedMinutes: estimatedMinutes)
     }
+
 }
 
 extension Club {

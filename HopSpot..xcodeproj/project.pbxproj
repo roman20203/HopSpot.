@@ -200,8 +200,8 @@
 				ADA1A5322C40F004006844E7 /* InputView.swift */,
 				ADED5F7D2C4E9772003AB6A0 /* club_view_template.swift */,
 				ADED5F812C515C90003AB6A0 /* image_view.swift */,
-				ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */,
 				AD4713112C6A92CD0087607D /* AppColor.swift */,
+				ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */,
 				AD4713132C6A96360087607D /* StarRatingTemplate.swift */,
 			);
 			path = Templates;
