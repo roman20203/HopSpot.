@@ -25,6 +25,7 @@ struct club_details_template: View {
     @State private var isReportingAllowed: Bool = true
     
     let club: Club
+    let distanceThreshold: Double = 30.0 //in Meters
 
     
     var body: some View {
@@ -205,7 +206,12 @@ struct club_details_template: View {
                             Text("Please wait before submitting another report.")
                                 .foregroundColor(.red)
                                 .padding(.horizontal)
-                        }
+                        }else if(!selectedLineLengthOption.isEmpty && !isWithinProximity()){
+                            Text("You are not close enough to report")
+                                .foregroundColor(.red)
+                                .padding(.horizontal)
+                            }
+                                    
                     
                         // Recent Line Reports
                         VStack(alignment: .leading, spacing: 10) {
@@ -298,6 +304,14 @@ struct club_details_template: View {
             }
         }
     }
+    private func isWithinProximity() -> Bool {
+        guard let userLocation = userLocation.userLocation else { return false }
+        
+        let clubLocation = CLLocation(latitude: club.latitude, longitude: club.longitude)
+        let distance = userLocation.distance(from: clubLocation)
+        
+        return distance <= distanceThreshold // 30 meters
+    }
     
     private func busynessDescription(for busyness: busynessType) -> String {
         switch busyness {
@@ -338,10 +352,17 @@ struct club_details_template: View {
     }
     
     private func reportLineLength() {
-        guard viewModel.currentUser != nil, isReportingAllowed else { return }
+        guard let user = viewModel.currentUser else { return }
+        
+        if !isWithinProximity() {
+            print("DEBUG: User is not within 30 meters of the club.")
+            return
+        }
+        
+        guard isReportingAllowed else { return }
         
         let currentTime = Date()
-        if let lastTime = lastReportTime, currentTime.timeIntervalSince(lastTime) < 60 { // 60 seconds debounce
+        if let lastTime = lastReportTime, currentTime.timeIntervalSince(lastTime) < 60 {
             return
         }
         
@@ -361,7 +382,7 @@ struct club_details_template: View {
         do {
             try reportRef.setData(from: report)
             reportSuccess = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 60) { //  60 seconds delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
                 isReportingAllowed = true
             }
         } catch {
@@ -369,6 +390,7 @@ struct club_details_template: View {
             isReportingAllowed = true
         }
     }
+
 }
 
 
@@ -396,3 +418,5 @@ struct ClubDetailsTemplate_Previews: PreviewProvider {
             .environmentObject(log_in_view_model())
     }
 }
+
+// Testing Coordinates 43.4738, -80.5275 43.47538586997971
