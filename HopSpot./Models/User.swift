@@ -32,11 +32,16 @@ struct User:Identifiable, Codable{
     var birthdate:Date
     var gender: Gender
     var role: UserRole
+    var fraternityID: String?
     
     
-    var friends: [User] = []
+    //var friends: [User] = []
     //Type here will need to be changed depending on what we use to identify the bars
-    var favoriteClubs: [String] = []
+    //var favoriteClubs: [String] = []
+    
+    var isFrat: Bool {
+            return fraternityID != nil  // Returns true if fraternityID is not nil, otherwise false
+        }
     
     var age: Int {
             getAge(from: birthdate)
@@ -57,17 +62,18 @@ struct User:Identifiable, Codable{
         return String(password.reversed())
     }
 
-    init(fullname: String,id: String, email: String, password: String, joined: Date, birthdate: Date, gender: Gender, role: UserRole) {
+    init(fullname: String,id: String, email: String, password: String, joined: Date, birthdate: Date, gender: Gender, role: UserRole, fraternityID: String? = nil) {
         self.fullname = fullname
         self.email = email
         self.passwordHash = User.hashPassword(password)
         self.joined = joined
         self.birthdate = birthdate
         self.gender = gender
-        self.friends = []
-        self.favoriteClubs = []
+        //self.friends = []
+        //self.favoriteClubs = []
         self.id = id
         self.role = role
+        self.fraternityID = fraternityID
 
     }
     
@@ -90,29 +96,6 @@ struct User:Identifiable, Codable{
 
     mutating func updateName(newName: String) {
         self.fullname = newName
-    }
-    
-    mutating func addFriend(_ friend: User) {
-        if !friends.contains(where: { $0.email == friend.email }) {
-            friends.append(friend)
-        }
-    }
-    
-
-    mutating func removeFriend(_ friend: User) {
-        friends.removeAll { $0.email == friend.email }
-    }
-    
- 
-    mutating func addFavoriteClub(_ clubID: String) {
-        if !favoriteClubs.contains(clubID) {
-            favoriteClubs.append(clubID)
-        }
-    }
-    
-
-    mutating func removeFavoriteClub(_ clubID: String) {
-        favoriteClubs.removeAll { $0 == clubID }
     }
     
 }
