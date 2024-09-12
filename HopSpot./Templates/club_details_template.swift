@@ -366,7 +366,7 @@ struct club_details_template: View {
     }
 
     private func reportLineLength() {
-        guard let user = viewModel.currentUser else { return }
+        guard viewModel.currentUser != nil else { return }
         
         if !isWithinProximity() {
             print("DEBUG: User is not within 30 meters of the club.")

@@ -121,10 +121,11 @@ class club_firebase_handler: ObservableObject {
                         
                         if (promotion.startDate <= currentDate && promotion.endDate >= currentDate) || promotion.startDate > currentDate {
                             if Calendar.current.isDateInToday(promotion.startDate) || (promotion.startDate <= currentDate && promotion.endDate >= currentDate) {
-                                if promotion.startDate > currentDate {
-                                    fetchedUpcomingPromotions.append(promotion)
-                                } else {
+                                if Calendar.current.isDateInToday(promotion.startDate){
                                     fetchedCurrentPromotions.append(promotion)
+                                } else {
+                                    fetchedUpcomingPromotions.append(promotion)
+                                    
                                 }
                                 return promotion
                             }

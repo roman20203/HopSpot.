@@ -9,7 +9,7 @@ import SwiftUI
 import MapKit
 
 struct LocationDetailView: View {
-    @EnvironmentObject private var vm: club_firebase_handler
+    @EnvironmentObject var vm: club_firebase_handler
     let location: Location
     var body: some View {
         ScrollView {
@@ -43,6 +43,7 @@ struct LocationDataView_previews: PreviewProvider {
             .environmentObject(club_firebase_handler())
     }
 }
+
 
 extension LocationDetailView {
     private var imageSection: some View {

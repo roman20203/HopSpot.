@@ -91,9 +91,6 @@ struct whats_hot_view: View {
                     }
                 }
             }
-            .onAppear {
-                clubHandler.fetchClubs()
-            }
         }
     }
 }

@@ -91,9 +91,6 @@ struct near_by_view: View {
                     }
                 }
             }
-            .onAppear {
-                clubHandler.fetchClubs()
-            }
         }
     }
 }
