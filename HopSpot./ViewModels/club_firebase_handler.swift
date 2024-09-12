@@ -18,6 +18,11 @@ class club_firebase_handler: ObservableObject {
     @Published var clubs = [Club]()
     @Published var currentPromotions = [Promotion]()
     @Published var upcomingPromotions = [Promotion]()
+    @Published var currentEvents = [Event]()
+    @Published var upcomingEvents = [Event]()
+    
+    @Published var fratEvents = [Event]()
+    
     @Published var isInitialized = false // Track if data is fetched
 
     // Locations related properties
@@ -45,12 +50,85 @@ class club_firebase_handler: ObservableObject {
         // Call fetchClubs after initialization
         DispatchQueue.main.async {
             self.fetchClubs()
+            self.fetchFratEvents()
         }
     }
     
+    func fetchFratEvents() {
+        db.collection("Waterloo_Frats").getDocuments { [weak self] snapshot, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Error fetching Frats: \(error)")
+                return
+            }
+            
+            guard let documents = snapshot?.documents else {
+                print("No Frats found")
+                return
+            }
+            
+            let dispatchGroup = DispatchGroup()
+            var fetchedFratEvents = [Event]()
+            
+            for doc in documents {
+                let id = doc.documentID
+                let eventsRef = self.db.collection("Waterloo_Frats").document(id).collection("Events")
+                
+                dispatchGroup.enter()
+                eventsRef.getDocuments { snapshot, error in
+                    if let error = error {
+                        print("Error fetching events for frat \(id): \(error)")
+                        dispatchGroup.leave()
+                        return
+                    }
+                    
+                    guard let eventDocuments = snapshot?.documents else {
+                        print("No events found for frat \(id)")
+                        dispatchGroup.leave()
+                        return
+                    }
+                    
+                    let currentDate = Date()
+                    let events = eventDocuments.compactMap { eventDoc -> Event? in
+                        let eventData = eventDoc.data()
+                        let event = Event(id: eventDoc.documentID,
+                                          title: eventData["title"] as? String ?? "",
+                                          description: eventData["description"] as? String ?? "",
+                                          startDate: (eventData["startDate"] as? Timestamp)?.dateValue() ?? Date(),
+                                          endDate: (eventData["endDate"] as? Timestamp)?.dateValue() ?? Date(),
+                                          startTime: (eventData["startTime"] as? Timestamp)?.dateValue() ?? Date(),
+                                          endTime: (eventData["endTime"] as? Timestamp)?.dateValue() ?? Date(),
+                                          location: eventData["location"] as? String ?? "",
+                                          clubName: eventData["clubName"] as? String ?? "",
+                                          clubImageURL: eventData["clubImageURL"] as? String ?? "")
+                        
+                        // Categorize events
+                        if event.startDate <= currentDate && event.endDate >= currentDate {
+                            return event
+                        }
+                        
+                        return nil
+                    }
+                    
+                    fetchedFratEvents.append(contentsOf: events)
+                    dispatchGroup.leave()
+                }
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                self.fratEvents = fetchedFratEvents
+                print("Fetched \(self.fratEvents.count) ongoing frat events")
+            }
+        }
+    }
+
+
+    
+    
     func fetchClubs() {
         db.collection("Clubs").getDocuments { [weak self] snapshot, error in
-            guard let self = self else { return }
+            guard let self = self else { return}
             
             if let error = error {
                 print("Error fetching clubs: \(error)")
@@ -66,6 +144,9 @@ class club_firebase_handler: ObservableObject {
             var fetchedClubs = [Club]()
             var fetchedCurrentPromotions = [Promotion]()
             var fetchedUpcomingPromotions = [Promotion]()
+            
+            var fetchedCurrentEvents = [Event]()
+            var fetchedUpcomingEvents = [Event]()
             
             for doc in documents {
                 let data = doc.data()
@@ -88,6 +169,8 @@ class club_firebase_handler: ObservableObject {
                 var club = Club(id: id, name: name, address: address, rating: rating, reviewCount: reviewCount, description: description, imageURL: imageURL, latitude: latitude, longitude: longitude, busyness: busyness, website: website, city: city, promotions: [])
                 
                 dispatchGroup.enter()
+                
+                
                 let promotionsRef = self.db.collection("Clubs").document(id).collection("Promotions")
                 promotionsRef.getDocuments { snapshot, error in
                     if let error = error {
@@ -121,10 +204,11 @@ class club_firebase_handler: ObservableObject {
                         
                         if (promotion.startDate <= currentDate && promotion.endDate >= currentDate) || promotion.startDate > currentDate {
                             if Calendar.current.isDateInToday(promotion.startDate) || (promotion.startDate <= currentDate && promotion.endDate >= currentDate) {
-                                if promotion.startDate > currentDate {
-                                    fetchedUpcomingPromotions.append(promotion)
-                                } else {
+                                if Calendar.current.isDateInToday(promotion.startDate) {
                                     fetchedCurrentPromotions.append(promotion)
+                                } else {
+                                    fetchedUpcomingPromotions.append(promotion)
+                                    
                                 }
                                 return promotion
                             }
@@ -133,8 +217,47 @@ class club_firebase_handler: ObservableObject {
                         return nil
                     }
                     
-                    fetchedClubs.append(club)
-                    dispatchGroup.leave()
+                    
+                    // Fetch Events for the current club
+                    let eventsRef = self.db.collection("Clubs").document(id).collection("Events")
+                    eventsRef.getDocuments { snapshot, error in
+                        if let error = error {
+                            print("Error fetching events: \(error)")
+                            dispatchGroup.leave()
+                            return
+                        }
+                        
+                        guard let eventDocuments = snapshot?.documents else {
+                            print("No events found for club: \(club.name)")
+                            dispatchGroup.leave()
+                            return
+                        }
+                        
+                        club.events = eventDocuments.compactMap { eventDoc -> Event? in
+                            let eventData = eventDoc.data()
+                            let event = Event(id: eventDoc.documentID,
+                                              title: eventData["title"] as? String ?? "",
+                                              description: eventData["description"] as? String ?? "",
+                                              startDate: (eventData["startDate"] as? Timestamp)?.dateValue() ?? Date(),
+                                              endDate: (eventData["endDate"] as? Timestamp)?.dateValue() ?? Date(),
+                                              startTime: (eventData["startTime"] as? Timestamp)?.dateValue() ?? Date(),
+                                              endTime: (eventData["endTime"] as? Timestamp)?.dateValue() ?? Date(), 
+                                              location: eventData["location"] as? String ?? "",
+                                              clubName: eventData["clubName"] as? String ?? "",
+                                              clubImageURL: eventData["clubImageURL"] as? String ?? "")
+                            
+                            // Categorize events
+                            if event.startDate <= currentDate && event.endDate >= currentDate {
+                                fetchedCurrentEvents.append(event)
+                            } else if event.startDate > currentDate {
+                                fetchedUpcomingEvents.append(event)
+                            }
+                            
+                            return event
+                        }
+                        fetchedClubs.append(club)
+                        dispatchGroup.leave()
+                    }
                 }
             }
             

@@ -126,12 +126,12 @@ struct home_view: View {
                         // Events
                         NavigationLink(destination: near_by_view()) {
                             VStack(alignment: .leading, spacing: 6) {
-                                Text("Events.")
+                                Text("Frat Parties")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
                                     .tracking(0.78)
                                     .foregroundColor(.white)
                                 
-                                Text("Upcoming events near you")
+                                Text("Upcoming Frat Parties")
                                     .font(Font.custom("Arial", size: 12))
                                     .tracking(0.36)
                                     .foregroundColor(.white)
@@ -173,12 +173,12 @@ struct home_view: View {
                         // Section 4: "New Places." Text with Images
                         NavigationLink(destination: near_by_view()) {
                             VStack(alignment: .leading, spacing: 6) { // Adjusted spacing
-                                Text("New Places.")
+                                Text("Club Events")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
                                     .tracking(0.78)
                                     .foregroundColor(.white)
                                 
-                                Text("Check out newly opened spots")
+                                Text("Check out current and upcoming club events")
                                     .font(Font.custom("Arial", size: 12))
                                     .tracking(0.36)
                                     .foregroundColor(.white)

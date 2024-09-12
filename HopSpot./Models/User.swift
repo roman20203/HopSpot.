@@ -34,10 +34,11 @@ struct User:Identifiable, Codable{
     var role: UserRole
     var fraternityID: String?
     
+    var frat: Fraternity?
     
-    //var friends: [User] = []
+    var friends: [User] = []
     //Type here will need to be changed depending on what we use to identify the bars
-    //var favoriteClubs: [String] = []
+    var favoriteClubs: [String] = []
     
     var isFrat: Bool {
             return fraternityID != nil  // Returns true if fraternityID is not nil, otherwise false
@@ -69,8 +70,8 @@ struct User:Identifiable, Codable{
         self.joined = joined
         self.birthdate = birthdate
         self.gender = gender
-        //self.friends = []
-        //self.favoriteClubs = []
+        self.friends = []
+        self.favoriteClubs = []
         self.id = id
         self.role = role
         self.fraternityID = fraternityID

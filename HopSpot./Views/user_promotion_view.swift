@@ -14,15 +14,18 @@ struct user_promotion_view: View {
 
     var body: some View {
         VStack {
+            
             Picker("Select Section", selection: $selectedSection) {
                 Text("Tonight").tag("Tonight")
                 Text("Upcoming").tag("Upcoming")
             }
+            
             .pickerStyle(SegmentedPickerStyle())
             .padding()
             .tint(AppColor.color)
             .background(Color.gray.opacity(0.3))
             .cornerRadius(8)
+            Spacer()
 
             if selectedSection == "Tonight" {
                 TonightPromotionsView(promotions: clubHandler.currentPromotions)
@@ -40,6 +43,7 @@ struct TonightPromotionsView: View {
     var body: some View {
         if promotions.isEmpty{
             Text("No Promotions Tonight")
+            Spacer()
         }else{
             ForEach(promotions, id: \.id) { promotion in
                 GeometryReader { geometry in
@@ -111,6 +115,7 @@ struct UpcomingPromotionsView: View {
     var body: some View {
         if promotions.isEmpty{
             Text("No Upcoming Promotions")
+            Spacer()
         }else{
             ForEach(promotions, id: \.id) { promotion in
                 GeometryReader { geometry in
