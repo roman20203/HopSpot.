@@ -30,8 +30,9 @@ struct Club: Codable, Identifiable {
     var website: String
     var city: String
     var promotions: [Promotion] = []
+    var events: [Event] = []
 
-    init(id: String, name: String, address: String, rating: Double, reviewCount: Int, description: String, imageURL: String, latitude: Double, longitude: Double, busyness: Int, website: String, city: String, promotions: [Promotion] = []) {
+    init(id: String, name: String, address: String, rating: Double, reviewCount: Int, description: String, imageURL: String, latitude: Double, longitude: Double, busyness: Int, website: String, city: String, promotions: [Promotion] = [], events: [Event] = []) {
         self.id = id
         self.name = name
         self.address = address
@@ -45,6 +46,7 @@ struct Club: Codable, Identifiable {
         self.website = website
         self.city = city
         self.promotions = promotions
+        self.events = events
     }
 
     static func updateBusyness(from num: Int) -> busynessType {
@@ -76,6 +78,16 @@ struct Club: Codable, Identifiable {
         
         return (distanceKm: distanceInKm, estimatedMinutes: estimatedMinutes)
     }
+    
+    
+    /*
+    func changeDescription(newDescription: String){
+        self.description = newDescription
+        
+        //go into firebase and change description field
+        
+    }
+     */
 
 }
 

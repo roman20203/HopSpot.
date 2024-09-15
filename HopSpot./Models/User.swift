@@ -34,6 +34,7 @@ struct User:Identifiable, Codable{
     var role: UserRole
     var fraternityID: String?
     
+    var frat: Fraternity?
     
     var friends: [User] = []
     //Type here will need to be changed depending on what we use to identify the bars

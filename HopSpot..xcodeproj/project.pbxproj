@@ -12,6 +12,7 @@
 		AD1AE6A22C8C9A510090BBE8 /* EventsEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6A12C8C9A510090BBE8 /* EventsEditView.swift */; };
 		AD1AE6A42C8CE3110090BBE8 /* PromotionCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6A32C8CE3110090BBE8 /* PromotionCreateView.swift */; };
 		AD1AE6A62C8CEC8E0090BBE8 /* EventsCreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6A52C8CEC8E0090BBE8 /* EventsCreateView.swift */; };
+		AD1AE6AC2C93782C0090BBE8 /* Fraternity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6AB2C93782C0090BBE8 /* Fraternity.swift */; };
 		AD4713122C6A92CD0087607D /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713112C6A92CD0087607D /* AppColor.swift */; };
 		AD4713142C6A96360087607D /* StarRatingTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713132C6A96360087607D /* StarRatingTemplate.swift */; };
 		AD47131A2C6C7F330087607D /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713192C6C7F330087607D /* Business.swift */; };
@@ -91,6 +92,7 @@
 		AD1AE6A12C8C9A510090BBE8 /* EventsEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsEditView.swift; sourceTree = "<group>"; };
 		AD1AE6A32C8CE3110090BBE8 /* PromotionCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionCreateView.swift; sourceTree = "<group>"; };
 		AD1AE6A52C8CEC8E0090BBE8 /* EventsCreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsCreateView.swift; sourceTree = "<group>"; };
+		AD1AE6AB2C93782C0090BBE8 /* Fraternity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fraternity.swift; sourceTree = "<group>"; };
 		AD4713112C6A92CD0087607D /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		AD4713132C6A96360087607D /* StarRatingTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingTemplate.swift; sourceTree = "<group>"; };
 		AD4713192C6C7F330087607D /* Business.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 				AD4713192C6C7F330087607D /* Business.swift */,
 				AD47131D2C6C90CB0087607D /* Manager.swift */,
 				AD1AE69D2C8C97A10090BBE8 /* Event.swift */,
+				AD1AE6AB2C93782C0090BBE8 /* Fraternity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -513,6 +516,7 @@
 				AD4713122C6A92CD0087607D /* AppColor.swift in Sources */,
 				ADA1A5252C3F50A4006844E7 /* profile_view.swift in Sources */,
 				ADF113BB2C5C542D00BD4038 /* Location.swift in Sources */,
+				AD1AE6AC2C93782C0090BBE8 /* Fraternity.swift in Sources */,
 				ADA1A5292C3F50D0006844E7 /* log_in_view.swift in Sources */,
 				ADA297942C36217D00D2A7E9 /* HopSpot_App.swift in Sources */,
 				ADA297D92C37C30900D2A7E9 /* map_view.swift in Sources */,

@@ -72,6 +72,24 @@ class log_in_view_model: ObservableObject {
             if userSnapshot.exists {
                 self.currentUser = try userSnapshot.data(as: User.self)
                 print("DEBUG: Successfully fetched user: \(String(describing: self.currentUser))")
+                
+                //if User has a fraternityID
+                print("Now checking for frat")
+                if let user = self.currentUser, user.isFrat, let fraternityID = user.fraternityID {
+                    print("Now checking for frat with ID: \(fraternityID)")
+                    let fratSnapshot = try await Firestore.firestore().collection("Waterloo_Frats").document(fraternityID).getDocument()
+
+                    if fratSnapshot.exists {
+                        self.currentUser?.frat = try fratSnapshot.data(as: Fraternity.self)
+                        print("DEBUG: Successfully fetched fraternity: \(String(describing: self.currentUser?.frat))")
+                    } else {
+                        print("DEBUG: Fraternity document does not exist")
+                    }
+                } else {
+                    print("DEBUG: User is not a frat user or fraternityID is nil")
+                }
+                
+                
             } else {
                 // If the document does not exist in the "users" collection, try the "BusinessManager" collection
                 let managerSnapshot = try await Firestore.firestore().collection("BusinessManagers").document(uid).getDocument()
