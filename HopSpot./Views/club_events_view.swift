@@ -1,25 +1,23 @@
 //
-//  notification_view.swift
+//  club_events_view.swift
 //  HopSpot.
 //
-//  Created by Ben Roman on 2024-07-10.
+//  Created by Ben Roman on 2024-09-15.
 //
 
 import SwiftUI
 import Firebase
 
-struct user_promotion_view: View {
+struct club_events_view: View {
     @EnvironmentObject var clubHandler: club_firebase_handler
     @State private var selectedSection: String = "Tonight"
 
     var body: some View {
         VStack {
-            
             Picker("Select Section", selection: $selectedSection) {
                 Text("Tonight").tag("Tonight")
                 Text("Upcoming").tag("Upcoming")
             }
-            
             .pickerStyle(SegmentedPickerStyle())
             .padding()
             .tint(AppColor.color)
@@ -28,64 +26,64 @@ struct user_promotion_view: View {
             Spacer()
 
             if selectedSection == "Tonight" {
-                TonightPromotionsView(promotions: clubHandler.currentPromotions)
+                TonightEventsView(events: clubHandler.currentEvents)
             } else {
-                UpcomingPromotionsView(promotions: clubHandler.upcomingPromotions)
+                UpcomingEventsView(events: clubHandler.upcomingEvents)
             }
         }
-        .navigationTitle("Promotions")
-        }
+        .navigationTitle("Club Events")
     }
+}
 
-struct TonightPromotionsView: View {
-    var promotions: [Promotion]
+struct TonightEventsView: View {
+    var events: [Event]
 
     var body: some View {
-        if promotions.isEmpty{
-            Text("No Promotions Tonight")
+        if events.isEmpty {
+            Text("No Events Tonight")
+                .foregroundStyle(.primary)
             Spacer()
-        }else{
-            ForEach(promotions, id: \.id) { promotion in
+        } else {
+            ForEach(events) { event in
                 GeometryReader { geometry in
                     VStack(alignment: .leading, spacing: 10) {
                         // Club image and name
                         HStack(alignment: .top, spacing: 10) {
-                            image_view(imagePath: promotion.clubImageURL ?? "placeholder_image_url")
+                            image_view(imagePath: event.clubImageURL ?? "placeholder_image_url")
                                 .scaledToFill()
                                 .frame(width: 60, height: 60)
                                 .clipShape(Circle())
                             // Club Name
-                            Text(promotion.clubName ?? "Unknown Club")
+                            Text(event.clubName ?? "Unknown Club")
                                 .font(.headline)
                                 .padding(.top, 18)
-                                .foregroundStyle(.white)
+                                .foregroundStyle(.primary)
                                 .lineLimit(1)
                         }
                         
-                        // Display the promotion title
-                        Text(promotion.title)
+                        // Display the event title
+                        Text(event.title)
                             .font(.title3)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.primary)
                             .bold()
                         
                         // Display the description
-                        Text(promotion.description)
+                        Text(event.description)
                             .font(.body)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.primary)
 
-                        
-                        // Display promotion start and end date/time
+                        // Display event start and end date/time
                         VStack(alignment: .leading, spacing: 3) {
-                            Text("Start: \(promotion.formattedStartDateTime())")
+                            Text("Start: \(event.formattedStartDateTime())")
                                 .font(.body)
-                                .foregroundColor(.white)
-                            Text("End: \(promotion.formattedEndDateTime())")
+                                .foregroundStyle(.primary)
+                            Text("End: \(event.formattedEndDateTime())")
                                 .font(.body)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.primary)
                         }
                         
                         // Display link if available
-                        if let link = promotion.link, !link.isEmpty {
+                        if let link = event.link, !link.isEmpty {
                             Link("View Tickets", destination: URL(string: link)!)
                                 .font(.body)
                                 .foregroundColor(AppColor.color)
@@ -105,59 +103,58 @@ struct TonightPromotionsView: View {
                 }
             }
         }
-
     }
 }
 
-struct UpcomingPromotionsView: View {
-    var promotions: [Promotion]
+struct UpcomingEventsView: View {
+    var events: [Event]
 
     var body: some View {
-        if promotions.isEmpty{
-            Text("No Upcoming Promotions")
+        if events.isEmpty {
+            Text("No Upcoming Events")
+                .foregroundStyle(.primary)
             Spacer()
-        }else{
-            ForEach(promotions, id: \.id) { promotion in
+        } else {
+            ForEach(events) { event in
                 GeometryReader { geometry in
                     VStack(alignment: .leading, spacing: 10) {
                         // Club image and name
                         HStack(alignment: .top, spacing: 10) {
-                            image_view(imagePath: promotion.clubImageURL ?? "placeholder_image_url")
+                            image_view(imagePath: event.clubImageURL ?? "placeholder_image_url")
                                 .scaledToFill()
                                 .frame(width: 60, height: 60)
                                 .clipShape(Circle())
                             // Club Name
-                            Text(promotion.clubName ?? "Unknown Club")
+                            Text(event.clubName ?? "Unknown Club")
                                 .font(.headline)
                                 .padding(.top, 18)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.primary)
                                 .lineLimit(1)
                         }
                         
-                        // Display the promotion title
-                        Text(promotion.title)
+                        // Display the event title
+                        Text(event.title)
                             .font(.title3)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.primary)
                             .bold()
                         
                         // Display the description
-                        Text(promotion.description)
+                        Text(event.description)
                             .font(.body)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.primary)
 
-                        
-                        // Display promotion start and end date/time
+                        // Display event start and end date/time
                         VStack(alignment: .leading, spacing: 3) {
-                            Text("Start: \(promotion.formattedStartDateTime())")
+                            Text("Start: \(event.formattedStartDateTime())")
                                 .font(.body)
-                                .foregroundColor(.white)
-                            Text("End: \(promotion.formattedEndDateTime())")
+                                .foregroundStyle(.primary)
+                            Text("End: \(event.formattedEndDateTime())")
                                 .font(.body)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.primary)
                         }
                         
                         // Display link if available
-                        if let link = promotion.link, !link.isEmpty {
+                        if let link = event.link, !link.isEmpty {
                             Link("View Tickets", destination: URL(string: link)!)
                                 .font(.body)
                                 .foregroundColor(AppColor.color)
@@ -177,17 +174,12 @@ struct UpcomingPromotionsView: View {
                 }
             }
         }
-
-
-
-
-
     }
 }
 
-struct user_promotion_view_display: PreviewProvider {
+struct club_events_view_display: PreviewProvider {
     static var previews: some View {
-        user_promotion_view()
+        club_events_view()
             .environmentObject(club_firebase_handler())
     }
 }

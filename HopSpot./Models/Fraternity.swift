@@ -16,18 +16,20 @@ struct Fraternity: Identifiable, Codable {
     var school: String
     var address: String
     var description: String
+    var imageURL: String
     
     //make events optional because there may be nil events
     var events: [Event]?
     
     // Initializer
-    init(id: String, name: String, school: String, address: String, description: String, events:[Event]? = nil) {
+    init(id: String, name: String, school: String, address: String, description: String, events:[Event]? = nil, imageURL:String) {
         self.id = id
         self.name = name
         self.school = school
         self.address = address
         self.description = description
         self.events = events
+        self.imageURL = imageURL
     }
     
     struct LineReport: Identifiable, Codable {
