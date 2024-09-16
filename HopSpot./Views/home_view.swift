@@ -123,8 +123,8 @@ struct home_view: View {
                             .padding(.vertical, 10)
                         }
  
-                        // Events
-                        NavigationLink(destination: near_by_view()) {
+                        // Frat Events
+                        NavigationLink(destination: frat_events_view()) {
                             VStack(alignment: .leading, spacing: 6) {
                                 Text("Frat Parties")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
@@ -170,8 +170,8 @@ struct home_view: View {
                             .padding(.vertical, 10)
                         }
                         
-                        // Section 4: "New Places." Text with Images
-                        NavigationLink(destination: near_by_view()) {
+                        // Section 4: CLlub Events
+                        NavigationLink(destination: club_events_view()){
                             VStack(alignment: .leading, spacing: 6) { // Adjusted spacing
                                 Text("Club Events")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
@@ -246,5 +246,6 @@ struct home_view_Previews: PreviewProvider {
     static var previews: some View {
         home_view()
             .environmentObject(UserLocation())
+            .environmentObject(club_firebase_handler())
     }
 }

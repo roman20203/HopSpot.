@@ -18,10 +18,12 @@ class club_firebase_handler: ObservableObject {
     @Published var clubs = [Club]()
     @Published var currentPromotions = [Promotion]()
     @Published var upcomingPromotions = [Promotion]()
+    
     @Published var currentEvents = [Event]()
     @Published var upcomingEvents = [Event]()
     
-    @Published var fratEvents = [Event]()
+    @Published var currentFratEvents = [Event]()
+    @Published var upcomingFratEvents = [Event]()
     
     @Published var isInitialized = false // Track if data is fetched
 
@@ -69,7 +71,8 @@ class club_firebase_handler: ObservableObject {
             }
             
             let dispatchGroup = DispatchGroup()
-            var fetchedFratEvents = [Event]()
+            var fetchedCurrentFratEvents = [Event]()
+            var fetchedUpcomingFratEvents = [Event]()
             
             for doc in documents {
                 let id = doc.documentID
@@ -91,6 +94,10 @@ class club_firebase_handler: ObservableObject {
                     
                     let currentDate = Date()
                     let events = eventDocuments.compactMap { eventDoc -> Event? in
+                        if eventDoc.documentID == "initial" {
+                            return nil
+                        }
+                        
                         let eventData = eventDoc.data()
                         let event = Event(id: eventDoc.documentID,
                                           title: eventData["title"] as? String ?? "",
@@ -104,21 +111,28 @@ class club_firebase_handler: ObservableObject {
                                           clubImageURL: eventData["clubImageURL"] as? String ?? "")
                         
                         // Categorize events
-                        if event.startDate <= currentDate && event.endDate >= currentDate {
-                            return event
+                        if (event.startDate <= currentDate && event.endDate >= currentDate) || event.startDate > currentDate {
+                            if Calendar.current.isDateInToday(event.startDate) || (event.startDate <= currentDate && event.endDate >= currentDate) {
+                                if Calendar.current.isDateInToday(event.startDate) {
+                                    fetchedCurrentFratEvents.append(event)
+                                } else {
+                                    fetchedUpcomingFratEvents.append(event)
+                                }
+                                return event
+                            }
                         }
-                        
                         return nil
                     }
                     
-                    fetchedFratEvents.append(contentsOf: events)
                     dispatchGroup.leave()
                 }
             }
             
             dispatchGroup.notify(queue: .main) {
-                self.fratEvents = fetchedFratEvents
-                print("Fetched \(self.fratEvents.count) ongoing frat events")
+                self.currentFratEvents = fetchedCurrentFratEvents
+                self.upcomingFratEvents = fetchedUpcomingFratEvents
+                print("Fetched \(self.currentFratEvents.count) current frat events")
+                print("Fetched \(self.upcomingFratEvents.count) upcoming frat events")
             }
         }
     }
@@ -213,7 +227,6 @@ class club_firebase_handler: ObservableObject {
                                 return promotion
                             }
                         }
-                        
                         return nil
                     }
                     
