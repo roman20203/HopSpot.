@@ -15,6 +15,7 @@
 		AD1AE6AC2C93782C0090BBE8 /* Fraternity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6AB2C93782C0090BBE8 /* Fraternity.swift */; };
 		AD1AE6AE2C97B5160090BBE8 /* club_events_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6AD2C97B5160090BBE8 /* club_events_view.swift */; };
 		AD1AE6B02C98C2320090BBE8 /* frat_events_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6AF2C98C2320090BBE8 /* frat_events_view.swift */; };
+		AD1AE6B22C9A36870090BBE8 /* Event_Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6B12C9A36870090BBE8 /* Event_Cell.swift */; };
 		AD4713122C6A92CD0087607D /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713112C6A92CD0087607D /* AppColor.swift */; };
 		AD4713142C6A96360087607D /* StarRatingTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713132C6A96360087607D /* StarRatingTemplate.swift */; };
 		AD47131A2C6C7F330087607D /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713192C6C7F330087607D /* Business.swift */; };
@@ -97,6 +98,7 @@
 		AD1AE6AB2C93782C0090BBE8 /* Fraternity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fraternity.swift; sourceTree = "<group>"; };
 		AD1AE6AD2C97B5160090BBE8 /* club_events_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club_events_view.swift; sourceTree = "<group>"; };
 		AD1AE6AF2C98C2320090BBE8 /* frat_events_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = frat_events_view.swift; sourceTree = "<group>"; };
+		AD1AE6B12C9A36870090BBE8 /* Event_Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event_Cell.swift; sourceTree = "<group>"; };
 		AD4713112C6A92CD0087607D /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		AD4713132C6A96360087607D /* StarRatingTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingTemplate.swift; sourceTree = "<group>"; };
 		AD4713192C6C7F330087607D /* Business.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 				AD4713112C6A92CD0087607D /* AppColor.swift */,
 				ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */,
 				AD4713132C6A96360087607D /* StarRatingTemplate.swift */,
+				AD1AE6B12C9A36870090BBE8 /* Event_Cell.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -519,6 +522,7 @@
 				ADA1A5232C3F508E006844E7 /* user_promotion_view.swift in Sources */,
 				AD1AE6AE2C97B5160090BBE8 /* club_events_view.swift in Sources */,
 				ADA297E02C37C3B600D2A7E9 /* User.swift in Sources */,
+				AD1AE6B22C9A36870090BBE8 /* Event_Cell.swift in Sources */,
 				AD1AE6A02C8C9A3B0090BBE8 /* EventsView.swift in Sources */,
 				AD1AE69E2C8C97A10090BBE8 /* Event.swift in Sources */,
 				AD4713122C6A92CD0087607D /* AppColor.swift in Sources */,
