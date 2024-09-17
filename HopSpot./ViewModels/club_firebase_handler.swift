@@ -93,7 +93,7 @@ class club_firebase_handler: ObservableObject {
                     }
                     
                     let currentDate = Date()
-                    let events = eventDocuments.compactMap { eventDoc -> Event? in
+                    _ = eventDocuments.compactMap { eventDoc -> Event? in
                         if eventDoc.documentID == "initial" {
                             return nil
                         }
@@ -247,6 +247,9 @@ class club_firebase_handler: ObservableObject {
                         }
                         
                         club.events = eventDocuments.compactMap { eventDoc -> Event? in
+                            if eventDoc.documentID == "initial" {
+                                return nil
+                            }
                             let eventData = eventDoc.data()
                             let event = Event(id: eventDoc.documentID,
                                               title: eventData["title"] as? String ?? "",
@@ -278,10 +281,13 @@ class club_firebase_handler: ObservableObject {
                 self.clubs = fetchedClubs
                 self.currentPromotions = fetchedCurrentPromotions
                 self.upcomingPromotions = fetchedUpcomingPromotions
+                self.currentEvents = fetchedCurrentEvents
+                self.upcomingEvents = fetchedUpcomingEvents
+                
                 self.isInitialized = true
                 print("Fetched \(self.clubs.count) clubs")
                 self.clubs.forEach { club in
-                    print("Club: \(club.name), Rating: \(club.rating), Website: \(club.website), City: \(club.city), Promotions: \(club.promotions.count)")
+                    print("Club: \(club.name), Rating: \(club.rating), Website: \(club.website), City: \(club.city), Promotions: \(club.promotions.count), Events: \(club.events.count)")
                 }
                 self.updateLocations()
             }
