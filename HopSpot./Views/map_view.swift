@@ -25,8 +25,11 @@ struct map_view: View {
             }
         }
         .sheet(item: $vm.sheetLocation, onDismiss: nil) { location in
-            LocationDetailView(location: location)
+            if let club = vm.clubs.first(where: { $0.name == location.name}) {
+                club_details_template(club: club)
+            }
         }
+
     }
 }
 

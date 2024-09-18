@@ -36,7 +36,9 @@ struct club_details_template: View {
                 VStack(alignment: .leading, spacing: 15) {
                     // Club Image
                     image_view(imagePath: club.imageURL)
-                        .frame(height: geometry.size.height * 0.3) // Adjust height relative to screen
+                        .frame(maxWidth: .infinity, maxHeight: geometry.size.height * 0.3) // Constrain to the width of the view
+
+                        //.frame(height: geometry.size.height * 0.3) // Adjust height relative to screen
                         .cornerRadius(15)
                         .clipped()
                         .shadow(radius: 10)

@@ -63,7 +63,6 @@
 		ADED5F882C5BC3F7003AB6A0 /* club_details_template.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */; };
 		ADF113BB2C5C542D00BD4038 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113BA2C5C542D00BD4038 /* Location.swift */; };
 		ADF113BE2C5C567900BD4038 /* LocationsDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113BD2C5C567900BD4038 /* LocationsDataService.swift */; };
-		ADF113C22C5C56E400BD4038 /* LocationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C12C5C56E400BD4038 /* LocationDetailView.swift */; };
 		ADF113C42C5C573300BD4038 /* LocationMapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C32C5C573300BD4038 /* LocationMapAnnotationView.swift */; };
 		ADF113C62C5C575100BD4038 /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C52C5C575100BD4038 /* LocationsListView.swift */; };
 		ADF113C82C5C57FB00BD4038 /* location_preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C72C5C57FB00BD4038 /* location_preview.swift */; };
@@ -142,7 +141,6 @@
 		ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club_details_template.swift; sourceTree = "<group>"; };
 		ADF113BA2C5C542D00BD4038 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		ADF113BD2C5C567900BD4038 /* LocationsDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsDataService.swift; sourceTree = "<group>"; };
-		ADF113C12C5C56E400BD4038 /* LocationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDetailView.swift; sourceTree = "<group>"; };
 		ADF113C32C5C573300BD4038 /* LocationMapAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapAnnotationView.swift; sourceTree = "<group>"; };
 		ADF113C52C5C575100BD4038 /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
 		ADF113C72C5C57FB00BD4038 /* location_preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = location_preview.swift; sourceTree = "<group>"; };
@@ -287,7 +285,6 @@
 				ADA1A5262C3F50BB006844E7 /* register_view.swift */,
 				ADA1A5282C3F50D0006844E7 /* log_in_view.swift */,
 				ADA1A52E2C3F63CB006844E7 /* Launch Screen.storyboard */,
-				ADF113C12C5C56E400BD4038 /* LocationDetailView.swift */,
 				ADF113C32C5C573300BD4038 /* LocationMapAnnotationView.swift */,
 				ADF113C52C5C575100BD4038 /* LocationsListView.swift */,
 				ADF113C72C5C57FB00BD4038 /* location_preview.swift */,
@@ -492,7 +489,6 @@
 				AD47132B2C6D24FE0087607D /* ClubSelectionView.swift in Sources */,
 				ADA1A5332C40F004006844E7 /* InputView.swift in Sources */,
 				AD1AE6A62C8CEC8E0090BBE8 /* EventsCreateView.swift in Sources */,
-				ADF113C22C5C56E400BD4038 /* LocationDetailView.swift in Sources */,
 				ADF113CC2C6673BC00BD4038 /* near_by_view.swift in Sources */,
 				ADF113C82C5C57FB00BD4038 /* location_preview.swift in Sources */,
 				ADED5F882C5BC3F7003AB6A0 /* club_details_template.swift in Sources */,
