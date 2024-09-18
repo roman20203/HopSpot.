@@ -90,7 +90,22 @@ struct club_details_template: View {
                     }
                     .padding(.horizontal)
                     
+                    
+                    
+                    
                     // Busyness Section
+                    // Busyness Section
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Busyness")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        Text(busynessDescription(for: mostCommonLineLength(from: lineReports)))
+                            .font(.body)
+                            .foregroundColor(.white)
+                    }
+                    .padding(.horizontal)
+
+                    /* Busyness based off of count
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Business")
                             .font(.headline)
@@ -100,6 +115,10 @@ struct club_details_template: View {
                             .foregroundColor(.white)
                     }
                     .padding(.horizontal)
+                    */
+                    
+                    
+                    
                     
                     // Optional: Distance from user (if userLocation is available)
                     if let userLocation = userLocation.userLocation {
@@ -317,20 +336,35 @@ struct club_details_template: View {
         return distance <= distanceThreshold // 30 meters
     }
     
-    private func busynessDescription(for busyness: busynessType) -> String {
-        switch busyness {
-        case .Empty:
+    private func busynessDescription(for lineLengthOption: String) -> String {
+        switch lineLengthOption {
+        case "Walk in":
             return "Empty"
-        case .Light:
+        case "10-20 minutes":
             return "Light"
-        case .Moderate:
+        case "20-40 minutes":
             return "Moderate"
-        case .Busy:
+        case "40-60 minutes":
             return "Busy"
-        case .VeryBusy:
+        case "60+ minutes":
             return "Very Busy"
+        case "No recent data":
+            return "No recent data"
+        default:
+            return "Unknown"
         }
     }
+    
+    private func mostCommonLineLength(from reports: [Club.LineReport]) -> String {
+        guard !reports.isEmpty else { return "No recent data" }
+
+        let lineLengthCounts = reports.map { $0.lineLengthOption }
+            .reduce(into: [:]) { counts, option in
+                counts[option, default: 0] += 1
+            }
+        return lineLengthCounts.max(by: { $0.value < $1.value })?.key ?? "Unknown"
+    }
+
     
     private func loadInitialData() async {
         async let lineReportsTask: () = loadLineReports()
@@ -366,6 +400,7 @@ struct club_details_template: View {
             print("DEBUG: Error fetching line reports: \(error.localizedDescription)")
         }
     }
+
 
     private func reportLineLength() {
         guard viewModel.currentUser != nil else { return }
@@ -427,7 +462,8 @@ struct ClubDetailsTemplate_Previews: PreviewProvider {
             busyness: 90,
             website: "www.blah.com",
             city: "Waterloo",
-            promotions: []
+            promotions: [],
+            events:[]
         )
         club_details_template(club: sampleClub)
             .environmentObject(UserLocation())
