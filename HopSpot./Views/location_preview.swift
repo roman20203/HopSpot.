@@ -96,6 +96,8 @@ extension location_preview {
         .background(AppColor.color)
         .cornerRadius(10)
     }
+
+
     
     private var nextButton: some View {
         Button {
