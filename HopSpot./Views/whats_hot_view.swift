@@ -27,9 +27,9 @@ struct whats_hot_view: View {
     
     var filteredClubs: [Club] {
         if searchText.isEmpty {
-            return clubHandler.displayPopularClubs(userLocation: locationManager.userLocation ?? CLLocation(), distanceThreshold: 50_000_000_000)
+            return clubHandler.displayPopularClubs(userLocation: locationManager.userLocation ?? CLLocation(), distanceThreshold: 30_000)//set to 30km
         } else {
-            return clubHandler.displayPopularClubs(userLocation: locationManager.userLocation ?? CLLocation(), distanceThreshold: 50_000_000_000)
+            return clubHandler.displayPopularClubs(userLocation: locationManager.userLocation ?? CLLocation(), distanceThreshold: 30_000)
                 .filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
     }

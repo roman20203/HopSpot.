@@ -51,7 +51,7 @@ struct StarRatingTemplate: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
-                    .background(Color.pink)
+                    .background(AppColor.color)
                     .cornerRadius(10)
             }
             .padding(.top, 20)

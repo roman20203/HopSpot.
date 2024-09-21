@@ -61,7 +61,7 @@ struct log_in_view: View {
                     .foregroundColor(.black)
                     .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                 }
-                .background(Color.pink)
+                .background(AppColor.color)
                 .background(Color(.systemBlue))
                 .disabled(!formIsValid)
                 .opacity(formIsValid ? 1.0 : 0.8)
@@ -69,6 +69,8 @@ struct log_in_view: View {
                 .padding(.top, 24)
                 
                 Spacer()
+                
+                    /*
                 
                 NavigationLink {
                     register_view()
@@ -81,6 +83,7 @@ struct log_in_view: View {
                     .font(.system(size: 14))
                     .foregroundColor(.pink)
                 }
+                     */
                 
                 if loginSuccess {
                     if isManager {

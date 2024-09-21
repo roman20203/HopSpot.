@@ -62,7 +62,7 @@ struct reg_or_log: View {
                             Text("Log In")
                                 .foregroundColor(.white)
                                 .frame(width: 358, height: 56)
-                                .background(Color.black)
+                                .background(SignInColor.color)
                                 .cornerRadius(26)
                         }
                     }
@@ -73,6 +73,7 @@ struct reg_or_log: View {
                 }
             }
         }
+        .accentColor(AppColor.color) // Set the color of the selected tab icon
     }
 }
 
