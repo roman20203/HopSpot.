@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import Firebase
+import FirebaseFirestoreSwift
 import CoreLocation
 
 enum busynessType: Int, Codable {
@@ -64,9 +66,11 @@ struct Club: Codable, Identifiable {
         }
     }
     
+    
     var location: CLLocation {
         return CLLocation(latitude: latitude, longitude: longitude)
     }
+     
     
     func distance(userLocation: CLLocation) -> (distanceKm: Double, estimatedMinutes: Double) {
         let clubLocation = self.location
@@ -80,14 +84,54 @@ struct Club: Codable, Identifiable {
     }
     
     
-    /*
-    func changeDescription(newDescription: String){
-        self.description = newDescription
+    // Fetch line reports for the club
+    func loadLineReports() async -> [LineReport] {
+        let calendar = Calendar.current
+        let startOfDay = calendar.startOfDay(for: Date())
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? Date()
         
-        //go into firebase and change description field
-        
+        do {
+            let reportsSnapshot = try await Firestore.firestore()
+                .collection("Clubs")
+                .document(id)
+                .collection("lineReports")
+                .whereField("timestamp", isGreaterThanOrEqualTo: startOfDay)
+                .whereField("timestamp", isLessThan: endOfDay)
+                .order(by: "timestamp", descending: true)
+                .limit(to: 3)
+                .getDocuments()
+             
+            return reportsSnapshot.documents.compactMap { document in
+                var report = try? document.data(as: LineReport.self)
+                report?.id = document.documentID
+                return report
+            }
+        } catch {
+            print("DEBUG: Error fetching line reports: \(error.localizedDescription)")
+            return []
+        }
     }
-     */
+
+    // Report line length
+    func reportLineLength(option: String, user: User?, completion: @escaping (Bool) -> Void) {
+        guard let user = user else {
+            completion(false)
+            return
+        }
+        
+
+        let reportRef = Firestore.firestore().collection("Clubs").document(id).collection("lineReports").document()
+        let reportId = reportRef.documentID
+        let report = LineReport(id: reportId, lineLengthOption: option, timestamp: Date())
+        
+        do {
+            try reportRef.setData(from: report)
+            completion(true)
+        } catch {
+            print("DEBUG: Error submitting line report: \(error.localizedDescription)")
+            completion(false)
+        }
+    }
 
 }
 
@@ -98,3 +142,4 @@ extension Club {
         var timestamp: Date
     }
 }
+

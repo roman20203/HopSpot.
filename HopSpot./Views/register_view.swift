@@ -24,7 +24,7 @@ struct register_view: View {
             Text("HopSpot.")
                 .font(.system(size: 45, weight: .black))
                 .tracking(1.35)
-                .foregroundColor(.black)
+                .foregroundColor(.primary)
         }
         
         VStack {

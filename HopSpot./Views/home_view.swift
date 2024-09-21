@@ -16,12 +16,23 @@ struct home_view: View {
             ZStack {
                 // Full screen black background
                 Color.black.edgesIgnoringSafeArea(.all)
-                
-                
+            
                 // Scrollable content
                 ScrollView {
+                    VStack {
+                        HStack {
+                            Spacer()
+                            Text("HopSpot.")
+                                .font(.system(size: 35, weight: .black))
+                                .tracking(0.9)
+                                .foregroundColor(.white)
+                            Spacer()
+                        }
+                        .padding(.top, 16)
+                        //Spacer()
+                    }
                     VStack(alignment: .leading, spacing: 16) { // Adjusted spacing for alignment
-                        
+                        // Fixed top menu bar and title
                         
                         HStack(){
                             Text("Waterloo, ON")
@@ -218,24 +229,9 @@ struct home_view: View {
                         }
                     }
                     .padding(.horizontal, 20)
-                    .padding(.top, 80)
+                    .padding(.top, 10)
                     .background(Color.black)
                     .frame(maxWidth: .infinity, alignment: .leading) // Push entire VStack to the left
-                }
-    
-                
-                // Fixed top menu bar and title
-                VStack {
-                    HStack {
-                        Spacer()
-                        Text("HopSpot.")
-                            .font(.system(size: 35, weight: .black))
-                            .tracking(0.9)
-                            .foregroundColor(.white)
-                        Spacer()
-                    }
-                    .padding(.top, 16)
-                    Spacer()
                 }
             }
         }

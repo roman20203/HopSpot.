@@ -10,35 +10,31 @@ import CoreLocation
 import Firebase
 import FirebaseFirestoreSwift
 
+
+
 struct club_details_template: View {
     let club: Club
     
     @EnvironmentObject var viewModel: log_in_view_model
     @EnvironmentObject var userLocation: UserLocation
     @State private var showRatingView = false
-    @State private var showReviewView = false
     @State private var hasSubmittedRating = false
     @State private var promotions: [Promotion] = []
     
     @State private var lineReports: [Club.LineReport] = []
     @State private var selectedLineLengthOption: String = ""
     @State private var reportSuccess: Bool = false
-    @State private var lastReportTime: Date? = nil
     @State private var isReportingAllowed: Bool = true
     
-    
-    let distanceThreshold: Double = 30.0 //in Meters
+    let distanceThreshold: Double = 30.0 // in Meters
 
-    
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
                 VStack(alignment: .leading, spacing: 15) {
                     // Club Image
                     image_view(imagePath: club.imageURL)
-                        .frame(maxWidth: .infinity, maxHeight: geometry.size.height * 0.3) // Constrain to the width of the view
-
-                        //.frame(height: geometry.size.height * 0.3) // Adjust height relative to screen
+                        .frame(maxWidth: .infinity, maxHeight: geometry.size.height * 0.3)
                         .cornerRadius(15)
                         .clipped()
                         .shadow(radius: 10)
@@ -89,11 +85,7 @@ struct club_details_template: View {
                             .foregroundColor(.white)
                     }
                     .padding(.horizontal)
-                    
-                    
-                    
-                    
-                    // Busyness Section
+
                     // Busyness Section
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Busyness")
@@ -105,21 +97,6 @@ struct club_details_template: View {
                     }
                     .padding(.horizontal)
 
-                    /* Busyness based off of count
-                    VStack(alignment: .leading, spacing: 5) {
-                        Text("Business")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                        Text(busynessDescription(for: club.busyness))
-                            .font(.body)
-                            .foregroundColor(.white)
-                    }
-                    .padding(.horizontal)
-                    */
-                    
-                    
-                    
-                    
                     // Optional: Distance from user (if userLocation is available)
                     if let userLocation = userLocation.userLocation {
                         let distanceInfo = club.distance(userLocation: userLocation)
@@ -193,18 +170,16 @@ struct club_details_template: View {
                         
                         Picker("Select Line Length", selection: $selectedLineLengthOption) {
                             Text("Walk in").tag("Walk in")
-                            Text("10-20 minutes").foregroundColor(.white).tag("10-20 minutes")
-                            Text("20-40 minutes").foregroundColor(.white).tag("20-40 minutes")
-                            Text("40-60 minutes").foregroundColor(.white).tag("40-60 minutes")
-                            Text("60+ minutes").foregroundColor(.white).tag("60+ minutes")
+                            Text("10-20 minutes").tag("10-20 minutes")
+                            Text("20-40 minutes").tag("20-40 minutes")
+                            Text("40-60 minutes").tag("40-60 minutes")
+                            Text("60+ minutes").tag("60+ minutes")
                         }
                         .pickerStyle(SegmentedPickerStyle())
                         .background(Color.gray.opacity(1.0))
                         .cornerRadius(8)
                         .foregroundColor(.white)
                         .padding(.horizontal)
-                        
-                        
                         
                         Button(action: {
                             reportLineLength()
@@ -225,16 +200,15 @@ struct club_details_template: View {
                             Text("Report submitted successfully!")
                                 .foregroundColor(.green)
                                 .padding(.horizontal)
-                        }else if(!isReportingAllowed && !selectedLineLengthOption.isEmpty){
-                            Text("Please wait before submitting another report.")
-                                .foregroundColor(.red)
-                                .padding(.horizontal)
-                        }else if(!selectedLineLengthOption.isEmpty && !isWithinProximity()){
+                        }  else if !selectedLineLengthOption.isEmpty && !isWithinProximity() {
                             Text("You are not close enough to report")
                                 .foregroundColor(.red)
                                 .padding(.horizontal)
-                            }
-                                    
+                        }else if !isReportingAllowed && !selectedLineLengthOption.isEmpty {
+                            Text("Please wait before submitting another report.")
+                                .foregroundColor(.red)
+                                .padding(.horizontal)
+                        }
                     
                         // Recent Line Reports
                         VStack(alignment: .leading, spacing: 10) {
@@ -261,7 +235,6 @@ struct club_details_template: View {
                                     .background(Color.black.opacity(0.8))
                                     .cornerRadius(8)
                                 }
-
                             }
                         }
                         .padding(.horizontal)
@@ -292,23 +265,6 @@ struct club_details_template: View {
                                 Text("User not logged in")
                             }
                         }
-                        
-                        /* Written review
-                        Button(action: {
-                            showReviewView = true
-                        }) {
-                            Text("Review")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .frame(width: 90, height: 10)
-                                .padding()
-                                .background(AppColor.color)
-                                .cornerRadius(10)
-                        }
-                        .padding(.horizontal)
-                        .padding(.top, 10)
-                         */
-                        
                     }
                     .padding(.horizontal)
                     
@@ -318,134 +274,87 @@ struct club_details_template: View {
                 .background(Color.black)
                 .cornerRadius(15)
                 .shadow(radius: 10)
-                .frame(width: geometry.size.width)
             }
-            .navigationTitle(club.name)
-            .navigationBarTitleDisplayMode(.inline)
-            .task {
-                await loadInitialData()
+            .onAppear {
+                loadLineReports() // Load line reports when the view appears
             }
         }
     }
+    /*
+    private func isWithinProximity() -> Bool {
+        guard let userLocation = userLocation.userLocation else { return false }
+        let distance = Userlocation.distaance
+        return distance. <= distanceThreshold
+    }
+     */
+    
     private func isWithinProximity() -> Bool {
         guard let userLocation = userLocation.userLocation else { return false }
         
         let clubLocation = CLLocation(latitude: club.latitude, longitude: club.longitude)
         let distance = userLocation.distance(from: clubLocation)
-        
+           
         return distance <= distanceThreshold // 30 meters
     }
     
-    private func busynessDescription(for lineLengthOption: String) -> String {
-        switch lineLengthOption {
-        case "Walk in":
-            return "Empty"
-        case "10-20 minutes":
-            return "Light"
-        case "20-40 minutes":
-            return "Moderate"
-        case "40-60 minutes":
-            return "Busy"
-        case "60+ minutes":
-            return "Very Busy"
-        case "No recent data":
-            return "No recent data"
-        default:
-            return "Unknown"
-        }
-    }
-    
     private func mostCommonLineLength(from reports: [Club.LineReport]) -> String {
-        guard !reports.isEmpty else { return "No recent data" }
-
-        let lineLengthCounts = reports.map { $0.lineLengthOption }
-            .reduce(into: [:]) { counts, option in
-                counts[option, default: 0] += 1
-            }
-        return lineLengthCounts.max(by: { $0.value < $1.value })?.key ?? "Unknown"
+        let frequency = reports.reduce(into: [String: Int]()) { counts, report in
+            counts[report.lineLengthOption, default: 0] += 1
+        }
+        return frequency.max(by: { $0.value < $1.value })?.key ?? "N/A"
     }
 
-    
-    private func loadInitialData() async {
-        async let lineReportsTask: () = loadLineReports()
-        _ = await (lineReportsTask)
-
-    }
-
-    
-    private func loadLineReports() async {
-        let clubId = club.id
-        
-
-        let calendar = Calendar.current
-        let startOfDay = calendar.startOfDay(for: Date())
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? Date()
-        do {
-            let reportsSnapshot = try await Firestore.firestore()
-                .collection("Clubs")
-                .document(clubId)
-                .collection("lineReports")
-                .whereField("timestamp", isGreaterThanOrEqualTo: startOfDay) // Filter reports from today
-                .whereField("timestamp", isLessThan: endOfDay) // Ensure the report is within today
-                .order(by: "timestamp", descending: true) // Sort by timestamp in descending order
-                .limit(to: 3) // Limit to the 3 most recent reports
-                .getDocuments()
-             
-            lineReports = reportsSnapshot.documents.compactMap { document in
-                var report = try? document.data(as: Club.LineReport.self)
-                report?.id = document.documentID
-                return report
-            }
-        } catch {
-            print("DEBUG: Error fetching line reports: \(error.localizedDescription)")
+    private func busynessDescription(for lineLength: String) -> String {
+        switch lineLength {
+        case "Walk in":
+            return "The club is not busy. Feel free to walk in!"
+        case "10-20 minutes":
+            return "The club is moderately busy. Expect a short wait."
+        case "20-40 minutes":
+            return "The club is busy. Expect a longer wait."
+        case "40-60 minutes":
+            return "The club is very busy. Plan accordingly."
+        case "60+ minutes":
+            return "The club is extremely busy"
+        default:
+            return "No Recent Data."
         }
     }
-
 
     private func reportLineLength() {
-        guard viewModel.currentUser != nil else { return }
-        
-        if !isWithinProximity() {
-            print("DEBUG: User is not within 30 meters of the club.")
+        if !isWithinProximity(){
+            isReportingAllowed = false
             return
-        }
-        
-        guard isReportingAllowed else { return }
-        
-        let currentTime = Date()
-        if let lastTime = lastReportTime, currentTime.timeIntervalSince(lastTime) < 60 {
-            return
-        }
-        
-        lastReportTime = currentTime
-        isReportingAllowed = false
-        
-        let clubId = club.id
-        let reportRef = Firestore.firestore().collection("Clubs").document(clubId).collection("lineReports").document()
-        let reportId = reportRef.documentID
-        
-        let report = Club.LineReport(
-            id: reportId,
-            lineLengthOption: selectedLineLengthOption,
-            timestamp: currentTime
-        )
-        
-        do {
-            try reportRef.setData(from: report)
-            reportSuccess = true
-            DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
-                isReportingAllowed = true
-            }
-        } catch {
-            print("DEBUG: Error submitting line report: \(error.localizedDescription)")
+        }else{
             isReportingAllowed = true
+        }
+
+        club.reportLineLength(option: selectedLineLengthOption, user: viewModel.currentUser) { success in
+            if success {
+                reportSuccess = true
+                isReportingAllowed = false
+                
+                // Clear selection after reporting
+                selectedLineLengthOption = ""
+                
+                // Reset reporting state after a delay
+                DispatchQueue.main.asyncAfter(deadline: .now() + 60) { // 60 seconds cooldown
+                    isReportingAllowed = true
+                }
+            } else {
+                reportSuccess = false
+            }
         }
     }
 
+
+    private func loadLineReports() {
+        Task {
+            lineReports = await club.loadLineReports()
+        }
+    }
 }
 
-
-    
 
 struct ClubDetailsTemplate_Previews: PreviewProvider {
     static var previews: some View {
@@ -459,7 +368,7 @@ struct ClubDetailsTemplate_Previews: PreviewProvider {
             imageURL: "path/to/image.jpg",
             latitude: 0.0,
             longitude: 0.0,
-            busyness: 90,
+            busyness: 60,
             website: "www.blah.com",
             city: "Waterloo",
             promotions: [],

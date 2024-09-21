@@ -28,9 +28,9 @@ struct near_by_view: View {
     
     var filteredClubs: [Club] {
         if searchText.isEmpty {
-            return clubHandler.displayNearYouClubs(userLocation: locationManager.userLocation ?? CLLocation(), distanceThreshold: 50_000_000_000)
+            return clubHandler.displayNearYouClubs(userLocation: locationManager.userLocation ?? CLLocation(), distanceThreshold: 5_000)
         } else {
-            return clubHandler.displayNearYouClubs(userLocation: locationManager.userLocation ?? CLLocation(), distanceThreshold: 50_000_000_000)
+            return clubHandler.displayNearYouClubs(userLocation: locationManager.userLocation ?? CLLocation(), distanceThreshold: 5_000)
                 .filter { $0.name.localizedCaseInsensitiveContains(searchText) }
         }
     }

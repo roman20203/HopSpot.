@@ -364,6 +364,7 @@ class club_firebase_handler: ObservableObject {
         showNextLocation(location: nextLocation)
     }
     
+    /*
     func displayPopularClubs(userLocation: CLLocation, distanceThreshold: CLLocationDistance) -> [Club] {
         return clubs.filter { club in
             let clubLocation = CLLocation(latitude: club.latitude, longitude: club.longitude)
@@ -372,6 +373,28 @@ class club_firebase_handler: ObservableObject {
             return distance <= distanceThreshold && (club.busyness == .VeryBusy || club.busyness == .Busy)
         }
     }
+    */
+    func displayPopularClubs(userLocation: CLLocation, distanceThreshold: CLLocationDistance) -> [Club] {
+        let currentDate = Date()
+        
+        return clubs.filter { club in
+            let clubLocation = CLLocation(latitude: club.latitude, longitude: club.longitude)
+            let distance = clubLocation.distance(from: userLocation)
+            print("Club \(club.name) is \(distance) meters away") // Debugging
+            
+            // Check if the club has an active event or promotion
+            let hasActiveEvent = club.events.contains { event in
+                return event.startDate <= currentDate && event.endDate >= currentDate
+            }
+            
+            let hasActivePromotion = club.promotions.contains { promotion in
+                return promotion.startDate <= currentDate && promotion.endDate >= currentDate
+            }
+            
+            return distance <= distanceThreshold && (hasActiveEvent || hasActivePromotion)
+        }
+    }
+
     
     func displayNearYouClubs(userLocation: CLLocation, distanceThreshold: CLLocationDistance) -> [Club] {
         return clubs.filter { club in
