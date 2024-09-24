@@ -111,55 +111,7 @@ struct club_details_template: View {
                         .padding(.horizontal)
                     }
                     
-                    // Promotions Section
-                    VStack(alignment: .leading, spacing: 15) {
-                        Text("Promotions")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding(.top, 20)
-                        
-                        // Fetch promotions from the club object
-                        let sortedPromotions = club.promotions.sorted { $0.startDate < $1.startDate }
-                        
-                        if sortedPromotions.isEmpty {
-                            Text("No current promotions")
-                                .font(.body)
-                                .foregroundColor(.white)
-                        } else {
-                            ForEach(sortedPromotions) { promotion in
-                                VStack(alignment: .leading, spacing: 10) {
-                                    Text(promotion.title)
-                                        .font(.headline)
-                                        .foregroundColor(.white)
-                                    Text(promotion.description)
-                                        .font(.body)
-                                        .foregroundColor(.white)
-                                    
-                                    Text("Start: \(promotion.formattedStartDateTime())")
-                                        .font(.body)
-                                        .foregroundColor(.white)
-                                    Text("End: \(promotion.formattedEndDateTime())")
-                                        .font(.body)
-                                        .foregroundColor(.white)
-                                    
-                                    if let link = promotion.link, !link.isEmpty {
-                                        Link("View Tickets", destination: URL(string: link)!)
-                                            .font(.body)
-                                            .foregroundColor(AppColor.color)
-                                    }
-                                }
-                                .padding()
-                                .background(Color.black.opacity(0.8))
-                                .cornerRadius(8)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 8)
-                                        .stroke(AppColor.color, lineWidth: 2)
-                                )
-                                .shadow(color: AppColor.color.opacity(0.5), radius: 4, x: 0, y: 2)
-                            }
-                        }
-                    }
-                    .padding(.horizontal)
+                    
                     
                     // Line Report Section
                     VStack(alignment: .leading, spacing: 15) {
@@ -254,7 +206,7 @@ struct club_details_template: View {
                                 .background(AppColor.color)
                                 .cornerRadius(10)
                         }
-                        .padding(.horizontal)
+                        //.padding(.horizontal)
                         .padding(.top, 10)
                         .disabled(hasSubmittedRating)
                         .sheet(isPresented: $showRatingView) {
@@ -263,6 +215,54 @@ struct club_details_template: View {
                                                    club: club, user: currentUser)
                             } else {
                                 Text("User not logged in")
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    // Promotions Section
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Promotions")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(.top, 20)
+                        
+                        // Fetch promotions from the club object
+                        let sortedPromotions = club.promotions.sorted { $0.startDate < $1.startDate }
+                        
+                        if sortedPromotions.isEmpty {
+                            Text("No current promotions")
+                                .font(.body)
+                                .foregroundColor(.white)
+                        } else {
+                            ForEach(sortedPromotions) { promotion in
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Promotion_Cell(promotion: promotion)
+                                }
+                            }
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    // Events Section
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Events")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(.top, 20)
+                        
+                        // Fetch events from the club object
+                        let sortedEvents = club.events.sorted { $0.startDate < $1.startDate }
+                        
+                        if sortedEvents.isEmpty {
+                            Text("No current Events")
+                                .font(.body)
+                                .foregroundColor(.white)
+                        } else {
+                            ForEach(sortedEvents) { event in
+                                VStack(alignment: .leading, spacing: 10) {
+                                    Event_Cell(event:event)
+                                }
                             }
                         }
                     }

@@ -55,7 +55,7 @@ struct home_view: View {
                                 
                         
                                 HStack(spacing: 6) {
-                                    Image("IMG_0201")
+                                    Image("Image1")
                                         .resizable()
                                         .frame(width: 100, height: 150)
                                         .overlay(
@@ -64,7 +64,7 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                     
-                                    Image("IMG_0202")
+                                    Image("Image2")
                                         .resizable()
                                         .frame(width: 80, height: 130)
                                         .overlay(
@@ -73,7 +73,7 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                     
-                                    Image("IMG_0203")
+                                    Image("Image3")
                                         .resizable()
                                         .frame(width: 90, height: 160)
                                         .overlay(
@@ -81,6 +81,10 @@ struct home_view: View {
                                                 .inset(by: 0.5)
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
+                                    Spacer()
+                                    Image("arrow")
+                                        .resizable()
+                                        .frame(width: 20,height:50)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             }
@@ -102,7 +106,7 @@ struct home_view: View {
                                 
                             
                                 HStack(spacing: 6) {
-                                    Image("IMG_0204")
+                                    Image("Image4")
                                         .resizable()
                                         .frame(width: 100, height: 140)
                                         .overlay(
@@ -111,7 +115,7 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                     
-                                    Image("IMG_0205")
+                                    Image("Image5")
                                         .resizable()
                                         .frame(width: 90, height: 150)
                                         .overlay(
@@ -120,7 +124,7 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                     
-                                    Image("IMG_0206")
+                                    Image("Image6")
                                         .resizable()
                                         .frame(width: 85, height: 135)
                                         .overlay(
@@ -128,6 +132,10 @@ struct home_view: View {
                                                 .inset(by: 0.5)
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
+                                    Spacer()
+                                    Image("arrow")
+                                        .resizable()
+                                        .frame(width: 20,height:50)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             }
@@ -149,7 +157,7 @@ struct home_view: View {
                                 
                                 // Image Grid 3
                                 HStack(spacing: 6) { // Adjusted spacing between images
-                                    Image("IMG_0207")
+                                    Image("Image7")
                                         .resizable()
                                         .frame(width: 100, height: 140)
                                         .overlay(
@@ -158,7 +166,7 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                     
-                                    Image("IMG_0208")
+                                    Image("Image10")
                                         .resizable()
                                         .frame(width: 90, height: 160)
                                         .overlay(
@@ -167,7 +175,7 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                     
-                                    Image("IMG_0209")
+                                    Image("Image11")
                                         .resizable()
                                         .frame(width: 85, height: 145)
                                         .overlay(
@@ -175,6 +183,10 @@ struct home_view: View {
                                                 .inset(by: 0.5)
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
+                                    Spacer()
+                                    Image("arrow")
+                                        .resizable()
+                                        .frame(width: 20,height:50)
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading) // Push images to the left
                             }
@@ -196,7 +208,7 @@ struct home_view: View {
                                 
                                 // Image Grid 4
                                 HStack(spacing: 6) { // Adjusted spacing between images
-                                    Image("IMG_0210")
+                                    Image("Image8")
                                         .resizable()
                                         .frame(width: 100, height: 140)
                                         .overlay(
@@ -205,7 +217,7 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                     
-                                    Image("IMG_0211")
+                                    Image("Image9")
                                         .resizable()
                                         .frame(width: 90, height: 150)
                                         .overlay(
@@ -214,7 +226,7 @@ struct home_view: View {
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
                                     
-                                    Image("IMG_0212")
+                                    Image("Image12")
                                         .resizable()
                                         .frame(width: 85, height: 135)
                                         .overlay(
@@ -222,6 +234,12 @@ struct home_view: View {
                                                 .inset(by: 0.5)
                                                 .stroke(Color.gray, lineWidth: 0.5)
                                         )
+                                    
+                                    Spacer()
+                                    Image("arrow")
+                                        .resizable()
+                                        .frame(width: 20,height:50)
+                                
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading) // Push images to the left
                             }

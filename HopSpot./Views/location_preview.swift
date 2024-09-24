@@ -10,7 +10,8 @@ import SwiftUI
 struct location_preview: View {
     
     @EnvironmentObject private var vm: club_firebase_handler
-    let location: Location
+    let location: Club
+    
     var body: some View {
         HStack(alignment: .bottom, spacing: 0) {
             VStack(alignment: .leading, spacing: 16) {
@@ -20,13 +21,13 @@ struct location_preview: View {
             
             VStack (spacing: 8){
                 learnMoreButton
-                nextButton
+                //nextButton
                 
                 
             }
             
         }
-        .padding(20)
+        .padding(15)
         .background(
             RoundedRectangle(cornerRadius: 10)
                 .fill(.ultraThinMaterial)
@@ -34,38 +35,12 @@ struct location_preview: View {
     )
         .cornerRadius(10)
     }
-}
-    
 
-
-struct LocationPreviewView_Previews: PreviewProvider {
-    static var previews: some View {
-        ZStack {
-            Color.green.ignoresSafeArea()
-            location_preview(location: LocationsDataService.locations.first!)
-                .padding()
-        }
-        .environmentObject(club_firebase_handler())
-    }
-}
-
-extension location_preview {
     private var imageSection: some View {
             ZStack {
-                image_view(imagePath: location.imageNames)
+                image_view(imagePath: location.imageURL)
                     .frame(width: 100, height: 100)
                     .cornerRadius(10)
-                
-                //Instead of treating the imageNames, like a [String] type we treat it like a String type, which it now is after changes it in the Location.swift
-                /*
-                if let imageNames = location.imageNames.first {
-                    Image(imageNames)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 100, height: 100)
-                        .cornerRadius(10)
-                }
-                 */
             }
             .padding(6)
             .background(Color.white)
@@ -76,7 +51,7 @@ extension location_preview {
                 Text(location.name)
                     .font(.title2)
                     .fontWeight(.bold)
-                Text(location.cityName)
+                Text(location.city)
                     .font(.subheadline)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -85,23 +60,27 @@ extension location_preview {
     
     private var learnMoreButton: some View {
         Button {
-            vm.sheetLocation = location
+            DispatchQueue.main.async {
+                vm.sheetLocation = location
+            }
         } label: {
-            Text("learn More")
+            Text("Learn More")
                 .font(.headline)
-                .frame(width: 125, height: 35)
+                .frame(width: 125, height: 50)
         }
         .buttonStyle(.bordered)
         .foregroundColor(.white)
         .background(AppColor.color)
         .cornerRadius(10)
+        .padding(.bottom, 15)
     }
 
-
-    
+    /*
     private var nextButton: some View {
         Button {
-            vm.nextButtonPressed()
+            DispatchQueue.main.async {
+                vm.nextButtonPressed()
+            }
         } label: {
             Text("Next")
                 .font(.headline)
@@ -112,4 +91,6 @@ extension location_preview {
         .background(Color.clear)
         .cornerRadius(10)
     }
+     */
+
 }

@@ -29,6 +29,7 @@
 		AD4713312C77563C0087607D /* PromotionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713302C77563C0087607D /* PromotionsView.swift */; };
 		AD4713332C77DC820087607D /* manager_profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713322C77DC820087607D /* manager_profile_view.swift */; };
 		AD4713392C77FE920087607D /* InAppClubSelection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713382C77FE920087607D /* InAppClubSelection.swift */; };
+		AD6F186B2CA26B0600CA6985 /* Promotion_Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD6F186A2CA26B0600CA6985 /* Promotion_Cell.swift */; };
 		ADA1A5232C3F508E006844E7 /* user_promotion_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5222C3F508E006844E7 /* user_promotion_view.swift */; };
 		ADA1A5252C3F50A4006844E7 /* profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5242C3F50A4006844E7 /* profile_view.swift */; };
 		ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA1A5262C3F50BB006844E7 /* register_view.swift */; };
@@ -64,7 +65,6 @@
 		ADF113BB2C5C542D00BD4038 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113BA2C5C542D00BD4038 /* Location.swift */; };
 		ADF113BE2C5C567900BD4038 /* LocationsDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113BD2C5C567900BD4038 /* LocationsDataService.swift */; };
 		ADF113C42C5C573300BD4038 /* LocationMapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C32C5C573300BD4038 /* LocationMapAnnotationView.swift */; };
-		ADF113C62C5C575100BD4038 /* LocationsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C52C5C575100BD4038 /* LocationsListView.swift */; };
 		ADF113C82C5C57FB00BD4038 /* location_preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C72C5C57FB00BD4038 /* location_preview.swift */; };
 		ADF113CA2C65260C00BD4038 /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C92C65260C00BD4038 /* main_view.swift */; };
 		ADF113CC2C6673BC00BD4038 /* near_by_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113CB2C6673BC00BD4038 /* near_by_view.swift */; };
@@ -111,6 +111,7 @@
 		AD4713302C77563C0087607D /* PromotionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionsView.swift; sourceTree = "<group>"; };
 		AD4713322C77DC820087607D /* manager_profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = manager_profile_view.swift; sourceTree = "<group>"; };
 		AD4713382C77FE920087607D /* InAppClubSelection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppClubSelection.swift; sourceTree = "<group>"; };
+		AD6F186A2CA26B0600CA6985 /* Promotion_Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Promotion_Cell.swift; sourceTree = "<group>"; };
 		ADA1A5222C3F508E006844E7 /* user_promotion_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = user_promotion_view.swift; sourceTree = "<group>"; };
 		ADA1A5242C3F50A4006844E7 /* profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = profile_view.swift; sourceTree = "<group>"; };
 		ADA1A5262C3F50BB006844E7 /* register_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = register_view.swift; sourceTree = "<group>"; };
@@ -142,7 +143,6 @@
 		ADF113BA2C5C542D00BD4038 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		ADF113BD2C5C567900BD4038 /* LocationsDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsDataService.swift; sourceTree = "<group>"; };
 		ADF113C32C5C573300BD4038 /* LocationMapAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationMapAnnotationView.swift; sourceTree = "<group>"; };
-		ADF113C52C5C575100BD4038 /* LocationsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationsListView.swift; sourceTree = "<group>"; };
 		ADF113C72C5C57FB00BD4038 /* location_preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = location_preview.swift; sourceTree = "<group>"; };
 		ADF113C92C65260C00BD4038 /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
 		ADF113CB2C6673BC00BD4038 /* near_by_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = near_by_view.swift; sourceTree = "<group>"; };
@@ -210,6 +210,7 @@
 				ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */,
 				AD4713132C6A96360087607D /* StarRatingTemplate.swift */,
 				AD1AE6B12C9A36870090BBE8 /* Event_Cell.swift */,
+				AD6F186A2CA26B0600CA6985 /* Promotion_Cell.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -286,7 +287,6 @@
 				ADA1A5282C3F50D0006844E7 /* log_in_view.swift */,
 				ADA1A52E2C3F63CB006844E7 /* Launch Screen.storyboard */,
 				ADF113C32C5C573300BD4038 /* LocationMapAnnotationView.swift */,
-				ADF113C52C5C575100BD4038 /* LocationsListView.swift */,
 				ADF113C72C5C57FB00BD4038 /* location_preview.swift */,
 				ADF113C92C65260C00BD4038 /* main_view.swift */,
 				ADF113CB2C6673BC00BD4038 /* near_by_view.swift */,
@@ -522,13 +522,13 @@
 				AD1AE6A02C8C9A3B0090BBE8 /* EventsView.swift in Sources */,
 				AD1AE69E2C8C97A10090BBE8 /* Event.swift in Sources */,
 				AD4713122C6A92CD0087607D /* AppColor.swift in Sources */,
+				AD6F186B2CA26B0600CA6985 /* Promotion_Cell.swift in Sources */,
 				ADA1A5252C3F50A4006844E7 /* profile_view.swift in Sources */,
 				ADF113BB2C5C542D00BD4038 /* Location.swift in Sources */,
 				AD1AE6AC2C93782C0090BBE8 /* Fraternity.swift in Sources */,
 				ADA1A5292C3F50D0006844E7 /* log_in_view.swift in Sources */,
 				ADA297942C36217D00D2A7E9 /* HopSpot_App.swift in Sources */,
 				ADA297D92C37C30900D2A7E9 /* map_view.swift in Sources */,
-				ADF113C62C5C575100BD4038 /* LocationsListView.swift in Sources */,
 				AD4713332C77DC820087607D /* manager_profile_view.swift in Sources */,
 				AD47131A2C6C7F330087607D /* Business.swift in Sources */,
 				ADED5F7E2C4E9772003AB6A0 /* club_view_template.swift in Sources */,

@@ -18,25 +18,27 @@ struct Event_Cell: View {
                     .scaledToFill()
                     .frame(width: 60, height: 60)
                     .clipShape(Circle())
+                
                 // Club Name
                 Text(event.clubName ?? "Unknown Club")
                     .font(.headline)
                     .padding(.top, 18)
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.white)
                     .lineLimit(1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
             }
             
             // Display the event title
             Text(event.title)
                 .font(.title3)
-                .foregroundStyle(.primary)
+                .foregroundStyle(.white)
                 .bold()
             
             // Display the description with "See More" option
             VStack(alignment: .leading, spacing: 3) {
                 Text(event.description)
                     .font(.body)
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.white)
                     .lineLimit(isDescriptionExpanded ? nil : 3)
                     .truncationMode(.tail)
                 
@@ -56,10 +58,10 @@ struct Event_Cell: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text("Start: \(event.formattedStartDateTime())")
                     .font(.body)
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.white)
                 Text("End: \(event.formattedEndDateTime())")
                     .font(.body)
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.white)
             }
             
             // Display link if available
@@ -82,3 +84,4 @@ struct Event_Cell: View {
         .padding(.horizontal, 10) // Adjust padding as needed
     }
 }
+
