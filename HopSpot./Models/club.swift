@@ -18,7 +18,8 @@ enum busynessType: Int, Codable {
     case VeryBusy
 }
 
-struct Club: Codable, Identifiable {
+struct Club: Codable, Identifiable, Equatable {
+    
     var id: String
     var name: String
     var address: String
@@ -49,6 +50,10 @@ struct Club: Codable, Identifiable {
         self.city = city
         self.promotions = promotions
         self.events = events
+    }
+    
+    static func == (lhs: Club, rhs: Club) -> Bool {
+        lhs.id == rhs.id
     }
 
     static func updateBusyness(from num: Int) -> busynessType {
@@ -114,7 +119,7 @@ struct Club: Codable, Identifiable {
 
     // Report line length
     func reportLineLength(option: String, user: User?, completion: @escaping (Bool) -> Void) {
-        guard let user = user else {
+        guard user != nil else {
             completion(false)
             return
         }

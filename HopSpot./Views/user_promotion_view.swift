@@ -1,5 +1,5 @@
 //
-//  notification_view.swift
+//  user_promotion_view_view.swift
 //  HopSpot.
 //
 //  Created by Ben Roman on 2024-07-10.
@@ -19,7 +19,6 @@ struct user_promotion_view: View {
                 Text("Tonight").tag("Tonight")
                 Text("Upcoming").tag("Upcoming")
             }
-            
             .pickerStyle(SegmentedPickerStyle())
             .padding()
             .tint(AppColor.color)
@@ -34,6 +33,7 @@ struct user_promotion_view: View {
             }
         }
         .navigationTitle("Promotions")
+        .padding()
         }
     }
 
@@ -41,72 +41,49 @@ struct TonightPromotionsView: View {
     var promotions: [Promotion]
 
     var body: some View {
-        if promotions.isEmpty{
+        let currentPromotions = promotions.filter { isCurrentPromotion($0) }
+
+        if currentPromotions.isEmpty{
             Text("No Promotions Tonight")
             Spacer()
         }else{
-            ForEach(promotions, id: \.id) { promotion in
-                GeometryReader { geometry in
-                    VStack(alignment: .leading, spacing: 10) {
-                        // Club image and name
-                        HStack(alignment: .top, spacing: 10) {
-                            image_view(imagePath: promotion.clubImageURL ?? "placeholder_image_url")
-                                .scaledToFill()
-                                .frame(width: 60, height: 60)
-                                .clipShape(Circle())
-                            // Club Name
-                            Text(promotion.clubName ?? "Unknown Club")
-                                .font(.headline)
-                                .padding(.top, 18)
-                                .foregroundStyle(.white)
-                                .lineLimit(1)
-                        }
-                        
-                        // Display the promotion title
-                        Text(promotion.title)
-                            .font(.title3)
-                            .foregroundColor(.white)
-                            .bold()
-                        
-                        // Display the description
-                        Text(promotion.description)
-                            .font(.body)
-                            .foregroundColor(.white)
-
-                        
-                        // Display promotion start and end date/time
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text("Start: \(promotion.formattedStartDateTime())")
-                                .font(.body)
-                                .foregroundColor(.white)
-                            Text("End: \(promotion.formattedEndDateTime())")
-                                .font(.body)
-                                .foregroundColor(.white)
-                        }
-                        
-                        // Display link if available
-                        if let link = promotion.link, !link.isEmpty {
-                            Link("View Tickets", destination: URL(string: link)!)
-                                .font(.body)
-                                .foregroundColor(AppColor.color)
-                                .padding(.top, 2)
-                        }
-                    }
-                    .padding()
-                    .background(Color.black.opacity(0.8))
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(AppColor.color, lineWidth: 2)
-                    )
-                    .shadow(color: AppColor.color.opacity(0.5), radius: 4, x: 0, y: 2)
-                    .frame(width: geometry.size.width - 32, alignment: .leading)
-                    .padding(.horizontal, 20)
+            ScrollView {
+                ForEach(currentPromotions) { promotion in
+                    Promotion_Cell(promotion: promotion)
+                        .padding(.bottom, 10)
                 }
             }
         }
-
     }
+    func isCurrentPromotion(_ promotion: Promotion) -> Bool {
+        let currentDate = Date()
+        let calendar = Calendar.current
+
+        // Check if the promotion is ongoing or starts later today
+        if (promotion.startDate <= currentDate && promotion.endDate >= currentDate) ||
+           (calendar.isDateInToday(promotion.startDate) && promotion.startTime > currentDate) ||
+           (promotion.startDate == currentDate && promotion.startTime > currentDate) {
+            
+            // Get the start and end times as Date objects
+            let promotionStartTime = calendar.date(bySettingHour: calendar.component(.hour, from: promotion.startTime),
+                                                    minute: calendar.component(.minute, from: promotion.startTime),
+                                                    second: 0,
+                                                    of: promotion.startDate)
+            
+            let promotionEndTime = calendar.date(bySettingHour: calendar.component(.hour, from: promotion.endTime),
+                                                  minute: calendar.component(.minute, from: promotion.endTime),
+                                                  second: 0,
+                                                  of: promotion.endDate)
+
+            // Check if current time is between the promotion start and end time
+            if let promotionStart = promotionStartTime, let promotionEnd = promotionEndTime {
+                return currentDate >= promotionStart && currentDate <= promotionEnd
+            }
+        }
+        return false
+    }
+
+
 }
 
 struct UpcomingPromotionsView: View {
@@ -117,65 +94,13 @@ struct UpcomingPromotionsView: View {
             Text("No Upcoming Promotions")
             Spacer()
         }else{
-            ForEach(promotions, id: \.id) { promotion in
-                GeometryReader { geometry in
-                    VStack(alignment: .leading, spacing: 10) {
-                        // Club image and name
-                        HStack(alignment: .top, spacing: 10) {
-                            image_view(imagePath: promotion.clubImageURL ?? "placeholder_image_url")
-                                .scaledToFill()
-                                .frame(width: 60, height: 60)
-                                .clipShape(Circle())
-                            // Club Name
-                            Text(promotion.clubName ?? "Unknown Club")
-                                .font(.headline)
-                                .padding(.top, 18)
-                                .foregroundColor(.white)
-                                .lineLimit(1)
-                        }
-                        
-                        // Display the promotion title
-                        Text(promotion.title)
-                            .font(.title3)
-                            .foregroundColor(.white)
-                            .bold()
-                        
-                        // Display the description
-                        Text(promotion.description)
-                            .font(.body)
-                            .foregroundColor(.white)
-
-                        
-                        // Display promotion start and end date/time
-                        VStack(alignment: .leading, spacing: 3) {
-                            Text("Start: \(promotion.formattedStartDateTime())")
-                                .font(.body)
-                                .foregroundColor(.white)
-                            Text("End: \(promotion.formattedEndDateTime())")
-                                .font(.body)
-                                .foregroundColor(.white)
-                        }
-                        
-                        // Display link if available
-                        if let link = promotion.link, !link.isEmpty {
-                            Link("View Tickets", destination: URL(string: link)!)
-                                .font(.body)
-                                .foregroundColor(AppColor.color)
-                                .padding(.top, 2)
-                        }
-                    }
-                    .padding()
-                    .background(Color.black.opacity(0.8))
-                    .cornerRadius(8)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(AppColor.color, lineWidth: 2)
-                    )
-                    .shadow(color: AppColor.color.opacity(0.5), radius: 4, x: 0, y: 2)
-                    .frame(width: geometry.size.width - 32, alignment: .leading)
-                    .padding(.horizontal, 20)
+            ScrollView {
+                ForEach(promotions) { promotion in
+                    Promotion_Cell(promotion: promotion)
+                        .padding(.bottom, 10)
                 }
             }
+
         }
 
 

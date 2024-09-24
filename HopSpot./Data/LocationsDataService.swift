@@ -5,7 +5,7 @@
 //  Created by Nick Sarno on 11/26/21.
 //
 
-
+/*
 import Foundation
 import MapKit
 
@@ -27,6 +27,7 @@ class LocationsDataService {
        
         locations = clubs.map { club in
             Location(
+                id: club.id,
                 name: club.name,
                 cityName: club.city,
                 coordinates: CLLocationCoordinate2D(latitude: club.latitude, longitude: club.longitude),
@@ -38,7 +39,7 @@ class LocationsDataService {
     }
 }
 
-    
+    */
     
  
     

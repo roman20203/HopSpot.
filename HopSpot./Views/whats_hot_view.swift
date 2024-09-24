@@ -63,6 +63,9 @@ struct whats_hot_view: View {
                     VStack(alignment: .leading) {
                         if locationManager.userLocation != nil {
                             LazyVStack {
+                                if filteredClubs.isEmpty{
+                                    Text("Nothing happening currently")
+                                }
                                 ForEach(filteredClubs, id: \.id) { club in
                                     NavigationLink(destination: club_details_template(club: club)) {
                                         club_view_template(club: club)

@@ -15,7 +15,12 @@ import MapKit
 import SwiftUI
 
 class club_firebase_handler: ObservableObject {
-    @Published var clubs = [Club]()
+    //@Published var clubs = [Club]()
+    @Published var clubs: [Club] = [] {
+            didSet {
+                print("clubs changed: \(clubs.count) clubs now")
+            }
+        }
     @Published var currentPromotions = [Promotion]()
     @Published var upcomingPromotions = [Promotion]()
     
@@ -29,31 +34,22 @@ class club_firebase_handler: ObservableObject {
 
     // Locations related properties
     @Published var locations: [Location] = []
-    @Published var MapLocation: Location
+    @Published var MapLocation: Club
     @Published var MapRegion: MKCoordinateRegion = MKCoordinateRegion()
-    let mapSpan = MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+    let mapSpan = MKCoordinateSpan(latitudeDelta: 0.002, longitudeDelta: 0.002)
     @Published var showLocationsList: Bool = false
-    @Published var sheetLocation: Location? = nil
+    @Published var sheetLocation: Club? = nil
 
     private var db = Firestore.firestore()
     
     // Initialization
     init() {
         // Initialize mapLocation with a default location
-        self.MapLocation = Location(
-            name: "Default Location",
-            cityName: "Unknown",
-            coordinates: CLLocationCoordinate2D(latitude: 43.4738, longitude: 80.5275),
-            description: "",
-            imageNames: "",
-            link: ""
-        )
+        self.MapLocation = Club(id: "0000", name: "default", address: "unknown", rating: 0, reviewCount: 0, description: "unkown", imageURL: "unknown", latitude: 43.468911911447954, longitude: -80.52377773702925 , busyness: 40, website: "unknown", city: "Waterloo, ON")
         
-        // Call fetchClubs after initialization
-        DispatchQueue.main.async {
-            self.fetchClubs()
-            self.fetchFratEvents()
-        }
+        // Call fetchClubs and fetchFratEvents
+        self.fetchClubs()
+        self.fetchFratEvents()
     }
     
     func fetchFratEvents() {
@@ -132,6 +128,7 @@ class club_firebase_handler: ObservableObject {
                 self.currentFratEvents = fetchedCurrentFratEvents
                 self.upcomingFratEvents = fetchedUpcomingFratEvents
                 print("Fetched \(self.currentFratEvents.count) current frat events")
+                print("Current: \(self.currentFratEvents)")
                 print("Fetched \(self.upcomingFratEvents.count) upcoming frat events")
             }
         }
@@ -142,7 +139,7 @@ class club_firebase_handler: ObservableObject {
     
     func fetchClubs() {
         db.collection("Clubs").getDocuments { [weak self] snapshot, error in
-            guard let self = self else { return}
+            guard let self = self else { return }
             
             if let error = error {
                 print("Error fetching clubs: \(error)")
@@ -158,7 +155,6 @@ class club_firebase_handler: ObservableObject {
             var fetchedClubs = [Club]()
             var fetchedCurrentPromotions = [Promotion]()
             var fetchedUpcomingPromotions = [Promotion]()
-            
             var fetchedCurrentEvents = [Event]()
             var fetchedUpcomingEvents = [Event]()
             
@@ -183,7 +179,6 @@ class club_firebase_handler: ObservableObject {
                 var club = Club(id: id, name: name, address: address, rating: rating, reviewCount: reviewCount, description: description, imageURL: imageURL, latitude: latitude, longitude: longitude, busyness: busyness, website: website, city: city, promotions: [])
                 
                 dispatchGroup.enter()
-                
                 
                 let promotionsRef = self.db.collection("Clubs").document(id).collection("Promotions")
                 promotionsRef.getDocuments { snapshot, error in
@@ -216,20 +211,19 @@ class club_firebase_handler: ObservableObject {
                                                   clubName: promotionData["clubName"] as? String ?? "",
                                                   clubImageURL: promotionData["clubImageURL"] as? String ?? "")
                         
-                        if (promotion.startDate <= currentDate && promotion.endDate >= currentDate) || promotion.startDate > currentDate {
-                            if Calendar.current.isDateInToday(promotion.startDate) || (promotion.startDate <= currentDate && promotion.endDate >= currentDate) {
-                                if Calendar.current.isDateInToday(promotion.startDate) {
-                                    fetchedCurrentPromotions.append(promotion)
-                                } else {
-                                    fetchedUpcomingPromotions.append(promotion)
-                                    
-                                }
-                                return promotion
+                        if (promotion.startDate < promotion.endDate){
+                            if promotion.startDate <= currentDate && promotion.endDate >= currentDate {
+                                // Add to current promotions
+                                fetchedCurrentPromotions.append(promotion)
+                            }
+                            // Check for upcoming promotions (starting in the future)
+                            else if promotion.startDate > currentDate {
+                                // Add to upcoming promotions
+                                fetchedUpcomingPromotions.append(promotion)
                             }
                         }
                         return nil
                     }
-                    
                     
                     // Fetch Events for the current club
                     let eventsRef = self.db.collection("Clubs").document(id).collection("Events")
@@ -257,7 +251,7 @@ class club_firebase_handler: ObservableObject {
                                               startDate: (eventData["startDate"] as? Timestamp)?.dateValue() ?? Date(),
                                               endDate: (eventData["endDate"] as? Timestamp)?.dateValue() ?? Date(),
                                               startTime: (eventData["startTime"] as? Timestamp)?.dateValue() ?? Date(),
-                                              endTime: (eventData["endTime"] as? Timestamp)?.dateValue() ?? Date(), 
+                                              endTime: (eventData["endTime"] as? Timestamp)?.dateValue() ?? Date(),
                                               location: eventData["location"] as? String ?? "",
                                               clubName: eventData["clubName"] as? String ?? "",
                                               clubImageURL: eventData["clubImageURL"] as? String ?? "")
@@ -278,55 +272,50 @@ class club_firebase_handler: ObservableObject {
             }
             
             dispatchGroup.notify(queue: .main) {
-                self.clubs = fetchedClubs
-                self.currentPromotions = fetchedCurrentPromotions
-                self.upcomingPromotions = fetchedUpcomingPromotions
-                self.currentEvents = fetchedCurrentEvents
-                self.upcomingEvents = fetchedUpcomingEvents
-                
-                self.isInitialized = true
-                print("Fetched \(self.clubs.count) clubs")
-                self.clubs.forEach { club in
-                    print("Club: \(club.name), Rating: \(club.rating), Website: \(club.website), City: \(club.city), Promotions: \(club.promotions.count), Events: \(club.events.count)")
+                // Ensure all updates to @Published properties happen on the main thread
+                DispatchQueue.main.async {
+                    self.clubs = fetchedClubs
+                    self.currentPromotions = fetchedCurrentPromotions
+                    self.upcomingPromotions = fetchedUpcomingPromotions
+                    self.currentEvents = fetchedCurrentEvents
+                    self.upcomingEvents = fetchedUpcomingEvents
+                    
+                    self.isInitialized = true
+                    print("Fetched \(self.clubs.count) clubs")
+                    self.clubs.forEach { club in
+                        print("Club: \(club.name), Rating: \(club.rating), Website: \(club.website), City: \(club.city), Promotions: \(club.promotions.count), Events: \(club.events.count)")
+                    }
+                    //self.updateLocation()
                 }
-                self.updateLocations()
             }
         }
     }
     
-    func updateLocations() {
-        locations = clubs.map { club in
-            Location(
-                name: club.name,
-                cityName: club.city,
-                coordinates: CLLocationCoordinate2D(latitude: club.latitude, longitude: club.longitude),
-                description: club.description,
-                imageNames: club.imageURL,
-                link: club.website
-            )
-        }
+    
+    func updateMapLocation(location: Club){
+        self.MapLocation = location
+    }
+    
+    func updateLocation() {
+        guard !clubs.isEmpty else {
+                print("Warning: clubs array is empty. Cannot update locations.")
+                return
+            }
         
-        if let firstLocation = locations.first {
+        if let firstLocation = clubs.first {
             MapLocation = firstLocation
         } else {
-            MapLocation = Location(
-                name: "Default Location",
-                cityName: "Unknown",
-                coordinates: CLLocationCoordinate2D(latitude: 43.4738, longitude: 80.5275),
-                description: "",
-                imageNames: "",
-                link: ""
-            )
+            MapLocation = Club(id: "0000", name: "default", address: "unknown", rating: 0, reviewCount: 0, description: "unkown", imageURL: "unknown", latitude: 43.468911911447954, longitude: -80.52377773702925, busyness: 40, website: "unknown", city: "Waterloo")
             print("Warning: Locations array is empty, using default MapLocation.")
         }
         
-        updateMapRegion(location: MapLocation)
+        self.updateMapRegion(location: MapLocation)
     }
     
-    private func updateMapRegion(location: Location) {
+    func updateMapRegion(location: Club) {
         withAnimation(.easeInOut) {
             MapRegion = MKCoordinateRegion(
-                center: location.coordinates,
+                center: CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude),
                 span: mapSpan
             )
         }
@@ -338,29 +327,30 @@ class club_firebase_handler: ObservableObject {
         }
     }
     
-    func showNextLocation(location: Location) {
-        MapLocation = location
+    func showNextLocation(location: Club) {
+        self.updateMapLocation(location: location)
+        self.updateMapRegion(location: location)
         withAnimation(.easeInOut) {
             showLocationsList = false
         }
     }
     
     func nextButtonPressed() {
-        guard let currentIndex = locations.firstIndex(where: { $0 == MapLocation }) else {
+        guard let currentIndex = clubs.firstIndex(where: { $0 == MapLocation }) else {
             print("Could not find current index in locations array! Should never happen")
             return
         }
         
         let nextIndex = currentIndex + 1
-        guard locations.indices.contains(nextIndex) else {
-            guard let firstLocation = locations.first else {
+        guard clubs.indices.contains(nextIndex) else {
+            guard let firstLocation = clubs.first else {
                 return
             }
             showNextLocation(location: firstLocation)
             return
         }
         
-        let nextLocation = locations[nextIndex]
+        let nextLocation = clubs[nextIndex]
         showNextLocation(location: nextLocation)
     }
     

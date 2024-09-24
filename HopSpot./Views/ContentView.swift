@@ -9,7 +9,6 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: log_in_view_model
-    
 
     var body: some View {
         Group {
