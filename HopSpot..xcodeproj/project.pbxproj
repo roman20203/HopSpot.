@@ -69,6 +69,9 @@
 		ADF113CA2C65260C00BD4038 /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C92C65260C00BD4038 /* main_view.swift */; };
 		ADF113CC2C6673BC00BD4038 /* near_by_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113CB2C6673BC00BD4038 /* near_by_view.swift */; };
 		ADF113CE2C66846700BD4038 /* whats_hot_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113CD2C66846700BD4038 /* whats_hot_view.swift */; };
+		D0AB958B2CA1F87F00404FEB /* BackgroundimageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB958A2CA1F87F00404FEB /* BackgroundimageViewController.swift */; };
+		D0AB958D2CA1F8A500404FEB /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB958C2CA1F8A500404FEB /* EditProfileViewController.swift */; };
+		D0AB958F2CA1F8D100404FEB /* seetingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB958E2CA1F8D100404FEB /* seetingsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -147,6 +150,9 @@
 		ADF113C92C65260C00BD4038 /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
 		ADF113CB2C6673BC00BD4038 /* near_by_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = near_by_view.swift; sourceTree = "<group>"; };
 		ADF113CD2C66846700BD4038 /* whats_hot_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = whats_hot_view.swift; sourceTree = "<group>"; };
+		D0AB958A2CA1F87F00404FEB /* BackgroundimageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundimageViewController.swift; sourceTree = "<group>"; };
+		D0AB958C2CA1F8A500404FEB /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
+		D0AB958E2CA1F8D100404FEB /* seetingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seetingsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,6 +244,7 @@
 		ADA297922C36217D00D2A7E9 /* HopSpot. */ = {
 			isa = PBXGroup;
 			children = (
+				D0AB95892CA1F82100404FEB /* Controller */,
 				AD47131F2C6D1DB50087607D /* ManagerView */,
 				ADF113BC2C5C566800BD4038 /* Data */,
 				ADA1A5312C40EFE8006844E7 /* Templates */,
@@ -339,6 +346,16 @@
 				ADF113BD2C5C567900BD4038 /* LocationsDataService.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		D0AB95892CA1F82100404FEB /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D0AB958A2CA1F87F00404FEB /* BackgroundimageViewController.swift */,
+				D0AB958C2CA1F8A500404FEB /* EditProfileViewController.swift */,
+				D0AB958E2CA1F8D100404FEB /* seetingsViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -495,6 +512,7 @@
 				AD4713252C6D1E300087607D /* the_count_view.swift in Sources */,
 				AD4713392C77FE920087607D /* InAppClubSelection.swift in Sources */,
 				ADF113C42C5C573300BD4038 /* LocationMapAnnotationView.swift in Sources */,
+				D0AB958B2CA1F87F00404FEB /* BackgroundimageViewController.swift in Sources */,
 				ADA297C32C3621F400D2A7E9 /* reg_or_log.swift in Sources */,
 				AD47132D2C7755130087607D /* Promotion.swift in Sources */,
 				ADF113BE2C5C567900BD4038 /* LocationsDataService.swift in Sources */,
@@ -505,6 +523,7 @@
 				AD1AE6A22C8C9A510090BBE8 /* EventsEditView.swift in Sources */,
 				ADED5F862C592CA6003AB6A0 /* UserLocation.swift in Sources */,
 				AD47132F2C7755BF0087607D /* PromotionEditView.swift in Sources */,
+				D0AB958F2CA1F8D100404FEB /* seetingsViewController.swift in Sources */,
 				ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */,
 				ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */,
 				AD4713212C6D1DE00087607D /* manager_home_view.swift in Sources */,
@@ -532,6 +551,7 @@
 				AD4713332C77DC820087607D /* manager_profile_view.swift in Sources */,
 				AD47131A2C6C7F330087607D /* Business.swift in Sources */,
 				ADED5F7E2C4E9772003AB6A0 /* club_view_template.swift in Sources */,
+				D0AB958D2CA1F8A500404FEB /* EditProfileViewController.swift in Sources */,
 				AD47131E2C6C90CB0087607D /* Manager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -696,14 +716,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HopSpot./Preview Content\"";
-				DEVELOPMENT_TEAM = BCV266KTD8;
+				DEVELOPMENT_TEAM = H7B8952G45;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "HopSpot--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = HopSpot.;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to allow users to upload profile pictures.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed for recommending nearby clubs";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library to allow users to select profile pictures.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -735,14 +757,16 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HopSpot./Preview Content\"";
-				DEVELOPMENT_TEAM = BCV266KTD8;
+				DEVELOPMENT_TEAM = H7B8952G45;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "HopSpot--Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = HopSpot.;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to allow users to upload profile pictures.";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed for recommending nearby clubs";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library to allow users to select profile pictures.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -754,7 +778,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.hopspot-app.HopSpot";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.com.hopspot-app.HopSpot.HopSpot";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
