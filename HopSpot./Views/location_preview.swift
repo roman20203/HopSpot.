@@ -64,7 +64,7 @@ struct location_preview: View {
                 vm.sheetLocation = location
             }
         } label: {
-            Text("Submit report")
+            Text("Submit Report")
                 .font(.headline)
                 .frame(width: 125, height: 50)
         }
