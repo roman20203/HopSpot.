@@ -22,7 +22,7 @@ struct Promotion_Cell: View {
                 Text(promotion.clubName ?? "Unknown Club")
                     .font(.headline)
                     .padding(.top, 18)
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(.white)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             

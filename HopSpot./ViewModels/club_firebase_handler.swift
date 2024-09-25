@@ -134,7 +134,7 @@ class club_firebase_handler: ObservableObject {
         }
     }
 
-
+    
     
     
     func fetchClubs() {
@@ -194,7 +194,7 @@ class club_firebase_handler: ObservableObject {
                         return
                     }
                     
-                    let currentDate = Date()
+                    let currentDate = Date().startOfDay()
                     club.promotions = promotionDocuments.compactMap { promotionDoc -> Promotion? in
                         if promotionDoc.documentID == "initial" {
                             return nil
@@ -211,13 +211,16 @@ class club_firebase_handler: ObservableObject {
                                                   clubName: promotionData["clubName"] as? String ?? "",
                                                   clubImageURL: promotionData["clubImageURL"] as? String ?? "")
                         
-                        if (promotion.startDate < promotion.endDate){
-                            if promotion.startDate <= currentDate && promotion.endDate >= currentDate {
+                        let promotionStartDate = promotion.startDate.startOfDay()
+                        let promotionEndDate = promotion.endDate.startOfDay()
+                        
+                        if (promotionStartDate < promotionEndDate){
+                            if promotionStartDate <= currentDate && promotionEndDate >= currentDate {
                                 // Add to current promotions
                                 fetchedCurrentPromotions.append(promotion)
                             }
                             // Check for upcoming promotions (starting in the future)
-                            else if promotion.startDate > currentDate {
+                            else if promotionStartDate > currentDate {
                                 // Add to upcoming promotions
                                 fetchedUpcomingPromotions.append(promotion)
                             }
@@ -467,7 +470,19 @@ class club_firebase_handler: ObservableObject {
                 
                 completion(true)
             }
+            
         }
+        
+    }
+    private func refresh() {
+        fetchClubs()
+        fetchFratEvents()
+    }
+    
+}
+extension Date {
+    func startOfDay() -> Date {
+        return Calendar.current.startOfDay(for: self)
     }
 }
 
