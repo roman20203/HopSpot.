@@ -28,7 +28,7 @@ struct home_view: View {
                                 .foregroundColor(.white)
                             Spacer()
                         }
-                        .padding(.top, 16)
+                        .padding(.top, 10)
                         //Spacer()
                     }
                     VStack(alignment: .leading, spacing: 16) { // Adjusted spacing for alignment
@@ -246,7 +246,7 @@ struct home_view: View {
                             .padding(.vertical, 10)
                         }
                     }
-                    .padding(.horizontal, 20)
+                    .padding(.horizontal, 10)
                     .padding(.top, 10)
                     .background(Color.black)
                     .frame(maxWidth: .infinity, alignment: .leading) // Push entire VStack to the left
