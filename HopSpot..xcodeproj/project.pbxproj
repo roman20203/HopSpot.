@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		39D353822CA3A995005A87B6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 39D353812CA3A995005A87B6 /* GoogleService-Info.plist */; };
 		AD1AE69E2C8C97A10090BBE8 /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE69D2C8C97A10090BBE8 /* Event.swift */; };
 		AD1AE6A02C8C9A3B0090BBE8 /* EventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE69F2C8C9A3B0090BBE8 /* EventsView.swift */; };
 		AD1AE6A22C8C9A510090BBE8 /* EventsEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6A12C8C9A510090BBE8 /* EventsEditView.swift */; };
@@ -51,7 +52,6 @@
 		ADA297CD2C37BFEF00D2A7E9 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ADA297CC2C37BFEF00D2A7E9 /* FirebaseDatabaseSwift */; };
 		ADA297CF2C37BFEF00D2A7E9 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = ADA297CE2C37BFEF00D2A7E9 /* FirebaseFirestore */; };
 		ADA297D12C37BFEF00D2A7E9 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = ADA297D02C37BFEF00D2A7E9 /* FirebaseFirestoreSwift */; };
-		ADA297D32C37C0E100D2A7E9 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */; };
 		ADA297D92C37C30900D2A7E9 /* map_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297D82C37C30900D2A7E9 /* map_view.swift */; };
 		ADA297E02C37C3B600D2A7E9 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297DF2C37C3B600D2A7E9 /* User.swift */; };
 		ADA297E22C37C3C700D2A7E9 /* Club.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA297E12C37C3C700D2A7E9 /* Club.swift */; };
@@ -92,6 +92,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		39D353812CA3A995005A87B6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		AD1AE69D2C8C97A10090BBE8 /* Event.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		AD1AE69F2C8C9A3B0090BBE8 /* EventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsView.swift; sourceTree = "<group>"; };
 		AD1AE6A12C8C9A510090BBE8 /* EventsEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsEditView.swift; sourceTree = "<group>"; };
@@ -133,7 +134,6 @@
 		ADA297AE2C36217E00D2A7E9 /* HopSpot_UITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HopSpot_UITests.swift; sourceTree = "<group>"; };
 		ADA297B02C36217E00D2A7E9 /* HopSpot_UITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HopSpot_UITestsLaunchTests.swift; sourceTree = "<group>"; };
 		ADA297C22C3621F400D2A7E9 /* reg_or_log.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = reg_or_log.swift; sourceTree = "<group>"; };
-		ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ADA297D82C37C30900D2A7E9 /* map_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = map_view.swift; sourceTree = "<group>"; };
 		ADA297DF2C37C3B600D2A7E9 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		ADA297E12C37C3C700D2A7E9 /* Club.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Club.swift; sourceTree = "<group>"; };
@@ -333,9 +333,9 @@
 		ADA297C12C3621BA00D2A7E9 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				39D353812CA3A995005A87B6 /* GoogleService-Info.plist */,
 				ADA297972C36217E00D2A7E9 /* Assets.xcassets */,
 				ADA297932C36217D00D2A7E9 /* HopSpot_App.swift */,
-				ADA297D22C37C0E100D2A7E9 /* GoogleService-Info.plist */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -475,9 +475,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA2979B2C36217E00D2A7E9 /* Preview Assets.xcassets in Resources */,
+				39D353822CA3A995005A87B6 /* GoogleService-Info.plist in Resources */,
 				ADA297982C36217E00D2A7E9 /* Assets.xcassets in Resources */,
 				ADA1A52F2C3F63CB006844E7 /* Launch Screen.storyboard in Resources */,
-				ADA297D32C37C0E100D2A7E9 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
