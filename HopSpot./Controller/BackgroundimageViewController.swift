@@ -14,6 +14,7 @@ struct BackgroundImageViewController: View {
             Color.black.edgesIgnoringSafeArea(.all)
 
             VStack {
+                // Display selected image or a placeholder
                 if let selectedImage = selectedImage {
                     Image(uiImage: selectedImage)
                         .resizable()
@@ -35,13 +36,14 @@ struct BackgroundImageViewController: View {
                 }
 
                 if isUploading {
-                    ProgressView("Uploading...")
+                    ProgressView("Uploading...") // Progress indicator during upload
                         .padding()
                 }
 
-                Spacer()
+                Spacer() // Push content to the top of the screen
             }
         }
+        // Sheet for image picker
         .sheet(isPresented: .constant(selectedImage == nil)) {
             ImagePicker(sourceType: .photoLibrary) { image in
                 self.selectedImage = image
@@ -50,11 +52,12 @@ struct BackgroundImageViewController: View {
         }
     }
 
+    // Function to trigger image picker
     private func showImagePicker() {
-        // Present the image picker
-        selectedImage = nil // Reset selected image
+        selectedImage = nil // Reset the selected image to trigger the image picker
     }
 
+    // Upload image to Firebase Storage
     private func uploadBackgroundImageToStorage(image: UIImage) {
         guard let imageData = image.jpegData(compressionQuality: 0.75), let userId = viewModel.currentUser?.id else { return }
         isUploading = true
@@ -68,6 +71,7 @@ struct BackgroundImageViewController: View {
                 return
             }
 
+            // Fetch download URL after upload
             storageRef.downloadURL { url, error in
                 isUploading = false
                 if let error = error {
@@ -81,6 +85,7 @@ struct BackgroundImageViewController: View {
         }
     }
 
+    // Save the image URL to Firestore
     private func saveBackgroundImageUrlToFirestore(url: String) {
         guard let userId = viewModel.currentUser?.id else { return }
         let db = Firestore.firestore()
@@ -93,13 +98,13 @@ struct BackgroundImageViewController: View {
             } else {
                 print("Background image URL successfully saved")
                 viewModel.currentUser?.backgroundImageUrl = url
-                presentationMode.wrappedValue.dismiss() // Dismiss after saving
+                presentationMode.wrappedValue.dismiss() // Dismiss the view after saving
             }
         }
     }
 }
 
-// Image Picker using UIKit
+// UIKit Image Picker integration with SwiftUI
 struct ImagePicker: UIViewControllerRepresentable {
     var sourceType: UIImagePickerController.SourceType
     var completion: (UIImage) -> Void
@@ -117,6 +122,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         Coordinator(self)
     }
 
+    // Coordinator to handle the delegate methods
     class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
         let parent: ImagePicker
 
