@@ -59,17 +59,35 @@ final class seetingsViewController: UIViewController {
     
     private func configureModels() {
         let section1 = [
-            SettingCellModel(title: "Invite Friends") {
-                // Placeholder action for Invite Friends
+            SettingCellModel(title: "About Us") {
+                // Open the Invite Friends website
+                if let url = URL(string: "https://www.hop-spot.ca/about") {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
             },
             SettingCellModel(title: "Terms of Service") {
-                // Placeholder action for Terms of Service WEBSITE
+                // Open the Terms of Service website
+                if let url = URL(string: "https://www.hop-spot.ca/privacy-policy-1") {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
             },
-            SettingCellModel(title: "Help/Feedback") {
-                // Placeholder action for Help/Feedback WEBSITE
+            SettingCellModel(title: "Contact Us") {
+                // Open the default mail app with the recipient email
+                if let url = URL(string: "mailto:communications@hop-spot.ca") {
+                    if UIApplication.shared.canOpenURL(url) {
+                        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                    } else {
+                        // Handle the error if the email app is unavailable
+                        print("Email app is not available.")
+                    }
+                }
             },
-            SettingCellModel(title: "Privacy Policy") { 
-                // Placeholder action for Privacy Policy WEBSITE
+
+            SettingCellModel(title: "Privacy Policy") {
+                // Open the Privacy Policy website
+                if let url = URL(string: "https://www.hop-spot.ca/privacy-policy-1") {
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
             }
         ]
         
@@ -82,6 +100,7 @@ final class seetingsViewController: UIViewController {
         data.append(section1)
         data.append(section2)
     }
+
     
     private func didTapLogOut() {
         let alert = UIAlertController(title: "Log Out",

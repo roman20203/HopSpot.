@@ -32,7 +32,6 @@ final class EditProfileViewController: UIViewController, UIImagePickerController
     private let instagramTextField: UITextField = createTextField(placeholder: "Instagram Username")
     private let schoolTextField: UITextField = createTextField(placeholder: "School")
     private let saveButton: UIButton = createButton(title: "Save", color: UIColor(red: 1.0, green: 0.0, blue: 0.54, alpha: 1.0), action: #selector(didTapSave))
-    private let backButton: UIButton = createButton(title: "Back", color: .blue, action: #selector(didTapBack))
     private let loadingIndicator: UIActivityIndicatorView = createActivityIndicator()
 
     override func viewDidLoad() {
@@ -45,6 +44,9 @@ final class EditProfileViewController: UIViewController, UIImagePickerController
         addKeyboardObservers()
         setupProfileImageTap() // Enable profile image tap
         setTextFieldDelegates() // Set UITextField delegates to handle return key
+        // Add default navigation back button
+            navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(didTapBack))
+        
     }
 
     private func setupScrollView() {
@@ -58,7 +60,7 @@ final class EditProfileViewController: UIViewController, UIImagePickerController
         profileStackView.alignment = .center
         profileStackView.spacing = 8
         
-        [profileStackView, backgroundImageView, changeBackgroundButton, snapchatTextField, instagramTextField, schoolTextField, saveButton, backButton, loadingIndicator]
+        [profileStackView, backgroundImageView, changeBackgroundButton, snapchatTextField, instagramTextField, schoolTextField, saveButton, loadingIndicator]
             .forEach { contentStackView.addArrangedSubview($0) }
         
         loadingIndicator.hidesWhenStopped = true
@@ -89,7 +91,6 @@ final class EditProfileViewController: UIViewController, UIImagePickerController
     }
 
     private func setupProfileImageTap() {
-        // Tap gesture to change profile picture
         let profileTapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapChangeProfilePicture))
         profileImageView.isUserInteractionEnabled = true
         profileImageView.addGestureRecognizer(profileTapGesture)
@@ -156,10 +157,14 @@ final class EditProfileViewController: UIViewController, UIImagePickerController
         present(picker, animated: true)
     }
 
+    // Image Picker Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
+        
+        // Fetch the edited image
         guard let selectedImage = info[.editedImage] as? UIImage else { return }
-
+        
+        // Determine whether it's the background or profile image being changed
         if isChangingBackgroundImage {
             backgroundImageView.image = selectedImage
             uploadImageToStorage(image: selectedImage, isBackground: true)
@@ -169,23 +174,42 @@ final class EditProfileViewController: UIViewController, UIImagePickerController
             uploadImageToStorage(image: selectedImage, isBackground: false)
         }
     }
-
+    // Upload image to Firebase Storage
     private func uploadImageToStorage(image: UIImage, isBackground: Bool) {
         guard let imageData = image.jpegData(compressionQuality: 0.75) else { return }
-        let storageRef = Storage.storage().reference().child((isBackground ? "background_images" : "profile_images") + "/\(user?.id ?? UUID().uuidString).jpg")
-        storageRef.putData(imageData, metadata: nil) { _, error in
-            if let error = error { print("Failed to upload image: \(error)") }
-            else {
-                storageRef.downloadURL { [weak self] url, error in
-                    if let url = url?.absoluteString {
-                        self?.saveImageUrlToFirestore(url: url, isBackground: isBackground)
-                        if isBackground {
-                            self?.user?.backgroundImageUrl = url
-                        } else {
-                            self?.user?.profileImageUrl = url
-                        }
+        
+        let storageRef = Storage.storage().reference().child(isBackground ? "background_images" : "profile_images").child("\(user?.id ?? UUID().uuidString).jpg")
+        
+        // Upload the image data
+        storageRef.putData(imageData, metadata: nil) { [weak self] metadata, error in
+            guard let self = self else { return }
+            
+            if let error = error {
+                print("Failed to upload image: \(error.localizedDescription)")
+                return
+            }
+            
+            // After successful upload, get the download URL
+            storageRef.downloadURL { [weak self] url, error in
+                guard let self = self, let url = url else {
+                    print("Failed to get download URL: \(error?.localizedDescription ?? "No error description")")
+                    return
+                }
+                
+                // Add a cache-busting query parameter to ensure the new image loads and bypasses cache
+                let cacheBustingURL = url.absoluteString + "?timestamp=\(Date().timeIntervalSince1970)"
+                
+                // Save the new image URL to Firestore
+                self.saveImageUrlToFirestore(url: cacheBustingURL, isBackground: isBackground)
+                
+                // Update the UI on the main thread with the newly uploaded image
+                DispatchQueue.main.async {
+                    if isBackground {
+                        self.user?.backgroundImageUrl = cacheBustingURL
+                        self.backgroundImageView.image = image
                     } else {
-                        print("Failed to get download URL: \(error?.localizedDescription ?? "")")
+                        self.user?.profileImageUrl = cacheBustingURL
+                        self.profileImageView.image = image
                     }
                 }
             }
@@ -196,15 +220,21 @@ final class EditProfileViewController: UIViewController, UIImagePickerController
         Firestore.firestore().collection("users").document(user?.id ?? "").updateData([
             isBackground ? "backgroundImageUrl" : "profileImageUrl": url
         ]) { error in
-            if let error = error { print("Error updating image URL: \(error)") }
+            if let error = error {
+                print("Error updating image URL: \(error)")
+            }
         }
     }
-
+    // Load image from URL with cache busting
     private func loadImage(from urlString: String?, into imageView: UIImageView) {
-        guard let urlString = urlString, let url = URL(string: urlString) else { return }
+        guard let urlString = urlString, let url = URL(string: "\(urlString)?timestamp=\(Date().timeIntervalSince1970)") else { return }  // Cache busting
         URLSession.shared.dataTask(with: url) { data, _, error in
             if let data = data, let image = UIImage(data: data) {
-                DispatchQueue.main.async { imageView.image = image }
+                DispatchQueue.main.async {
+                    imageView.image = image
+                }
+            } else {
+                print("Error loading image: \(error?.localizedDescription ?? "Unknown error")")
             }
         }.resume()
     }
@@ -301,4 +331,5 @@ private func createActivityIndicator() -> UIActivityIndicatorView {
     indicator.hidesWhenStopped = true
     return indicator
 }
+
 
