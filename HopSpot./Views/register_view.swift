@@ -16,12 +16,12 @@ struct register_view: View {
     var body: some View {
         NavigationStack {
             VStack {
-                Text("HopSpot.")
-                    .font(.system(size: 45, weight: .black))
-                    .tracking(1.35)
-                    .foregroundColor(.primary)
-                
                 ScrollView {
+                    Text("HopSpot.")
+                        .font(.system(size: 45, weight: .black))
+                        .tracking(1.35)
+                        .foregroundColor(.primary)
+                    
                     VStack(spacing: 24) {
                         Image("rabbit_logo")
                             .resizable()
@@ -31,13 +31,17 @@ struct register_view: View {
 
                         InputView(text: $fullname, title: "Full Name", placeholder: "Full Name")
                             .autocapitalization(.none)
+                            .autocorrectionDisabled()
 
                         InputView(text: $email, title: "Email Address", placeholder: "name@example.com")
                             .autocapitalization(.none)
+                            .autocorrectionDisabled()
 
                         InputView(text: $password, title: "Password", placeholder: "Enter your password", isSecureField: true)
+                            .autocorrectionDisabled()
 
                         InputView(text: $confirmPassword, title: "Confirm Password", placeholder: "Re-enter your password", isSecureField: true)
+                            .autocorrectionDisabled()
 
                         Picker("Select your gender", selection: $gender) {
                             ForEach(Gender.allCases, id: \.self) { gender in
@@ -64,7 +68,7 @@ struct register_view: View {
                                 .frame(maxWidth: .infinity)
                                 .padding()
                                 .background(formIsValid() ? Color.pink : Color.gray)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                                 .cornerRadius(8)
                         }
                         .disabled(!formIsValid())

@@ -1,15 +1,14 @@
 //
-//  PromotionFormView.swift
+//  FratEventCreate.swift
 //  HopSpot.
 //
-//  Created by Ben Roman on 2024-09-07.
+//  Created by Ben Roman on 2024-09-26.
 //
-
 import SwiftUI
 import Firebase
 import FirebaseFirestore
 
-struct PromotionCreateView: View {
+struct frat_event_create_view: View {
     @EnvironmentObject var viewModel: log_in_view_model
     var clubName: String
     var clubImageURL: String
@@ -23,23 +22,33 @@ struct PromotionCreateView: View {
     @State private var endDate = Date().addingTimeInterval(3600 * 24)
     @State private var startTime = Date()
     @State private var endTime = Date().addingTimeInterval(3600 * 24)
+    @State private var location = ""
     @State private var link = ""
     @State private var errorMessage: String?
 
     var body: some View {
         NavigationStack {
             ZStack {
+
                 Form {
-                    Section(header: Text("Promotion Details")) {
+                    Section(header: Text("Event Details")) {
                         TextField("Title", text: $title)
                             .autocorrectionDisabled()
                             
+
                         TextField("Description", text: $description)
                             .autocorrectionDisabled()
                             
+                            
+                        TextField("Location", text: $location)
+                            .autocorrectionDisabled()
+                            
+
                         TextField("Link", text: $link)
                             .autocorrectionDisabled()
                             
+                        
+
                         if let errorMessage = errorMessage {
                             Text(errorMessage)
                                 .foregroundColor(.red)
@@ -47,26 +56,36 @@ struct PromotionCreateView: View {
                         }
                     }
                     Section(header: Text("Start Date/Time")){
+                        // Calendar-style Date Picker for Start Date
                         DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
                             .datePickerStyle(GraphicalDatePickerStyle())
                         
+                        // Time Picker for Start Time
                         DatePicker("Start Time", selection: $startTime, displayedComponents: [.hourAndMinute])
+                            
+            
                     }
                     
                     Section(header: Text("End Date/Time")){
+                        // Calendar-style Date Picker for End Date
                         DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
                             .datePickerStyle(GraphicalDatePickerStyle())
                             
+
+                        // Time Picker for End Time
                         DatePicker("End Time", selection: $endTime, displayedComponents: [.hourAndMinute])
                     }
+                    
+    
+                    
                 }
-                .navigationTitle("New Promotion")
+                .navigationTitle("New Event")
                 .background(Color.black.ignoresSafeArea())
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
                         Button("Save") {
                             Task {
-                                await savePromotion()
+                                await saveEvent()
                                 if errorMessage == "" {
                                     presentationMode.wrappedValue.dismiss()
                                 }
@@ -75,91 +94,67 @@ struct PromotionCreateView: View {
                         .foregroundStyle(AppColor.color)
                     }
                 }
+            
             }
         }
     }
 
-    private func savePromotion() async {
-        guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
-            print("DEBUG: No Active Club ID found")
+    private func saveEvent() async {
+        guard let fratId = viewModel.currentUser?.frat?.id else {
+            print("DEBUG: No club ID found")
             return
         }
 
         // Basic validation
-        guard !title.isEmpty else {
-            errorMessage = "Title cannot be empty."
+        guard !title.isEmpty, !location.isEmpty else {
+            errorMessage = "Title and location cannot be empty."
             return
         }
 
-        // Extract the date components to compare only the day
-        let calendar = Calendar.current
-        let startDateComponents = calendar.dateComponents([.year, .month, .day], from: startDate)
-        let endDateComponents = calendar.dateComponents([.year, .month, .day], from: endDate)
-
-        // Create Dates from DateComponents for comparison
-        guard let startDateOnly = calendar.date(from: startDateComponents),
-              let endDateOnly = calendar.date(from: endDateComponents) else {
-            errorMessage = "Invalid date components."
+        if startDate >= endDate {
+            errorMessage = "Start date/time must be before end date/time."
             return
         }
 
-        // Compare only the date components
-        if startDateOnly > endDateOnly {
-            errorMessage = "Start date must be before end date."
-            return
-        } else if startDateOnly == endDateOnly {
-            // Extract time components to compare only the time
-            let startTimeComponents = calendar.dateComponents([.hour, .minute], from: startTime)
-            let endTimeComponents = calendar.dateComponents([.hour, .minute], from: endTime)
-
-            // Create Dates from time components for comparison
-            let startTimeOnly = calendar.date(from: startTimeComponents)
-            let endTimeOnly = calendar.date(from: endTimeComponents)
-
-            if let start = startTimeOnly, let end = endTimeOnly, start > end {
-                errorMessage = "Start time must be before end time."
-                return
-            }
-        }
-
-        let newPromotion = Promotion(
+        let newEvent = Event(
             title: title,
             description: description,
             startDate: startDate,
             endDate: endDate,
             startTime: startTime,
             endTime: endTime,
-            link: link,
+            location: location,
             clubName: clubName,
-            clubImageURL: clubImageURL
-            
+            clubImageURL: clubImageURL,
+            link: link
         )
 
         do {
             let db = Firestore.firestore()
-            let _ = try await db.collection("Clubs").document(clubId).collection("Promotions").addDocument(data: [
-                "title": newPromotion.title,
-                "description": newPromotion.description,
-                "startDate": Timestamp(date: newPromotion.startDate),
-                "endDate": Timestamp(date: newPromotion.endDate),
-                "startTime": Timestamp(date: newPromotion.startTime),
-                "endTime": Timestamp(date: newPromotion.endTime),
-                "link": newPromotion.link ?? "",
-                "clubName": newPromotion.clubName ?? "",
-                "clubImageURL": newPromotion.clubImageURL ?? ""
-                
+            let _ = try await db.collection("Waterloo_Frats").document(fratId).collection("Events").addDocument(data: [
+                "title": newEvent.title,
+                "description": newEvent.description,
+                "startDate": Timestamp(date: newEvent.startDate),
+                "endDate": Timestamp(date: newEvent.endDate),
+                "startTime": Timestamp(date: newEvent.startTime),
+                "endTime": Timestamp(date: newEvent.endTime),
+                "location": newEvent.location,
+                "clubName": newEvent.clubName ?? "",
+                "clubImageURL": newEvent.clubImageURL ?? "",
+                "link": newEvent.link ?? ""
             ])
             
             errorMessage = ""
             onSave()
         } catch {
-            print("DEBUG: Failed to save promotion with error: \(error.localizedDescription)")
-            errorMessage = "Failed to create promotion. Please try again."
+            print("DEBUG: Failed to save event with error: \(error.localizedDescription)")
+            errorMessage = "Failed to save event. Please try again."
         }
     }
 }
 
+
 #Preview {
-    PromotionCreateView(clubName: "Sample Club", clubImageURL: "placeholder_image_url") {}
+    frat_event_create_view(clubName: "Sample Club", clubImageURL: "placeholder_image_url") {}
         .environmentObject(log_in_view_model())
 }

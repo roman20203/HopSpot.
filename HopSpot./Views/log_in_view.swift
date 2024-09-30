@@ -6,16 +6,18 @@ struct log_in_view: View {
     @EnvironmentObject var viewModels: log_in_view_model
     @State private var loginSuccess = false
     @State private var isManager = false
-
+    @State private var errorMessage: String?
+    
+    
     var body: some View {
         NavigationStack {
-            VStack {
-                Text("HopSpot.")
-                    .font(.system(size: 45, weight: .black))
-                    .tracking(1.35)
-                    .foregroundColor(.primary)
-
-                ScrollView {
+            ScrollView {
+                VStack {
+                    Text("HopSpot.")
+                        .font(.system(size: 45, weight: .black))
+                        .tracking(1.35)
+                        .foregroundColor(.primary)
+                    
                     VStack {
                         Image("rabbit_logo")
                             .resizable()
@@ -26,70 +28,63 @@ struct log_in_view: View {
                         VStack(spacing: 24) {
                             InputView(text: $email, title: "Email Address", placeholder: "name@example.com")
                                 .autocapitalization(.none)
+                                .autocorrectionDisabled()
 
                             InputView(text: $password, title: "Password", placeholder: "Enter your password", isSecureField: true)
                                 .autocapitalization(.none)
+                                .autocorrectionDisabled()
+                            
+                            if let errorMessage = errorMessage {
+                                Text(errorMessage)
+                                    .foregroundColor(.red)
+                                    .font(.footnote)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.top, 10)
+                            }
+                            
+                            Button {
+                                Task {
+                                    do {
+                                        try await viewModels.signIn(withEmail: email, password: password)
+                                        loginSuccess = viewModels.userSession != nil
+                                        isManager = viewModels.currentManager != nil
+                                        errorMessage = nil
+                                    } catch {
+                                        print("DEBUG: Failed to sign in with error \(error.localizedDescription)")
+                                        errorMessage = "Invalid Email And/Or Password"
+                                    }
+                                }
+                            } label: {
+                                HStack {
+                                    Text("SIGN IN")
+                                        .fontWeight(.semibold)
+                                    Image(systemName: "arrow.right")
+                                }
+                                .foregroundColor(.black)
+                                .frame(width: UIScreen.main.bounds.width - 32, height: 48)
+                            }
+                            .background(AppColor.color)
+                            .cornerRadius(10)
+                            .padding(.top, 24)
                         }
                         .padding(.horizontal)
                         .padding(.top, 30)
 
-                        Button {
-                            Task {
-                                do {
-                                    try await viewModels.signIn(withEmail: email, password: password)
-                                    loginSuccess = viewModels.userSession != nil
-                                    isManager = viewModels.currentManager != nil
-                                } catch {
-                                    print("DEBUG: Failed to sign in with error \(error.localizedDescription)")
-                                }
-                            }
-                        } label: {
-                            HStack {
-                                Text("SIGN IN")
-                                    .fontWeight(.semibold)
-                                Image(systemName: "arrow.right")
-                            }
-                            .foregroundColor(.black)
-                            .frame(width: UIScreen.main.bounds.width - 32, height: 48)
-                        }
-                        .background(AppColor.color)
-                        .background(Color(.systemBlue))
-                        .disabled(!formIsValid)
-                        .opacity(formIsValid ? 1.0 : 0.8)
-                        .cornerRadius(10)
-                        .padding(.top, 24)
-
-                        if loginSuccess {
-                            if isManager {
-                                NavigationLink(destination: ClubSelectionView()) {
-                                    EmptyView()
-                                }
-                                .hidden() // Hide the NavigationLink as it's only for navigation purposes
-                            } else {
-                                NavigationLink(destination: main_view()) {
-                                    EmptyView()
-                                }
-                                .hidden() // Hide the NavigationLink as it's only for navigation purposes
-                            }
-                        }
+                        
                     }
-                    .padding(.bottom, 50) // Add padding to avoid cutting off elements with the keyboard
                 }
-                Spacer() // Spacer helps to avoid layout conflicts with the keyboard
+                .padding(.bottom, 50) // Add padding to avoid being covered by the keyboard
+            }
+            .ignoresSafeArea(.keyboard, edges: .bottom)
+            .padding(.bottom, 30) // Extra padding to adjust for the keyboard
+            .onTapGesture {
+                hideKeyboard()  // Utility function to dismiss the keyboard
             }
         }
     }
-
-    private var formIsValid: Bool {
-        return !email.isEmpty
-            && email.contains("@")
-            && !password.isEmpty
-            && password.count > 5
+    
+    // Helper function to hide keyboard
+    func hideKeyboard() {
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
-
-#Preview {
-    log_in_view()
-        .environmentObject(log_in_view_model())
-}
-

@@ -53,6 +53,10 @@ struct Event_Cell: View {
                         .padding(.top, 2)
                 }
             }
+            Text(event.location)
+                .font(.body)
+                .foregroundStyle(.white)
+                
             
             // Display event start and end date/time
             VStack(alignment: .leading, spacing: 3) {

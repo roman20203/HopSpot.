@@ -7,9 +7,10 @@
 
 import Foundation
 import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 struct Event: Identifiable, Codable {
-    @DocumentID var id: String?
+    var id: String?
     var title: String
     var description: String
     var startDate: Date
@@ -21,11 +22,28 @@ struct Event: Identifiable, Codable {
     var clubImageURL: String?
     var link: String?
 
+
     func formattedStartDateTime() -> String {
-        return startDate.formattedDateTime()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium // Format the date
+        let timeFormatter = DateFormatter()
+        timeFormatter.timeStyle = .short // Format the time
+
+        let formattedDate = dateFormatter.string(from: startDate) // Format startDate
+        let formattedTime = timeFormatter.string(from: startTime) // Format startTime
+        
+        return "\(formattedDate) at \(formattedTime)" // Combine date and time
     }
 
     func formattedEndDateTime() -> String {
-        return endDate.formattedDateTime()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium // Format the date
+        let timeFormatter = DateFormatter()
+        timeFormatter.timeStyle = .short // Format the time
+        
+        let formattedDate = dateFormatter.string(from: endDate) // Format endDate
+        let formattedTime = timeFormatter.string(from: endTime) // Format endTime
+        
+        return "\(formattedDate) at \(formattedTime)" // Combine date and time
     }
 }

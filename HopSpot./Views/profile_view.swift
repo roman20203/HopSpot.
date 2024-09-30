@@ -2,7 +2,11 @@ import SwiftUI
 
 struct profile_view: View {
     @EnvironmentObject var viewModel: log_in_view_model
+    @EnvironmentObject var clubHandler: club_firebase_handler
     @State private var user: User?
+    
+    @State private var showCreateView = false
+    
     @State private var showSettings = false
     @State private var showEditProfile = false
     @State private var isLoading = false
@@ -278,6 +282,37 @@ struct profile_view: View {
                                     }
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 8)
+                                    
+                            // Frat User View
+                            // Only appears for frat users, (users
+                            //with a fratId)
+                                    
+                                    if(user?.isFrat == true){
+                                        frat_user_view()
+                                            .overlay(
+                                                Button(action: {
+                                                    showCreateView = true
+                                                }) {
+                                                    Image(systemName: "plus")
+                                                        .resizable()
+                                                        .scaledToFit()
+                                                        .frame(width: 25, height: 25)
+                                                        .background(Color(UIColor.systemBackground).opacity(0.7)) // Adapt to light and dark mode
+                                                        .clipShape(Circle())
+                                                        .foregroundColor(AppColor.color) // Custom color
+                                                        .padding()
+                                                }
+                                                .padding(),alignment: .bottomTrailing
+                                            )
+                                            .sheet(isPresented: $showCreateView) {
+                                                frat_event_create_view(clubName: user?.frat?.name ?? "No Frat", clubImageURL: user?.frat?.imageURL ?? "placeholder_image_url",
+                                                    onSave:{
+                                                        clubHandler.refreshFrats();
+                                                })
+                                                .environmentObject(viewModel) // Pass your environment objects if needed
+                                            }
+                                    }
+                                    
                                 }
                                 .font(.system(size: 16)) // Font size for all texts
                                 .foregroundColor(dynamicColor(light: .black, dark: .white)) // Text color for all

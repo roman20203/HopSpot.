@@ -1,14 +1,14 @@
 //
-//  EventsEditView.swift
+//  frat_event_edit_view.swift
 //  HopSpot.
 //
-//  Created by Ben Roman on 2024-09-07.
+//  Created by Ben Roman on 2024-09-28.
 //
 import SwiftUI
 import Firebase
 import FirebaseFirestore
 
-struct EventsEditView: View {
+struct frat_event_edit_view: View {
     @EnvironmentObject var viewModel: log_in_view_model
     var event: Event
     var clubName: String
@@ -120,8 +120,8 @@ struct EventsEditView: View {
     }
 
     private func saveChanges() async {
-        guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
-            print("DEBUG: No Active Club ID found")
+        guard let fratId = viewModel.currentUser?.frat?.id else {
+            print("DEBUG: No frat ID found")
             return
         }
 
@@ -130,36 +130,10 @@ struct EventsEditView: View {
             errorMessage = "Title and location cannot be empty."
             return
         }
-        
-        // Extract the date components to compare only the day
-        let calendar = Calendar.current
-        let startDateComponents = calendar.dateComponents([.year, .month, .day], from: startDate)
-        let endDateComponents = calendar.dateComponents([.year, .month, .day], from: endDate)
 
-        // Create Dates from DateComponents for comparison
-        guard let startDateOnly = calendar.date(from: startDateComponents),
-              let endDateOnly = calendar.date(from: endDateComponents) else {
-            errorMessage = "Invalid date components."
+        if startDate >= endDate {
+            errorMessage = "Start date/time must be before end date/time."
             return
-        }
-
-        // Compare only the date components
-        if startDateOnly > endDateOnly {
-            errorMessage = "Start date must be before end date."
-            return
-        } else if startDateOnly == endDateOnly {
-            // Extract time components to compare only the time
-            let startTimeComponents = calendar.dateComponents([.hour, .minute], from: startTime)
-            let endTimeComponents = calendar.dateComponents([.hour, .minute], from: endTime)
-
-            // Create Dates from time components for comparison
-            let startTimeOnly = calendar.date(from: startTimeComponents)
-            let endTimeOnly = calendar.date(from: endTimeComponents)
-
-            if let start = startTimeOnly, let end = endTimeOnly, start > end {
-                errorMessage = "Start time must be before end time."
-                return
-            }
         }
 
         let updatedEvent = Event(
@@ -179,7 +153,7 @@ struct EventsEditView: View {
         do {
             let db = Firestore.firestore()
             if let eventId = updatedEvent.id {
-                try await db.collection("Clubs").document(clubId).collection("Events").document(eventId).setData([
+                try await db.collection("Waterloo_Frats").document(fratId).collection("Events").document(eventId).setData([
                     "title": updatedEvent.title,
                     "description": updatedEvent.description,
                     "startDate": Timestamp(date: updatedEvent.startDate),
@@ -201,8 +175,8 @@ struct EventsEditView: View {
     }
     
     private func deleteEvent() async {
-        guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
-            print("DEBUG: No Active Club ID found")
+        guard let fratId = viewModel.currentUser?.frat?.id else {
+            print("DEBUG: No frat ID found")
             return
         }
 
@@ -210,7 +184,7 @@ struct EventsEditView: View {
             let db = Firestore.firestore()
             if let eventId = event.id {
                 // Delete the event document from Firestore
-                try await db.collection("Clubs").document(clubId).collection("Events").document(eventId).delete()
+                try await db.collection("Waterloo_Frats").document(fratId).collection("Events").document(eventId).delete()
                 
                 // Optionally, notify the parent view to refresh or handle the deletion
                 onSave()
@@ -223,7 +197,7 @@ struct EventsEditView: View {
 }
 
 #Preview {
-    EventsEditView(
+    frat_event_edit_view(
         event: Event(
             title: "Sample Event",
             description: "This is a sample description",
