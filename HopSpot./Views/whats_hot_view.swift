@@ -15,15 +15,6 @@ struct whats_hot_view: View {
     @State private var searchText = ""
     @State private var showSearchBar = false
     
-    init() {
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor.black
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-    }
     
     var filteredClubs: [Club] {
         if searchText.isEmpty {
@@ -43,7 +34,7 @@ struct whats_hot_view: View {
                             .textFieldStyle(PlainTextFieldStyle())
                             .padding()
                             .background(Color.black)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                             .cornerRadius(7)
                         
                         Button(action: {
@@ -51,7 +42,7 @@ struct whats_hot_view: View {
                             searchText = ""
                         }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(AppColor.color)
+                                .foregroundStyle(AppColor.color)
                         }
                         .padding(.trailing)
                     }
@@ -75,7 +66,7 @@ struct whats_hot_view: View {
                             .padding(.horizontal)
                         } else {
                             Text("Please Allow Location Services")
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                         }
                     }
                    
@@ -90,7 +81,7 @@ struct whats_hot_view: View {
                         showSearchBar.toggle()
                     }) {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(AppColor.color)
+                            .foregroundStyle(AppColor.color)
                     }
                 }
             }

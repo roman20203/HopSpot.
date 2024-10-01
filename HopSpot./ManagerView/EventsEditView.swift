@@ -66,7 +66,7 @@ struct EventsEditView: View {
 
                     if let errorMessage = errorMessage {
                         Text(errorMessage)
-                            .foregroundColor(.red)
+                            .foregroundStyle(.red)
                             .padding()
                     }
                 }
@@ -87,7 +87,7 @@ struct EventsEditView: View {
                 Button("Delete") {
                     showDeleteConfirmation = true // Show the confirmation alert
                 }
-                .foregroundColor(.red)
+                .foregroundStyle(.red)
             }
             .navigationTitle("Edit Event")
             .background(Color.black.ignoresSafeArea())

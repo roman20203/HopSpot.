@@ -25,7 +25,7 @@ struct home_view: View {
                             Text("HopSpot.")
                                 .font(.system(size: 35, weight: .black))
                                 .tracking(0.9)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                             Spacer()
                         }
                         .padding(.top, 10)
@@ -97,12 +97,12 @@ struct home_view: View {
                                 Text("What's Hot.")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
                                     .tracking(0.78)
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                 
                                 Text("What's trending around you")
                                     .font(Font.custom("Arial", size: 12))
                                     .tracking(0.36)
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                 
                             
                                 HStack(spacing: 6) {
@@ -148,12 +148,12 @@ struct home_view: View {
                                 Text("Frat Parties")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
                                     .tracking(0.78)
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                 
                                 Text("Upcoming Frat Parties")
                                     .font(Font.custom("Arial", size: 12))
                                     .tracking(0.36)
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                 
                                 // Image Grid 3
                                 HStack(spacing: 6) { // Adjusted spacing between images
@@ -196,15 +196,15 @@ struct home_view: View {
                         // Section 4: CLlub Events
                         NavigationLink(destination: club_events_view()){
                             VStack(alignment: .leading, spacing: 6) { // Adjusted spacing
-                                Text("Club Events")
+                                Text("Events")
                                     .font(Font.custom("Arial", size: 26).weight(.bold))
                                     .tracking(0.78)
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                 
-                                Text("Check out current and upcoming club events")
+                                Text("Check out current and upcoming events")
                                     .font(Font.custom("Arial", size: 12))
                                     .tracking(0.36)
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                                 
                                 // Image Grid 4
                                 HStack(spacing: 6) { // Adjusted spacing between images

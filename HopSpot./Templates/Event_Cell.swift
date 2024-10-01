@@ -49,7 +49,7 @@ struct Event_Cell: View {
                 }) {
                     Text(isDescriptionExpanded ? "See Less" : "See More")
                         .font(.body)
-                        .foregroundColor(AppColor.color)
+                        .foregroundStyle(AppColor.color)
                         .padding(.top, 2)
                 }
             }
@@ -72,7 +72,7 @@ struct Event_Cell: View {
             if let link = event.link, !link.isEmpty {
                 Link("View Tickets", destination: URL(string: link)!)
                     .font(.body)
-                    .foregroundColor(AppColor.color)
+                    .foregroundStyle(AppColor.color)
                     .padding(.top, 2)
             }
         }

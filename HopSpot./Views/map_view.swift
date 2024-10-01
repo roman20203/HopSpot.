@@ -44,14 +44,14 @@ struct map_view: View {
                 Text(clubHandler.MapLocation.city)
                     .font(.title2)
                     .fontWeight(.black)
-                    .foregroundColor(.primary)
+                    .foregroundStyle(.white)
                     .frame(height: 55)
                     .frame(maxWidth: .infinity)
                     .animation(.none, value: clubHandler.MapLocation)
                     .overlay(alignment: .leading) {
                         Image(systemName: "arrow.down")
                             .font(.headline)
-                            .foregroundColor(.primary)
+                            .foregroundStyle(.white)
                             .padding()
                             .rotationEffect(Angle(degrees: clubHandler.showLocationsList ? 180 : 0))
                     }

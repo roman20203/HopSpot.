@@ -51,7 +51,7 @@ struct frat_event_create_view: View {
 
                         if let errorMessage = errorMessage {
                             Text(errorMessage)
-                                .foregroundColor(.red)
+                                .foregroundStyle(.red)
                                 .padding()
                         }
                     }
@@ -111,9 +111,35 @@ struct frat_event_create_view: View {
             return
         }
 
-        if startDate >= endDate {
-            errorMessage = "Start date/time must be before end date/time."
+        // Extract the date components to compare only the day
+        let calendar = Calendar.current
+        let startDateComponents = calendar.dateComponents([.year, .month, .day], from: startDate)
+        let endDateComponents = calendar.dateComponents([.year, .month, .day], from: endDate)
+
+        // Create Dates from DateComponents for comparison
+        guard let startDateOnly = calendar.date(from: startDateComponents),
+              let endDateOnly = calendar.date(from: endDateComponents) else {
+            errorMessage = "Invalid date components."
             return
+        }
+
+        // Compare only the date components
+        if startDateOnly > endDateOnly {
+            errorMessage = "Start date must be before end date."
+            return
+        } else if startDateOnly == endDateOnly {
+            // Extract time components to compare only the time
+            let startTimeComponents = calendar.dateComponents([.hour, .minute], from: startTime)
+            let endTimeComponents = calendar.dateComponents([.hour, .minute], from: endTime)
+
+            // Create Dates from time components for comparison
+            let startTimeOnly = calendar.date(from: startTimeComponents)
+            let endTimeOnly = calendar.date(from: endTimeComponents)
+
+            if let start = startTimeOnly, let end = endTimeOnly, start > end {
+                errorMessage = "Start time must be before end time."
+                return
+            }
         }
 
         let newEvent = Event(

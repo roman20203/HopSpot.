@@ -20,7 +20,7 @@ struct reg_or_log: View {
                     Text("HopSpot.")
                         .font(.system(size: 45, weight: .black))
                         .tracking(1.35)
-                        .foregroundColor(.black)
+                        .foregroundStyle(.black)
                         .padding(.top, 100) // Adjusted padding
                     // Logo
                     Image("rabbit_logo")
@@ -32,7 +32,7 @@ struct reg_or_log: View {
                     Text("Let's Get Started")
                         .font(.system(size: 35, weight: .black))
                         .tracking(1.20)
-                        .foregroundColor(.black)
+                        .foregroundStyle(.black)
                         .padding(.top, 10) // Adjusted padding
 
                     Text("Get ready to find the perfect spot for you.")
@@ -40,14 +40,14 @@ struct reg_or_log: View {
                         .multilineTextAlignment(.center)
                         .frame(width: 300)
                         .tracking(0.60)
-                        .foregroundColor(.black)
+                        .foregroundStyle(.black)
                         .padding(.top, 20) // Adjusted padding
 
                     // Buttons
                     VStack(spacing: 20) {
                         NavigationLink(destination: register_view()) {
                             Text("Sign Up")
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                                 .frame(width: 358, height: 56)
                                 .background(Color.blue)
                                 .cornerRadius(26)
@@ -56,11 +56,11 @@ struct reg_or_log: View {
                         Text("Already have an account?")
                             .font(.system(size: 12, weight: .bold))
                             .tracking(0.48)
-                            .foregroundColor(.black)
+                            .foregroundStyle(.black)
 
                         NavigationLink(destination: log_in_view()) {
                             Text("Log In")
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                                 .frame(width: 358, height: 56)
                                 .background(SignInColor.color)
                                 .cornerRadius(26)

@@ -36,7 +36,7 @@ struct User: Identifiable, Codable {
     var favoriteClubs: [String] = []
     
     var isFrat: Bool {
-        return fraternityID != ""  // Returns true if fraternityID is not nil, otherwise false
+        return fraternityID != nil  // Returns true if fraternityID is not nil, otherwise false
     }
     
     var age: Int {

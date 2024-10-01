@@ -15,16 +15,6 @@ struct near_by_view: View {
     @State private var searchText = ""
     @State private var showSearchBar = false
     
-    init() {
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.backgroundColor = UIColor.black
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-    }
     
     var filteredClubs: [Club] {
         if searchText.isEmpty {
@@ -44,7 +34,7 @@ struct near_by_view: View {
                             .textFieldStyle(PlainTextFieldStyle()) // Use PlainTextFieldStyle for custom styling
                             .padding()
                             .background(Color.black)
-                            .foregroundColor(.white) // White text color
+                            .foregroundStyle(.white) // White text color
                             .cornerRadius(7) // Rounded corners for the text field
                         
                         Button(action: {
@@ -52,7 +42,7 @@ struct near_by_view: View {
                             searchText = ""
                         }) {
                             Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(AppColor.color)
+                                .foregroundStyle(AppColor.color)
                         }
                         .padding(.trailing)
                     }
@@ -73,7 +63,7 @@ struct near_by_view: View {
                             .padding(.horizontal)
                         } else {
                             Text("Please Allow Location Services")
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                         }
                     }
                 }
@@ -87,7 +77,7 @@ struct near_by_view: View {
                         showSearchBar.toggle()
                     }) {
                         Image(systemName: "magnifyingglass")
-                            .foregroundColor(AppColor.color)
+                            .foregroundStyle(AppColor.color)
                     }
                 }
             }

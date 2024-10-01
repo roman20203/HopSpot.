@@ -34,6 +34,7 @@ struct user_promotion_view: View {
         }
         .navigationTitle("Promotions")
         .padding()
+        .background(Color(.systemBackground))
         }
     }
 

@@ -28,7 +28,7 @@ struct StarRatingTemplate: View {
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 40, height: 40)
-                        .foregroundColor(.yellow)
+                        .foregroundStyle(.yellow)
                         .onTapGesture {
                             rating = index
                         }
@@ -48,7 +48,7 @@ struct StarRatingTemplate: View {
             }) {
                 Text("Submit")
                     .font(.headline)
-                    .foregroundColor(.white)
+                    .foregroundStyle(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
                     .background(AppColor.color)
@@ -60,7 +60,7 @@ struct StarRatingTemplate: View {
             if showRatingMessage {
                 Text("You've already submitted a rating today.")
                     .font(.headline)
-                    .foregroundColor(.red)
+                    .foregroundStyle(.red)
                     .padding()
             }
 
