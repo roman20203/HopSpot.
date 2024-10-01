@@ -25,41 +25,123 @@ struct EventsCreateView: View {
     @State private var endTime = Date().addingTimeInterval(3600 * 24)
     @State private var location = ""
     @State private var link = ""
+    @State private var errorMessage: String?
 
     var body: some View {
         NavigationStack {
-            Form {
-                Section(header: Text("Event Details")) {
-                    TextField("Title", text: $title)
-                    TextField("Description", text: $description)
-                    DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
-                    DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
-                    DatePicker("Start Time", selection: $startTime, displayedComponents: [.hourAndMinute])
-                    DatePicker("End Time", selection: $endTime, displayedComponents: [.hourAndMinute])
-                    TextField("Location", text: $location)
-                    TextField("Link", text: $link)
-                }
-            }
-            .navigationTitle("New Event")
-            .background(Color.black.ignoresSafeArea())
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        Task {
-                            await saveEvent()
-                            presentationMode.wrappedValue.dismiss()
+            ZStack {
+
+                Form {
+                    Section(header: Text("Event Details")) {
+                        TextField("Title", text: $title)
+                            .autocorrectionDisabled()
+                            
+
+                        TextField("Description", text: $description)
+                            .autocorrectionDisabled()
+                            
+                            
+                        TextField("Location", text: $location)
+                            .autocorrectionDisabled()
+                            
+
+                        TextField("Link", text: $link)
+                            .autocorrectionDisabled()
+                            
+                        
+
+                        if let errorMessage = errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .padding()
                         }
                     }
-                    .foregroundStyle(AppColor.color)
+                    Section(header: Text("Start Date/Time")){
+                        // Calendar-style Date Picker for Start Date
+                        DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
+                            .datePickerStyle(GraphicalDatePickerStyle())
+                        
+                        // Time Picker for Start Time
+                        DatePicker("Start Time", selection: $startTime, displayedComponents: [.hourAndMinute])
+                            
+            
+                    }
+                    
+                    Section(header: Text("End Date/Time")){
+                        // Calendar-style Date Picker for End Date
+                        DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
+                            .datePickerStyle(GraphicalDatePickerStyle())
+                            
+
+                        // Time Picker for End Time
+                        DatePicker("End Time", selection: $endTime, displayedComponents: [.hourAndMinute])
+                    }
+                    
+    
+                    
                 }
+                .navigationTitle("New Event")
+                .background(Color.black.ignoresSafeArea())
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Save") {
+                            Task {
+                                await saveEvent()
+                                if errorMessage == "" {
+                                    presentationMode.wrappedValue.dismiss()
+                                }
+                            }
+                        }
+                        .foregroundStyle(AppColor.color)
+                    }
+                }
+            
             }
         }
     }
 
     private func saveEvent() async {
         guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
-            print("DEBUG: No club ID found")
+            print("DEBUG: No Active Club ID found")
             return
+        }
+
+        // Basic validation
+        guard !title.isEmpty, !location.isEmpty else {
+            errorMessage = "Title and location cannot be empty."
+            return
+        }
+
+        
+        // Extract the date components to compare only the day
+        let calendar = Calendar.current
+        let startDateComponents = calendar.dateComponents([.year, .month, .day], from: startDate)
+        let endDateComponents = calendar.dateComponents([.year, .month, .day], from: endDate)
+
+        // Create Dates from DateComponents for comparison
+        guard let startDateOnly = calendar.date(from: startDateComponents),
+              let endDateOnly = calendar.date(from: endDateComponents) else {
+            errorMessage = "Invalid date components."
+            return
+        }
+
+        // Compare only the date components
+        if startDateOnly > endDateOnly {
+            errorMessage = "Start date must be before end date."
+            return
+        } else if startDateOnly == endDateOnly {
+            // Extract time components to compare only the time
+            let startTimeComponents = calendar.dateComponents([.hour, .minute], from: startTime)
+            let endTimeComponents = calendar.dateComponents([.hour, .minute], from: endTime)
+
+            // Create Dates from time components for comparison
+            let startTimeOnly = calendar.date(from: startTimeComponents)
+            let endTimeOnly = calendar.date(from: endTimeComponents)
+
+            if let start = startTimeOnly, let end = endTimeOnly, start > end {
+                errorMessage = "Start time must be before end time."
+                return
+            }
         }
 
         let newEvent = Event(
@@ -90,9 +172,11 @@ struct EventsCreateView: View {
                 "link": newEvent.link ?? ""
             ])
             
+            errorMessage = ""
             onSave()
         } catch {
             print("DEBUG: Failed to save event with error: \(error.localizedDescription)")
+            errorMessage = "Failed to create event. Please try again."
         }
     }
 }

@@ -9,126 +9,138 @@ import Firebase
 import FirebaseFirestoreSwift
 
 struct PromotionsView: View {
+    @EnvironmentObject var clubHandler: club_firebase_handler
     @EnvironmentObject var viewModel: log_in_view_model
-    @State private var promotions: [Promotion] = []
+    @State private var selectedSection: String = "Tonight"
     @State private var showCreateView = false
-    @State private var editPromotion: Promotion?
 
     var body: some View {
-        NavigationStack {
-            VStack {
-                Text("Promotions")
-                    .font(.largeTitle)
-                    .bold()
-                    .foregroundColor(Color.primary) // Adapt to light and dark mode
-                    .padding(.top, 20)
-
-                if promotions.isEmpty {
-                    Text("No promotions available.")
-                        .font(.subheadline)
-                        .foregroundColor(Color.secondary) // Adapt to light and dark mode
-                        .padding()
-                }
-
-                List {
-                    ForEach(promotions) { promotion in
-                        HStack {
-                            VStack(alignment: .leading) {
-                                Text(promotion.title)
-                                    .font(.headline)
-                                    .foregroundColor(Color.primary) // Adapt to light and dark mode
-
-                                Text(promotion.description)
-                                    .font(.subheadline)
-                                    .foregroundColor(Color.primary) // Adapt to light and dark mode
-
-                                Text("Start: \(promotion.formattedStartDateTime())")
-                                    .font(.subheadline)
-                                    .foregroundColor(Color.primary) // Adapt to light and dark mode
-
-                                Text("End: \(promotion.formattedEndDateTime())")
-                                    .font(.subheadline)
-                                    .foregroundColor(Color.primary) // Adapt to light and dark mode
-
-                                if promotion.endDate < Date() {
-                                    Text("Ended")
-                                        .font(.subheadline)
-                                        .foregroundColor(.red) // Red for expired promotions
-                                }
-
-                                if let link = promotion.link, !link.isEmpty {
-                                    Link("View Tickets", destination: URL(string: link)!)
-                                        .font(.subheadline)
-                                        .foregroundColor(AppColor.color) // Custom color
-                                }
-                            }
-                            Spacer()
-                        }
-                        .padding()
-                        .background(Color(UIColor.secondarySystemBackground).opacity(0.8)) // Adapt to light and dark mode
-                        .cornerRadius(8)
-                        .onTapGesture {
-                            editPromotion = promotion
-                        }
-                    }
-                }
-                .listStyle(PlainListStyle())
-                .task {
-                    await loadPromotions()
-                }
-                Spacer()
+        VStack {
+            Picker("Select Section", selection: $selectedSection) {
+                Text("Tonight").tag("Tonight")
+                Text("Upcoming").tag("Upcoming")
             }
-            .background(Color(UIColor.systemBackground).ignoresSafeArea()) // Adapt to light and dark mode
-            .navigationTitle("Promotions")
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+            .tint(AppColor.color)
+            .background(Color.gray.opacity(0.3))
+            .cornerRadius(8)
+            
+            Spacer()
+            
+            if selectedSection == "Tonight" {
+                TonightUserPromotionsView(promos: filteredClubPromotions(for: clubHandler.currentPromotions))
+            } else {
+                UpcomingUserPromotionsView(promos: filteredClubPromotions(for: clubHandler.upcomingPromotions))
+            }
+
+            // Plus button for creating a new promotion
+            Button(action: {
+                showCreateView = true
+            }) {
+                Image(systemName: "plus")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 25, height: 25)
+                    .background(Color(UIColor.systemBackground).opacity(0.7)) // Adapt to light and dark mode
+                    .clipShape(Circle())
+                    .foregroundColor(AppColor.color) // Custom color
+                    .padding()
+            }
             .sheet(isPresented: $showCreateView) {
-                PromotionCreateView(clubName: viewModel.currentManager?.activeBusiness?.name ?? "Unknown Club",
-                                    clubImageURL: viewModel.currentManager?.activeBusiness?.imageURL ?? "placeholder_image_url") {
-                    Task {
-                        await loadPromotions()
+                PromotionCreateView(
+                    clubName: viewModel.currentManager?.activeBusiness?.name ?? "No Club",
+                    clubImageURL: viewModel.currentManager?.activeBusiness?.imageURL ?? "placeholder_image_url",
+                    onSave: {
+                        clubHandler.refreshClubs()
+                    }
+                )
+            }
+        }
+        .navigationTitle("Promotions")
+        .padding()
+    }
+    
+    private func filteredClubPromotions(for promos: [Promotion]) -> [Promotion] {
+        // Ensure the user manager has a Club
+        print("User: \(String(describing: viewModel.currentManager?.name))")
+        print("Club Name: \(String(describing: viewModel.currentManager?.activeBusiness?.name))")
+        
+        guard let club_Name = viewModel.currentManager?.activeBusiness?.name else {
+            return [] // Return an empty array if the user is not a Manager
+        }
+        return promos.filter { $0.clubName == club_Name }
+    }
+}
+
+struct TonightUserPromotionsView: View {
+    @EnvironmentObject var clubHandler: club_firebase_handler
+    @State private var selectedPromo: Promotion? // To store the selected promotion for editing
+    var promos: [Promotion]
+
+    var body: some View {
+        if promos.isEmpty {
+            Text("No Promotions Tonight")
+                .foregroundStyle(.primary)
+                .padding()
+            Spacer()
+        } else {
+            ScrollView {
+                ForEach(promos) { promo in
+                    Button(action: {
+                        selectedPromo = promo // Set the selected promotion
+                    }) {
+                        Promotion_Cell(promotion: promo)
+                            .padding(.bottom, 10)
                     }
                 }
             }
-            .sheet(item: $editPromotion) { promotion in
-                PromotionEditView(promotion: Binding(
-                    get: { promotion },
-                    set: { editPromotion = $0 }
-                )) {
-                    Task {
-                        await loadPromotions()
+            .sheet(item: $selectedPromo) { promo in // Present the edit view as a sheet
+                PromotionEditView(
+                    promotion: promo,
+                    clubName: promo.clubName ?? "",
+                    clubImageURL: promo.clubImageURL ?? "",
+                    onSave: {
+                        clubHandler.refreshClubs()
                     }
-                }
+                )
             }
-            .overlay(
-                Button(action: {
-                    showCreateView = true
-                }) {
-                    Image(systemName: "plus")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 25, height: 25)
-                        .background(Color(UIColor.systemBackground).opacity(0.7)) // Adapt to light and dark mode
-                        .clipShape(Circle())
-                        .foregroundColor(AppColor.color) // Custom color
-                        .padding()
-                }
-                .padding(),
-                alignment: .bottomTrailing
-            )
         }
     }
+}
 
-    private func loadPromotions() async {
-        guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
-            print("DEBUG: No club ID found")
-            return
-        }
-        
-        do {
-            let promotionsSnapshot = try await Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").getDocuments()
-            let loadedPromotions = promotionsSnapshot.documents.compactMap { try? $0.data(as: Promotion.self) }
-            promotions = loadedPromotions.sorted { $0.startDate < $1.startDate }
-        } catch {
-            print("DEBUG: Failed to load promotions with error: \(error.localizedDescription)")
+struct UpcomingUserPromotionsView: View {
+    @EnvironmentObject var clubHandler: club_firebase_handler
+    @State private var selectedPromo: Promotion? // To store the selected promotion for editing
+    var promos: [Promotion]
+
+    var body: some View {
+        if promos.isEmpty {
+            Text("No Upcoming Promotions")
+                .foregroundStyle(.primary)
+                .padding()
+            Spacer()
+        } else {
+            ScrollView {
+                ForEach(promos) { promo in
+                    Button(action: {
+                        selectedPromo = promo // Set the selected promotion
+                    }) {
+                        Promotion_Cell(promotion: promo)
+                            .padding(.bottom, 10)
+                    }
+                }
+            }
+            .sheet(item: $selectedPromo) { promo in // Present the edit view as a sheet
+                PromotionEditView(
+                    promotion: promo,
+                    clubName: promo.clubName ?? "",
+                    clubImageURL: promo.clubImageURL ?? "",
+                    onSave: {
+                        clubHandler.refreshClubs()
+                    }
+                )
+            }
         }
     }
 }

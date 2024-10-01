@@ -70,6 +70,7 @@ struct main_view: View {
             
         }
         .accentColor(AppColor.color) // Set the color of the selected tab icon
+        
 
     }
 }

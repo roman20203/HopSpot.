@@ -107,14 +107,17 @@ class club_firebase_handler: ObservableObject {
                                           clubImageURL: eventData["clubImageURL"] as? String ?? "")
                         
                         // Categorize events
-                        if (event.startDate <= currentDate && event.endDate >= currentDate) || event.startDate > currentDate {
-                            if Calendar.current.isDateInToday(event.startDate) || (event.startDate <= currentDate && event.endDate >= currentDate) {
-                                if Calendar.current.isDateInToday(event.startDate) {
-                                    fetchedCurrentFratEvents.append(event)
-                                } else {
-                                    fetchedUpcomingFratEvents.append(event)
-                                }
-                                return event
+                        let eventStartDate = event.startDate.startOfDay()
+                        let eventEndDate = event.endDate.startOfDay()
+                        
+                        if (eventStartDate <= eventEndDate){
+                            if eventStartDate <= currentDate && eventEndDate >= currentDate {
+                                
+                                fetchedCurrentFratEvents.append(event)
+                            }
+                        
+                            else if eventStartDate > currentDate {
+                                fetchedUpcomingFratEvents.append(event)
                             }
                         }
                         return nil
@@ -125,8 +128,8 @@ class club_firebase_handler: ObservableObject {
             }
             
             dispatchGroup.notify(queue: .main) {
-                self.currentFratEvents = fetchedCurrentFratEvents
-                self.upcomingFratEvents = fetchedUpcomingFratEvents
+                self.currentFratEvents = fetchedCurrentFratEvents.sorted(by: { $0.startDate < $1.startDate })
+                self.upcomingFratEvents = fetchedUpcomingFratEvents.sorted(by: { $0.startDate < $1.startDate })
                 print("Fetched \(self.currentFratEvents.count) current frat events")
                 print("Current: \(self.currentFratEvents)")
                 print("Fetched \(self.upcomingFratEvents.count) upcoming frat events")
@@ -176,6 +179,7 @@ class club_firebase_handler: ObservableObject {
                     continue
                 }
                 
+                //var club = Club(id: id, name: name, address: address, rating: rating, reviewCount: reviewCount, description: description, imageURL: imageURL, latitude: latitude, longitude: longitude, busyness: busyness, website: website, city: city, promotions: [])
                 var club = Club(id: id, name: name, address: address, rating: rating, reviewCount: reviewCount, description: description, imageURL: imageURL, latitude: latitude, longitude: longitude, busyness: busyness, website: website, city: city, promotions: [])
                 
                 dispatchGroup.enter()
@@ -214,7 +218,7 @@ class club_firebase_handler: ObservableObject {
                         let promotionStartDate = promotion.startDate.startOfDay()
                         let promotionEndDate = promotion.endDate.startOfDay()
                         
-                        if (promotionStartDate < promotionEndDate){
+                        if (promotionStartDate <= promotionEndDate){
                             if promotionStartDate <= currentDate && promotionEndDate >= currentDate {
                                 // Add to current promotions
                                 fetchedCurrentPromotions.append(promotion)
@@ -259,11 +263,19 @@ class club_firebase_handler: ObservableObject {
                                               clubName: eventData["clubName"] as? String ?? "",
                                               clubImageURL: eventData["clubImageURL"] as? String ?? "")
                             
-                            // Categorize events
-                            if event.startDate <= currentDate && event.endDate >= currentDate {
-                                fetchedCurrentEvents.append(event)
-                            } else if event.startDate > currentDate {
-                                fetchedUpcomingEvents.append(event)
+                            let eventStartDate = event.startDate.startOfDay()
+                            let eventEndDate = event.endDate.startOfDay()
+                            
+                            if (eventStartDate <= eventEndDate){
+                                if eventStartDate <= currentDate && eventEndDate >= currentDate {
+                                    // Add to current promotions
+                                    fetchedCurrentEvents.append(event)
+                                }
+                                // Check for upcoming promotions (starting in the future)
+                                else if eventStartDate > currentDate {
+                                    // Add to upcoming promotions
+                                    fetchedUpcomingEvents.append(event)
+                                }
                             }
                             
                             return event
@@ -278,10 +290,12 @@ class club_firebase_handler: ObservableObject {
                 // Ensure all updates to @Published properties happen on the main thread
                 DispatchQueue.main.async {
                     self.clubs = fetchedClubs
-                    self.currentPromotions = fetchedCurrentPromotions
-                    self.upcomingPromotions = fetchedUpcomingPromotions
-                    self.currentEvents = fetchedCurrentEvents
-                    self.upcomingEvents = fetchedUpcomingEvents
+                    // Sort the current promotions and events by startDate
+                    self.currentPromotions = fetchedCurrentPromotions.sorted(by: { $0.startDate < $1.startDate })
+                    self.upcomingPromotions = fetchedUpcomingPromotions.sorted(by: { $0.startDate < $1.startDate })
+                    self.currentEvents = fetchedCurrentEvents.sorted(by: { $0.startDate < $1.startDate })
+                    self.upcomingEvents = fetchedUpcomingEvents.sorted(by: { $0.startDate < $1.startDate })
+
                     
                     self.isInitialized = true
                     print("Fetched \(self.clubs.count) clubs")
@@ -474,10 +488,19 @@ class club_firebase_handler: ObservableObject {
         }
         
     }
-    private func refresh() {
+    
+    func refresh() {
         fetchClubs()
         fetchFratEvents()
     }
+    func refreshFrats(){
+        fetchFratEvents()
+        print(currentFratEvents)
+    }
+    func refreshClubs(){
+        fetchClubs()
+    }
+    
     
 }
 extension Date {

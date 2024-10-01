@@ -21,17 +21,19 @@ struct InputView: View {
                 .foregroundColor(.primary)
                 .fontWeight(.semibold)
                 .font(.footnote)
+                .autocorrectionDisabled()
             
             if isSecureField {
                 SecureField(placeholder, text: $text)
                     .font(.system(size: 14))
                     .textContentType(.oneTimeCode)
-                    .autocorrectionDisabled(true)
+                    .autocorrectionDisabled()
+                    
             } else {
                 TextField(placeholder, text: $text)
                     .font(.system(size: 14))
                     .textContentType(.none)
-                    .autocorrectionDisabled(true)
+                    .autocorrectionDisabled()
             }
             Divider()
         }

@@ -4,67 +4,106 @@
 //
 //  Created by Ben Roman on 2024-08-22.
 //
+
 import SwiftUI
 import Firebase
-import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 struct PromotionEditView: View {
-    @Binding var promotion: Promotion?
-    @State private var title: String = ""
-    @State private var description: String = ""
-    @State private var startDate: Date = Date()
-    @State private var endDate: Date = Date().addingTimeInterval(3600 * 24)
-    @State private var startTime: Date = Date()
-    @State private var endTime: Date = Date().addingTimeInterval(3600 * 24)
-    @State private var link: String = ""
-    @State private var showDeleteConfirmation = false
     @EnvironmentObject var viewModel: log_in_view_model
-    @Environment(\.presentationMode) var presentationMode
+    var promotion: Promotion
+    var clubName: String
+    var clubImageURL: String
     var onSave: () -> Void
+    
+    @Environment(\.presentationMode) var presentationMode
+
+    // State variables for editing the promotion
+    @State private var title: String
+    @State private var description: String
+    @State private var startDate: Date
+    @State private var endDate: Date
+    @State private var startTime: Date
+    @State private var endTime: Date
+    @State private var link: String
+    
+    @State private var errorMessage: String?
+    @State private var showDeleteConfirmation: Bool = false // State for delete confirmation
+
+    // Initialize state variables with existing promotion data
+    init(promotion: Promotion, clubName: String, clubImageURL: String, onSave: @escaping () -> Void) {
+        self.promotion = promotion
+        self.clubName = clubName
+        self.clubImageURL = clubImageURL
+        self.onSave = onSave
+
+        // Pre-populate state variables with the promotion data
+        _title = State(initialValue: promotion.title)
+        _description = State(initialValue: promotion.description)
+        _startDate = State(initialValue: promotion.startDate)
+        _endDate = State(initialValue: promotion.endDate)
+        _startTime = State(initialValue: promotion.startTime)
+        _endTime = State(initialValue: promotion.endTime)
+        _link = State(initialValue: promotion.link ?? "")
+    }
 
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Promotion Details")) {
                     TextField("Title", text: $title)
+                        .autocorrectionDisabled()
+
                     TextField("Description", text: $description)
-                    
-                    DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
-                    DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
-                    
-                    DatePicker("Start Time", selection: $startTime, displayedComponents: [.hourAndMinute])
-                    DatePicker("End Time", selection: $endTime, displayedComponents: [.hourAndMinute])
-                    
-                    TextField("Link (optional)", text: $link)
-                }
-                
-                if promotion != nil {
-                    Button(action: {
-                        showDeleteConfirmation = true
-                    }) {
-                        Text("Delete Promotion")
+                        .autocorrectionDisabled()
+
+                    TextField("Link", text: $link)
+                        .autocorrectionDisabled()
+
+                    if let errorMessage = errorMessage {
+                        Text(errorMessage)
                             .foregroundColor(.red)
+                            .padding()
                     }
                 }
+                Section(header: Text("Start Date/Time")) {
+                    DatePicker("Start Date", selection: $startDate, displayedComponents: [.date])
+                        .datePickerStyle(GraphicalDatePickerStyle())
+
+                    DatePicker("Start Time", selection: $startTime, displayedComponents: [.hourAndMinute])
+                }
+                
+                Section(header: Text("End Date/Time")) {
+                    DatePicker("End Date", selection: $endDate, displayedComponents: [.date])
+                        .datePickerStyle(GraphicalDatePickerStyle())
+
+                    DatePicker("End Time", selection: $endTime, displayedComponents: [.hourAndMinute])
+                }
+                
+                Button("Delete") {
+                    showDeleteConfirmation = true // Show the confirmation alert
+                }
+                .foregroundColor(.red)
             }
-            .navigationTitle(promotion == nil ? "New Promotion" : "Edit Promotion")
-            .onAppear {
-                if let promotion = promotion {
-                    title = promotion.title
-                    description = promotion.description
-                    startDate = promotion.startDate
-                    endDate = promotion.endDate
-                    startTime = promotion.startTime
-                    endTime = promotion.endTime
-                    link = promotion.link ?? ""
-                } else {
-                    resetFields()
+            .navigationTitle("Edit Promotion")
+            .background(Color.black.ignoresSafeArea())
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        Task {
+                            await saveChanges()
+                            if errorMessage == nil || errorMessage!.isEmpty {
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        }
+                    }
+                    .foregroundStyle(AppColor.color)
                 }
             }
-            .alert(isPresented: $showDeleteConfirmation) {
+            .alert(isPresented: $showDeleteConfirmation) { // Alert for deletion confirmation
                 Alert(
-                    title: Text("Confirm Deletion"),
-                    message: Text("Are you sure you want to delete this promotion?"),
+                    title: Text("Are you sure?"),
+                    message: Text("Do you really want to delete this promotion? This action cannot be undone."),
                     primaryButton: .destructive(Text("Delete")) {
                         Task {
                             await deletePromotion()
@@ -73,90 +112,128 @@ struct PromotionEditView: View {
                     secondaryButton: .cancel()
                 )
             }
-            .background(Color.black.ignoresSafeArea())
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        Task {
-                            await savePromotion()
-                        }
-                    }
-                    .foregroundStyle(AppColor.color)
-                }
-            }
         }
     }
 
-    private func savePromotion() async {
+    private func saveChanges() async {
         guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
-            print("DEBUG: No club ID found")
+            print("DEBUG: No Active Club ID found")
             return
         }
 
-        let startDateTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: startTime),
-                                                  minute: Calendar.current.component(.minute, from: startTime),
-                                                  second: 0,
-                                                  of: startDate) ?? startDate
-        let endDateTime = Calendar.current.date(bySettingHour: Calendar.current.component(.hour, from: endTime),
-                                                minute: Calendar.current.component(.minute, from: endTime),
-                                                second: 0,
-                                                of: endDate) ?? endDate
+        // Basic validation
+        guard !title.isEmpty else {
+            errorMessage = "Title cannot be empty."
+            return
+        }
+        
+        // Extract the date components to compare only the day
+        let calendar = Calendar.current
+        let startDateComponents = calendar.dateComponents([.year, .month, .day], from: startDate)
+        let endDateComponents = calendar.dateComponents([.year, .month, .day], from: endDate)
 
-        let newPromotion = Promotion(
-            id: promotion?.id, // Use existing ID for update or nil for new promotion
+        // Create Dates from DateComponents for comparison
+        guard let startDateOnly = calendar.date(from: startDateComponents),
+              let endDateOnly = calendar.date(from: endDateComponents) else {
+            errorMessage = "Invalid date components."
+            return
+        }
+
+        // Compare only the date components
+        if startDateOnly > endDateOnly {
+            errorMessage = "Start date must be before end date."
+            return
+        } else if startDateOnly == endDateOnly {
+            // Extract time components to compare only the time
+            let startTimeComponents = calendar.dateComponents([.hour, .minute], from: startTime)
+            let endTimeComponents = calendar.dateComponents([.hour, .minute], from: endTime)
+
+            // Create Dates from time components for comparison
+            let startTimeOnly = calendar.date(from: startTimeComponents)
+            let endTimeOnly = calendar.date(from: endTimeComponents)
+
+            if let start = startTimeOnly, let end = endTimeOnly, start > end {
+                errorMessage = "Start time must be before end time."
+                return
+            }
+        }
+
+        let updatedPromotion = Promotion(
+            id: promotion.id,
             title: title,
             description: description,
-            startDate: startDateTime,
-            endDate: endDateTime,
+            startDate: startDate,
+            endDate: endDate,
             startTime: startTime,
             endTime: endTime,
             link: link,
-            clubName: viewModel.currentManager?.activeBusiness?.name ?? "Unknown Club",
-            clubImageURL: viewModel.currentManager?.activeBusiness?.imageURL ?? "placeholder_image_url"
+            clubName: clubName,
+            clubImageURL: clubImageURL
+            
         )
-        
+
         do {
-            if let id = newPromotion.id {
-                // Update existing promotion
-                try Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").document(id).setData(from: newPromotion)
-            } else {
-                // Create new promotion
-                _ = try Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").addDocument(from: newPromotion)
+            let db = Firestore.firestore()
+            if let promotionId = updatedPromotion.id {
+                try await db.collection("Clubs").document(clubId).collection("Promotions").document(promotionId).setData([
+                    "title": updatedPromotion.title,
+                    "description": updatedPromotion.description,
+                    "startDate": Timestamp(date: updatedPromotion.startDate),
+                    "endDate": Timestamp(date: updatedPromotion.endDate),
+                    "startTime": Timestamp(date: updatedPromotion.startTime),
+                    "endTime": Timestamp(date: updatedPromotion.endTime),
+                    "clubName": updatedPromotion.clubName ?? "",
+                    "clubImageURL": updatedPromotion.clubImageURL ?? "",
+                    "link": updatedPromotion.link ?? ""
+                ], merge: true)
+
+                errorMessage = ""
+                onSave()
             }
-            onSave()
-            presentationMode.wrappedValue.dismiss()
         } catch {
-            print("DEBUG: Failed to save promotion with error: \(error.localizedDescription)")
+            print("DEBUG: Failed to update promotion with error: \(error.localizedDescription)")
         }
     }
-
+    
     private func deletePromotion() async {
-        guard let id = promotion?.id, let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
-            print("DEBUG: No promotion ID or club ID found")
+        guard let clubId = viewModel.currentManager?.activeBusiness?.club_id else {
+            print("DEBUG: No Active Club ID found")
             return
         }
 
         do {
-            try await Firestore.firestore().collection("Clubs").document(clubId).collection("Promotions").document(id).delete()
-            onSave()
-            presentationMode.wrappedValue.dismiss()
+            let db = Firestore.firestore()
+            if let promotionId = promotion.id {
+                // Delete the promotion document from Firestore
+                try await db.collection("Clubs").document(clubId).collection("Promotions").document(promotionId).delete()
+                
+                // Optionally, notify the parent view to refresh or handle the deletion
+                onSave()
+                presentationMode.wrappedValue.dismiss() // Dismiss the view after deletion
+            }
         } catch {
             print("DEBUG: Failed to delete promotion with error: \(error.localizedDescription)")
         }
     }
-
-    private func resetFields() {
-        title = ""
-        description = ""
-        startDate = Date()
-        endDate = Date().addingTimeInterval(3600 * 24)
-        startTime = Date()
-        endTime = Date().addingTimeInterval(3600 * 24)
-        link = ""
-    }
 }
 
 #Preview {
-    PromotionEditView(promotion: .constant(nil), onSave: {})
-        .environmentObject(log_in_view_model())
+    PromotionEditView(
+        promotion: Promotion(
+            id: "sample_id",
+            title: "Sample Promotion",
+            description: "This is a sample description",
+            startDate: Date(),
+            endDate: Date().addingTimeInterval(3600 * 24),
+            startTime: Date(),
+            endTime: Date().addingTimeInterval(3600 * 24),
+            link: "https://example.com",
+            clubName: "Sample Frat",
+            clubImageURL: "placeholder_image_url"
+        ),
+        clubName: "Sample Frat",
+        clubImageURL: "placeholder_image_url",
+        onSave: {}
+    )
+    .environmentObject(log_in_view_model())
 }

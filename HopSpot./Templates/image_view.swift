@@ -5,6 +5,8 @@
 //  Created by Ben Roman on 2024-07-24.
 //
 
+
+
 import FirebaseStorage
 import SwiftUI
 
@@ -50,3 +52,66 @@ struct image_view: View {
         }
     }
 }
+
+/*
+ 
+ import FirebaseStorage
+ import SwiftUI
+
+ class ImageCache {
+     static let shared = NSCache<NSString, UIImage>()
+ }
+
+ struct image_view: View {
+     @State private var image: Image? = nil
+     @State private var isLoading: Bool = true
+     
+     let imagePath: String
+
+     var body: some View {
+         ZStack {
+             if let image = image {
+                 image
+                     .resizable()
+                     .aspectRatio(contentMode: .fill)
+             } else if isLoading {
+                 ProgressView()
+             } else {
+                 Color.gray // Placeholder if image loading fails
+             }
+         }
+         .onAppear {
+             loadImage()
+         }
+     }
+
+     private func loadImage() {
+         // Check cache first
+         if let cachedImage = ImageCache.shared.object(forKey: imagePath as NSString) {
+             self.image = Image(uiImage: cachedImage)
+             isLoading = false
+             return
+         }
+
+         let storage = Storage.storage()
+         let storageRef = storage.reference().child(imagePath)
+
+         storageRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+             if let error = error {
+                 print("Error loading image: \(error)")
+                 isLoading = false
+                 return
+             }
+
+             if let data = data, let uiImage = UIImage(data: data) {
+                 // Cache the image
+                 ImageCache.shared.setObject(uiImage, forKey: imagePath as NSString)
+                 self.image = Image(uiImage: uiImage)
+             }
+
+             isLoading = false
+         }
+     }
+ }
+
+ */

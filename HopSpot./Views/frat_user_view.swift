@@ -1,18 +1,19 @@
 //
-//  EventsView.swift
+//  frat_user_view.swift
 //  HopSpot.
 //
-//  Created by Ben Roman on 2024-09-07.
+//  Created by Ben Roman on 2024-09-26.
 //
+
 
 import SwiftUI
 import Firebase
 
-struct EventsView: View {
+struct frat_user_view: View {
     @EnvironmentObject var clubHandler: club_firebase_handler
     @EnvironmentObject var viewModel: log_in_view_model
     @State private var selectedSection: String = "Tonight"
-    @State private var showCreateView = false
+    
 
     var body: some View {
         VStack {
@@ -29,59 +30,36 @@ struct EventsView: View {
             Spacer()
             
             if selectedSection == "Tonight" {
-                TonightUserEventsView(events: filteredClubEvents(for: clubHandler.currentEvents))
+                TonightUserFratEventsView(events: filteredFratEvents(for: clubHandler.currentFratEvents))
             } else {
-                UpcomingUserEventsView(events: filteredClubEvents(for: clubHandler.upcomingEvents))
-            }
-
-            // Plus button for creating a new event
-            Button(action: {
-                showCreateView = true
-            }) {
-                Image(systemName: "plus")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 25, height: 25)
-                    .background(Color(UIColor.systemBackground).opacity(0.7)) // Adapt to light and dark mode
-                    .clipShape(Circle())
-                    .foregroundColor(AppColor.color) // Custom color
-                    .padding()
-            }
-            .sheet(isPresented: $showCreateView) {
-                EventsCreateView(
-                    clubName: viewModel.currentManager?.activeBusiness?.name ?? "No Club",
-                    clubImageURL: viewModel.currentManager?.activeBusiness?.imageURL ?? "placeholder_image_url",
-                    onSave: {
-                        clubHandler.refreshClubs()
-                    }
-                )
+                UpcomingUserFratEventsView(events: filteredFratEvents(for: clubHandler.upcomingFratEvents))
             }
         }
         .navigationTitle("Frat Events")
         .padding()
     }
     
-    private func filteredClubEvents(for events: [Event]) -> [Event] {
-        // Ensure the user manager has a Club
+    private func filteredFratEvents(for events: [Event]) -> [Event] {
+        // Ensure the user has a fraternity with a name
         print("User: \(String(describing: viewModel.currentUser?.getName()))")
-        print("Club Name: \(String(describing: viewModel.currentManager?.activeBusiness?.name))")
+        print("Fraternity Name: \(String(describing: viewModel.currentUser?.frat?.name))")
         
-        guard let club_Name = viewModel.currentManager?.activeBusiness?.name else {
-            return [] // Return an empty array if the user is not a Manager
+        guard let fraternityName = viewModel.currentUser?.frat?.name else {
+            return [] // Return an empty array if the user is not in a fraternity
         }
-        return events.filter { $0.clubName == club_Name }
+        return events.filter { $0.clubName == fraternityName }
     }
 }
 
 
-struct TonightUserEventsView: View {
+struct TonightUserFratEventsView: View {
     @EnvironmentObject var clubHandler: club_firebase_handler
     @State private var selectedEvent: Event? // To store the selected event for editing
     var events: [Event]
 
     var body: some View {
         if events.isEmpty {
-            Text("No Events Tonight")
+            Text("No Frat Events Tonight")
                 .foregroundStyle(.primary)
                 .padding()
             Spacer()
@@ -97,12 +75,12 @@ struct TonightUserEventsView: View {
                 }
             }
             .sheet(item: $selectedEvent) { event in // Present the edit view as a sheet
-                EventsEditView(
+                frat_event_edit_view(
                     event: event,
                     clubName: event.clubName ?? "",
                     clubImageURL: event.clubImageURL ?? "",
                     onSave: {
-                        clubHandler.refreshClubs()
+                        clubHandler.refreshFrats()
                     }
                 )
             }
@@ -110,7 +88,7 @@ struct TonightUserEventsView: View {
     }
 }
 
-struct UpcomingUserEventsView: View {
+struct UpcomingUserFratEventsView: View {
     @EnvironmentObject var clubHandler: club_firebase_handler
     @State private var selectedEvent: Event? // To store the selected event for editing
     var events: [Event]
@@ -133,12 +111,12 @@ struct UpcomingUserEventsView: View {
                 }
             }
             .sheet(item: $selectedEvent) { event in // Present the edit view as a sheet
-                EventsEditView(
+                frat_event_edit_view(
                     event: event,
                     clubName: event.clubName ?? "",
                     clubImageURL: event.clubImageURL ?? "",
                     onSave: {
-                        clubHandler.refreshClubs()
+                        clubHandler.refreshFrats()
                     }
                 )
             }
@@ -146,10 +124,10 @@ struct UpcomingUserEventsView: View {
     }
 }
 
-struct EventsView_display: PreviewProvider {
+
+struct frat_user_view_display: PreviewProvider {
     static var previews: some View {
-        EventsView()
+        frat_user_view()
             .environmentObject(club_firebase_handler())
-            .environmentObject(log_in_view_model())
     }
 }
