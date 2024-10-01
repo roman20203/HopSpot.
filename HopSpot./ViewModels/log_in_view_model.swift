@@ -11,11 +11,14 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 
+
+
 @MainActor
 class log_in_view_model: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
     @Published var currentUser: User?
     @Published var currentManager: Manager? // To hold manager data if the user is a manager
+    @Published var imageUploadComplete: Bool = false
 
     private var authStateListenerHandle: AuthStateDidChangeListenerHandle?
     private var isListening = false
@@ -43,6 +46,9 @@ class log_in_view_model: ObservableObject {
             }
         }
     }
+    func notifyImageUploadComplete() {
+            self.imageUploadComplete = true
+        }
 
     func signIn(withEmail email: String, password: String) async throws {
         do {

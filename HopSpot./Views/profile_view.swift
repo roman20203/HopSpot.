@@ -10,10 +10,10 @@ struct profile_view: View {
     @State private var showSettings = false
     @State private var showEditProfile = false
     @State private var isLoading = false
-    @State private var showBackgroundImagePicker = false // State to show the background image picker
-    @State private var isBackgroundImageSet = false // State to track if a background image is already set
-    
-    // Helper function to set dynamic colors based on color scheme
+    @State private var showBackgroundImagePicker = false
+    @State private var isBackgroundImageSet = false
+
+    // Helper function for dynamic colors
     private func dynamicColor(light: Color, dark: Color) -> Color {
         return Color(UIColor { traitCollection in
             return traitCollection.userInterfaceStyle == .dark ? UIColor(dark) : UIColor(light)
@@ -22,28 +22,26 @@ struct profile_view: View {
 
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all) // Background color for the entire view including the top section
+            Color.black.edgesIgnoringSafeArea(.all) // Background color for the whole view
             
             ScrollView {
                 VStack(spacing: 0) {
-                    // Top bar with black background and white text
+                    // Top bar with the title
                     ZStack(alignment: .top) {
-                        Color.black // Background color for the top bar
-                            .edgesIgnoringSafeArea(.all)
-                        
+                        Color.black.edgesIgnoringSafeArea(.all)
                         HStack {
                             Spacer()
                             Text("HopSpot.")
                                 .font(.system(size: 30, weight: .black))
                                 .tracking(0.9)
-                                .foregroundColor(.white) // Static white text color for contrast
+                                .foregroundColor(.white)
                                 .padding(.top, 10)
                             Spacer()
                         }
                     }
                     .frame(height: 90)
-                    
-                    // Background Image using backgroundImageUrl from user
+
+                    // Background Image section
                     ZStack {
                         if let backgroundImageUrl = user?.backgroundImageUrl, !backgroundImageUrl.isEmpty {
                             AsyncImage(url: URL(string: backgroundImageUrl)) { image in
@@ -62,7 +60,7 @@ struct profile_view: View {
                                             .font(.headline)
                                     )
                             }
-                        } else { // Default gray background with tap to add text
+                        } else {
                             Rectangle()
                                 .fill(Color.gray)
                                 .frame(width: UIScreen.main.bounds.width, height: 203)
@@ -74,22 +72,22 @@ struct profile_view: View {
                         }
                     }
                     .onTapGesture {
-                        if !isBackgroundImageSet { // Allow tapping only if an image has not been set
-                            showBackgroundImagePicker = true // Show the image picker when tapped
+                        if !isBackgroundImageSet {
+                            showBackgroundImagePicker = true
                         }
                     }
-                    .disabled(isBackgroundImageSet) // Disable tap gesture if the background image is set
+                    .disabled(isBackgroundImageSet) // Disable tap if background image is set
                     .sheet(isPresented: $showBackgroundImagePicker) {
-                        BackgroundImageViewController() // Show BackgroundImageViewController for selecting or capturing an image
+                        BackgroundImageViewController()
                             .environmentObject(viewModel)
                             .onDisappear {
                                 if let backgroundImageUrl = viewModel.currentUser?.backgroundImageUrl, !backgroundImageUrl.isEmpty {
-                                    isBackgroundImageSet = true // Set the state to true once an image is uploaded
+                                    isBackgroundImageSet = true
                                 }
                             }
                     }
 
-
+                    // User Info Section with Profile Image
                     VStack(spacing: -30) {
                         ZStack(alignment: .bottom) {
                             // Adaptive background for the user info section
@@ -97,12 +95,12 @@ struct profile_view: View {
                                 .fill(dynamicColor(light: .white, dark: Color(UIColor.systemGray6)))
                                 .cornerRadius(50)
                                 .shadow(radius: 15)
-                                .padding(.top, -25)
+                                .padding(.top, -25) // Match the padding to move up
                                 .frame(height: 735)
                             
-                            VStack(alignment: .center) { // Center align the VStack contents
-                                // User profile picture and name section
-                                VStack { // Changed from HStack to VStack to center align the image and name
+                            VStack(alignment: .center) {
+                                // Profile picture and user name
+                                VStack {
                                     ZStack {
                                         if let imageUrl = user?.profileImageUrl, !imageUrl.isEmpty {
                                             AsyncImage(url: URL(string: imageUrl)) { image in
@@ -114,43 +112,43 @@ struct profile_view: View {
                                                     .resizable()
                                                     .foregroundColor(.gray)
                                             }
-                                            .frame(width: 90, height: 90) // Profile Image Size and Position
+                                            .frame(width: 90, height: 90)
                                             .clipShape(Circle())
                                             .overlay(
                                                 Circle()
                                                     .stroke(Color.pink, lineWidth: 2.5)
                                             )
-                                            .offset(x: 0, y: -80) // Adjust the X and Y values to move the image
+                                            .offset(y: -80) // Adjusted to match the previous code
                                         } else {
                                             Image(systemName: "plus")
                                                 .resizable()
                                                 .foregroundColor(dynamicColor(light: .black, dark: .white))
-                                                .frame(width: 50, height: 50) // Profile Image Placeholder Size and Position
+                                                .frame(width: 50, height: 50)
                                                 .background(Color.gray)
                                                 .clipShape(Circle())
-                                                .offset(x: 0, y: -80) // Adjust the X and Y values for the placeholder
+                                                .offset(y: -80)
                                         }
                                     }
                                     .onTapGesture {
                                         showEditProfile = true
                                     }
                                     
-                                    Text(user?.fullname ?? "Username") // Center align the username
+                                    Text(user?.fullname ?? "Username")
                                         .font(.system(size: 20, weight: .black))
                                         .tracking(0.9)
                                         .foregroundColor(dynamicColor(light: .black, dark: .white))
-                                        .offset(x: 0, y: -45) // Adjust position of the username text
+                                        .offset(y: -45) // Match the position
                                 }
                                 
-                                // Buttons for Edit Profile and Settings
-                                HStack(spacing: 10) { // Adjust spacing between buttons here
+                                // Edit Profile and Settings buttons
+                                HStack(spacing: 10) {
                                     Button(action: {
                                         showEditProfile = true
                                     }) {
                                         Text("Edit Profile")
                                             .font(Font.custom("Forma DJR Text", size: 12).weight(.bold))
                                             .padding()
-                                            .frame(width: 100, height: 30) // Button Size
+                                            .frame(width: 100, height: 30)
                                             .background(dynamicColor(light: Color(red: 0.95, green: 0.95, blue: 0.95), dark: Color(UIColor.systemGray5)))
                                             .cornerRadius(26)
                                     }
@@ -164,65 +162,58 @@ struct profile_view: View {
                                         }
                                         .font(Font.custom("Forma DJR Text", size: 12).weight(.bold))
                                         .padding()
-                                        .frame(width: 120, height: 30) // Button Size
+                                        .frame(width: 120, height: 30)
                                         .background(dynamicColor(light: Color(red: 0.95, green: 0.95, blue: 0.95), dark: Color(UIColor.systemGray5)))
                                         .cornerRadius(26)
                                     }
                                 }
-                                .padding(.top, -20) // Adjust padding above buttons
-                                .offset(x: 0, y: -15) // Adjust the X and Y values to move the buttons
-                                .padding(.bottom, 20) // Padding below buttons
+                                .padding(.top, -20)
+                                .offset(y: -15) // Match the button position
+                                .padding(.bottom, 20)
 
-                                // User information (My Socials Section)
-                                VStack(alignment: .leading, spacing: 16) { // Adjust spacing between information fields
-                                    Text("My Socials") // Section Title
-                                        .font(.system(size: 18, weight: .bold)) // Font size and weight for "My Socials"
+                                // User Social Info
+                                VStack(alignment: .leading, spacing: 16) {
+                                    Text("My Socials")
+                                        .font(.system(size: 18, weight: .bold))
                                         .foregroundColor(dynamicColor(light: .black, dark: .white))
-                                        .padding(.leading, 20) // Padding for section title
+                                        .padding(.leading, 20)
 
                                     // Instagram Social with background
                                     HStack {
                                         HStack {
-                                            Image("Instagram_icon") // Add Instagram icon
+                                            Image("Instagram_icon")
                                                 .resizable()
-                                                .frame(width: 24, height: 24) // Adjust size of the icon
-                                            Text(user?.instagramUsername ?? "Not Set") // Display Instagram Username
-                                                .font(.system(size: 12, weight: .bold)) // Same font as "My Socials"
+                                                .frame(width: 24, height: 24)
+                                            Text(user?.instagramUsername ?? "Not Set")
+                                                .font(.system(size: 12, weight: .bold))
                                                 .foregroundColor(dynamicColor(light: .black, dark: .white))
                                             Spacer()
                                             Button(action: {
                                                 if let username = user?.instagramUsername, !username.isEmpty {
-                                                    // Open the user's Instagram profile
                                                     let appURL = URL(string: "instagram://user?username=\(username)")!
                                                     let webURL = URL(string: "https://instagram.com/\(username)")!
-                                                    
-                                                    if UIApplication.shared.canOpenURL(appURL) {
-                                                        UIApplication.shared.open(appURL)
-                                                    } else {
-                                                        UIApplication.shared.open(webURL)
-                                                    }
+                                                    UIApplication.shared.open(UIApplication.shared.canOpenURL(appURL) ? appURL : webURL)
                                                 }
                                             }) {
-                                                Image(systemName: "arrow.right.circle.fill") // Arrow icon for Instagram
+                                                Image(systemName: "arrow.right.circle.fill")
                                                     .foregroundColor(.pink)
                                             }
                                         }
-                                        .padding(.horizontal, 10) // Adjust padding inside the rectangle
-                                        .padding(.vertical, 8) // Vertical padding for spacing
-                                        .background(dynamicColor(light: Color.gray.opacity(0.2), dark: Color(UIColor.systemGray4))) // Rectangle background color
-                                        .cornerRadius(10) // Rounded corners
-                                        .frame(width: UIScreen.main.bounds.width - 70) // Adjust the width of the rectangle
-                                        .padding(.leading, -0) // Adjust this to move the rectangle to the left
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 8)
+                                        .background(dynamicColor(light: Color.gray.opacity(0.2), dark: Color(UIColor.systemGray4)))
+                                        .cornerRadius(10)
+                                        .frame(width: UIScreen.main.bounds.width - 70)
                                     }
 
                                     // Snapchat Social
                                     HStack {
                                         HStack {
-                                            Image("snapchat") // Add Snapchat icon
+                                            Image("snapchat")
                                                 .resizable()
-                                                .frame(width: 24, height: 24) // Adjust size of the icon
-                                            Text(user?.snapchatUsername ?? "Not Set") // Display Snapchat Username
-                                                .font(.system(size: 12, weight: .bold)) // Same font as "My Socials"
+                                                .frame(width: 24, height: 24)
+                                            Text(user?.snapchatUsername ?? "Not Set")
+                                                .font(.system(size: 12, weight: .bold))
                                                 .foregroundColor(dynamicColor(light: .black, dark: .white))
                                             Spacer()
                                             Button(action: {
@@ -233,59 +224,60 @@ struct profile_view: View {
                                                     }
                                                 }
                                             }) {
-                                                Image(systemName: "arrow.right.circle.fill") // Arrow icon for Snapchat
+                                                Image(systemName: "arrow.right.circle.fill")
                                                     .foregroundColor(.pink)
                                             }
                                         }
-                                        .padding(.horizontal, 10) // Adjust padding inside the rectangle
-                                        .padding(.vertical, 8) // Vertical padding for spacing
-                                        .background(dynamicColor(light: Color.gray.opacity(0.2), dark: Color(UIColor.systemGray4))) // Rectangle background color
-                                        .cornerRadius(10) // Rounded corners
-                                        .frame(width: UIScreen.main.bounds.width - 70) // Adjust the width of the rectangle
-                                        .padding(.leading, -0) // Adjust this to move the rectangle to the left
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 8)
+                                        .background(dynamicColor(light: Color.gray.opacity(0.2), dark: Color(UIColor.systemGray4)))
+                                        .cornerRadius(10)
+                                        .frame(width: UIScreen.main.bounds.width - 70)
                                     }
 
                                     // School Information
                                     HStack {
                                         HStack {
-                                            Image("gradcap") // Add School icon
+                                            Image("gradcap")
                                                 .resizable()
-                                                .frame(width: 24, height: 24) // Adjust size of the icon
-                                            Text(user?.school ?? "Not Set") // Display School
-                                                .font(.system(size: 12, weight: .bold)) // Same font as "My Socials"
+                                                .frame(width: 24, height: 24)
+                                            Text(user?.school ?? "Not Set")
+                                                .font(.system(size: 12, weight: .bold))
                                                 .foregroundColor(dynamicColor(light: .black, dark: .white))
                                             Spacer()
                                             Button(action: {
                                                 showEditProfile = true
                                             }) {
-                                                Image(systemName: "arrow.right.circle.fill") // Arrow icon for School
+                                                Image(systemName: "arrow.right.circle.fill")
                                                     .foregroundColor(.pink)
                                             }
                                         }
-                                        .padding(.horizontal, 10) // Adjust padding inside the rectangle
-                                        .padding(.vertical, 8) // Vertical padding for spacing
-                                        .background(dynamicColor(light: Color.gray.opacity(0.2), dark: Color(UIColor.systemGray4))) // Rectangle background color
-                                        .cornerRadius(10) // Rounded corners
-                                        .frame(width: UIScreen.main.bounds.width - 70) // Adjust the width of the rectangle
-                                        .padding(.leading, -0) // Adjust this to move the rectangle to the left
+                                        .padding(.horizontal, 10)
+                                        .padding(.vertical, 8)
+                                        .background(dynamicColor(light: Color.gray.opacity(0.2), dark: Color(UIColor.systemGray4)))
+                                        .cornerRadius(10)
+                                        .frame(width: UIScreen.main.bounds.width - 70)
                                     }
 
                                     // Add Socials Button
                                     HStack {
-                                        Image(systemName: "plus.circle.fill") // Add icon for "Add Socials"
+                                        Image(systemName: "plus.circle.fill")
                                             .foregroundColor(.pink)
                                             .font(.system(size: 18))
                                         Text("Add Socials")
-                                            .font(.system(size: 16)) // Font size for "Add Socials"
+                                            .font(.system(size: 16))
                                             .foregroundColor(.pink)
                                         Spacer()
                                     }
                                     .padding(.horizontal, 20)
                                     .padding(.vertical, 8)
+                                    .onTapGesture{
+                                          showEditProfile = true
+                                    }
                                     
-                            // Frat User View
-                            // Only appears for frat users, (users
-                            //with a fratId)
+                                    // Frat User View
+                                    // Only appears for frat users, (users
+                                    //with a fratId)
                                     
                                     if(user?.isFrat == true){
                                         frat_user_view()
@@ -312,12 +304,9 @@ struct profile_view: View {
                                                 .environmentObject(viewModel) // Pass your environment objects if needed
                                             }
                                     }
-                                    
                                 }
-                                .font(.system(size: 16)) // Font size for all texts
-                                .foregroundColor(dynamicColor(light: .black, dark: .white)) // Text color for all
-                                .padding(.leading, 20) // Padding for user information section
-                                .offset(x: 0, y: 0) // Adjust the X and Y values to move the user information
+                                .padding(.leading, 20)
+                                .offset(x: 0, y: 0) // Adjust positioning
                                 
                                 Spacer()
                             }
@@ -327,7 +316,7 @@ struct profile_view: View {
                     }
                 }
             }
-            
+
             if isLoading {
                 ProgressView("Saving...")
                     .progressViewStyle(CircularProgressViewStyle())
@@ -337,7 +326,7 @@ struct profile_view: View {
         .onAppear {
             self.user = viewModel.currentUser
             if let backgroundImageUrl = user?.backgroundImageUrl, !backgroundImageUrl.isEmpty {
-                isBackgroundImageSet = true // Initialize state based on whether the background image is already set
+                isBackgroundImageSet = true
             }
         }
         .fullScreenCover(isPresented: $showEditProfile) {
@@ -358,13 +347,13 @@ struct profile_view: View {
         }
     }
 }
-
 // Wrapper to present EditProfileViewController in SwiftUI
 struct EditProfileViewControllerWrapper: UIViewControllerRepresentable {
     @Binding var user: User?
     @Binding var isLoading: Bool
 
-    func makeUIViewController(context: Context) -> EditProfileViewController {
+    // Modify this method to wrap EditProfileViewController in a UINavigationController
+    func makeUIViewController(context: Context) -> UINavigationController {
         let vc = EditProfileViewController()
         vc.user = user
         vc.onSave = { updatedUser in
@@ -372,13 +361,19 @@ struct EditProfileViewControllerWrapper: UIViewControllerRepresentable {
             isLoading = false
             NotificationCenter.default.post(name: NSNotification.Name("ProfileUpdated"), object: nil)
         }
-        return vc
+
+        // Wrap EditProfileViewController in UINavigationController
+        let navController = UINavigationController(rootViewController: vc)
+        return navController
     }
 
-    func updateUIViewController(_ uiViewController: EditProfileViewController, context: Context) {}
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {
+        // You can update the view controller here if needed
+    }
 }
 
-// Wrapper to present seetingsViewController in SwiftUI
+
+// Wrapper to present SettingsViewController in SwiftUI
 struct seetingsViewControllerWrapper: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> seetingsViewController {
         let vc = seetingsViewController()
@@ -388,7 +383,8 @@ struct seetingsViewControllerWrapper: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: seetingsViewController, context: Context) {}
 }
 
-struct ProfileView_Previews: PreviewProvider {
+// Preview for SwiftUI
+struct profile_view_Previews: PreviewProvider {
     static var previews: some View {
         profile_view()
             .environmentObject(log_in_view_model())
