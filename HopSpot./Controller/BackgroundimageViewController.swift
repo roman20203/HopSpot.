@@ -27,7 +27,7 @@ struct BackgroundImageViewController: View {
                         .frame(width: UIScreen.main.bounds.width, height: 203)
                         .overlay(
                             Text("Select an image from your library")
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                                 .font(.headline)
                         )
                         .onTapGesture {

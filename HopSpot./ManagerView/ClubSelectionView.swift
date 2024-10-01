@@ -22,7 +22,7 @@ struct ClubSelectionView: View {
                 Text("Select Your Club")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.primary)
+                    .foregroundStyle(.primary)
                     .padding(.top, 40)
                     .padding(.bottom, 20)
                 
@@ -39,12 +39,12 @@ struct ClubSelectionView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 40, height: 40)
-                                .foregroundColor(AppColor.color)
+                                .foregroundStyle(AppColor.color)
                                 .padding(.trailing, 10)
                             
                             Text(business.name)
                                 .font(.headline)
-                                .foregroundColor(.primary)
+                                .foregroundStyle(.primary)
                         }
                         .padding()
                         .background(RoundedRectangle(cornerRadius: 10).fill(Color(uiColor: .systemBackground)))

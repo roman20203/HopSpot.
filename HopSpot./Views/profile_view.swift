@@ -34,7 +34,7 @@ struct profile_view: View {
                             Text("HopSpot.")
                                 .font(.system(size: 30, weight: .black))
                                 .tracking(0.9)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                                 .padding(.top, 10)
                             Spacer()
                         }
@@ -56,7 +56,7 @@ struct profile_view: View {
                                     .frame(width: UIScreen.main.bounds.width, height: 203)
                                     .overlay(
                                         Text("Loading Image...")
-                                            .foregroundColor(.white)
+                                            .foregroundStyle(.white)
                                             .font(.headline)
                                     )
                             }
@@ -66,7 +66,7 @@ struct profile_view: View {
                                 .frame(width: UIScreen.main.bounds.width, height: 203)
                                 .overlay(
                                     Text("Tap to select an image")
-                                        .foregroundColor(.white)
+                                        .foregroundStyle(.white)
                                         .font(.headline)
                                 )
                         }
@@ -110,7 +110,7 @@ struct profile_view: View {
                                             } placeholder: {
                                                 Image(systemName: "person.circle")
                                                     .resizable()
-                                                    .foregroundColor(.gray)
+                                                    .foregroundStyle(.gray)
                                             }
                                             .frame(width: 90, height: 90)
                                             .clipShape(Circle())
@@ -122,7 +122,7 @@ struct profile_view: View {
                                         } else {
                                             Image(systemName: "plus")
                                                 .resizable()
-                                                .foregroundColor(dynamicColor(light: .black, dark: .white))
+                                                .foregroundStyle(dynamicColor(light: .black, dark: .white))
                                                 .frame(width: 50, height: 50)
                                                 .background(Color.gray)
                                                 .clipShape(Circle())
@@ -136,7 +136,7 @@ struct profile_view: View {
                                     Text(user?.fullname ?? "Username")
                                         .font(.system(size: 20, weight: .black))
                                         .tracking(0.9)
-                                        .foregroundColor(dynamicColor(light: .black, dark: .white))
+                                        .foregroundStyle(dynamicColor(light: .black, dark: .white))
                                         .offset(y: -45) // Match the position
                                 }
                                 
@@ -175,7 +175,7 @@ struct profile_view: View {
                                 VStack(alignment: .leading, spacing: 16) {
                                     Text("My Socials")
                                         .font(.system(size: 18, weight: .bold))
-                                        .foregroundColor(dynamicColor(light: .black, dark: .white))
+                                        .foregroundStyle(dynamicColor(light: .black, dark: .white))
                                         .padding(.leading, 20)
 
                                     // Instagram Social with background
@@ -186,7 +186,7 @@ struct profile_view: View {
                                                 .frame(width: 24, height: 24)
                                             Text(user?.instagramUsername ?? "Not Set")
                                                 .font(.system(size: 12, weight: .bold))
-                                                .foregroundColor(dynamicColor(light: .black, dark: .white))
+                                                .foregroundStyle(dynamicColor(light: .black, dark: .white))
                                             Spacer()
                                             Button(action: {
                                                 if let username = user?.instagramUsername, !username.isEmpty {
@@ -196,7 +196,7 @@ struct profile_view: View {
                                                 }
                                             }) {
                                                 Image(systemName: "arrow.right.circle.fill")
-                                                    .foregroundColor(.pink)
+                                                    .foregroundStyle(AppColor.color)
                                             }
                                         }
                                         .padding(.horizontal, 10)
@@ -214,7 +214,7 @@ struct profile_view: View {
                                                 .frame(width: 24, height: 24)
                                             Text(user?.snapchatUsername ?? "Not Set")
                                                 .font(.system(size: 12, weight: .bold))
-                                                .foregroundColor(dynamicColor(light: .black, dark: .white))
+                                                .foregroundStyle(dynamicColor(light: .black, dark: .white))
                                             Spacer()
                                             Button(action: {
                                                 if let username = user?.snapchatUsername, !username.isEmpty {
@@ -225,7 +225,7 @@ struct profile_view: View {
                                                 }
                                             }) {
                                                 Image(systemName: "arrow.right.circle.fill")
-                                                    .foregroundColor(.pink)
+                                                    .foregroundStyle(AppColor.color)
                                             }
                                         }
                                         .padding(.horizontal, 10)
@@ -243,13 +243,13 @@ struct profile_view: View {
                                                 .frame(width: 24, height: 24)
                                             Text(user?.school ?? "Not Set")
                                                 .font(.system(size: 12, weight: .bold))
-                                                .foregroundColor(dynamicColor(light: .black, dark: .white))
+                                                .foregroundStyle(dynamicColor(light: .black, dark: .white))
                                             Spacer()
                                             Button(action: {
                                                 showEditProfile = true
                                             }) {
                                                 Image(systemName: "arrow.right.circle.fill")
-                                                    .foregroundColor(.pink)
+                                                    .foregroundStyle(AppColor.color)
                                             }
                                         }
                                         .padding(.horizontal, 10)
@@ -262,11 +262,11 @@ struct profile_view: View {
                                     // Add Socials Button
                                     HStack {
                                         Image(systemName: "plus.circle.fill")
-                                            .foregroundColor(.pink)
+                                            .foregroundStyle(AppColor.color)
                                             .font(.system(size: 18))
                                         Text("Add Socials")
                                             .font(.system(size: 16))
-                                            .foregroundColor(.pink)
+                                            .foregroundStyle(AppColor.color)
                                         Spacer()
                                     }
                                     .padding(.horizontal, 20)
@@ -291,7 +291,7 @@ struct profile_view: View {
                                                         .frame(width: 25, height: 25)
                                                         .background(Color(UIColor.systemBackground).opacity(0.7)) // Adapt to light and dark mode
                                                         .clipShape(Circle())
-                                                        .foregroundColor(AppColor.color) // Custom color
+                                                        .foregroundStyle(AppColor.color) // Custom color
                                                         .padding()
                                                 }
                                                 .padding(),alignment: .bottomTrailing

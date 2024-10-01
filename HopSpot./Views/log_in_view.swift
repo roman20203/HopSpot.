@@ -16,7 +16,7 @@ struct log_in_view: View {
                     Text("HopSpot.")
                         .font(.system(size: 45, weight: .black))
                         .tracking(1.35)
-                        .foregroundColor(.primary)
+                        .foregroundStyle(.primary)
                     
                     VStack {
                         Image("rabbit_logo")
@@ -36,7 +36,7 @@ struct log_in_view: View {
                             
                             if let errorMessage = errorMessage {
                                 Text(errorMessage)
-                                    .foregroundColor(.red)
+                                    .foregroundStyle(.red)
                                     .font(.footnote)
                                     .multilineTextAlignment(.center)
                                     .padding(.top, 10)
@@ -60,7 +60,7 @@ struct log_in_view: View {
                                         .fontWeight(.semibold)
                                     Image(systemName: "arrow.right")
                                 }
-                                .foregroundColor(.black)
+                                .foregroundStyle(.black)
                                 .frame(width: UIScreen.main.bounds.width - 32, height: 48)
                             }
                             .background(AppColor.color)

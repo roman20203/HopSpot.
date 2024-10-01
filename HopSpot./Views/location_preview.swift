@@ -69,7 +69,7 @@ struct location_preview: View {
                 .frame(width: 125, height: 50)
         }
         .buttonStyle(.bordered)
-        .foregroundColor(.white)
+        .foregroundStyle(.white)
         .background(AppColor.color)
         .cornerRadius(10)
         .padding(.bottom, 15)
@@ -87,7 +87,7 @@ struct location_preview: View {
                 .frame(width: 125, height: 35)
         }
         .buttonStyle(.bordered)
-        .foregroundColor(AppColor.color)
+        .foregroundStyle(AppColor.color)
         .background(Color.clear)
         .cornerRadius(10)
     }

@@ -12,22 +12,16 @@ struct main_view: View {
     @EnvironmentObject var locationManager: UserLocation
     @EnvironmentObject var viewModel: log_in_view_model
     
-    init() {
-        UITabBar.appearance().backgroundColor = UIColor.black
-        UITabBar.appearance().barTintColor = UIColor.black
-        UITabBar.appearance().unselectedItemTintColor = UIColor.white
-        
-    }
     var body: some View {
         TabView {
             home_view()
                 .tabItem {
                     VStack() {
                         Image(systemName: "house.fill")
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text("Home")
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                     
                 }
@@ -36,10 +30,10 @@ struct main_view: View {
                 .tabItem {
                     VStack {
                         Image(systemName: "map")
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text("Map")
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                 }
                 .environmentObject(locationManager)
@@ -48,10 +42,10 @@ struct main_view: View {
                 .tabItem {
                     VStack() {
                         Image(systemName: "bell.fill")
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text("Promotions")
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                     
                 }
@@ -60,16 +54,16 @@ struct main_view: View {
                 .tabItem {
                     VStack {
                         Image(systemName: "person.fill")
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text("Profile")
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                 }
                 .environmentObject(viewModel)//gives access to currentUser
             
         }
-        .accentColor(AppColor.color) // Set the color of the selected tab icon
+        //.accentColor(AppColor.color) // Set the color of the selected tab icon
         
 
     }

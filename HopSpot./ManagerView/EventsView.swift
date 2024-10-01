@@ -44,7 +44,7 @@ struct EventsView: View {
                     .frame(width: 25, height: 25)
                     .background(Color(UIColor.systemBackground).opacity(0.7)) // Adapt to light and dark mode
                     .clipShape(Circle())
-                    .foregroundColor(AppColor.color) // Custom color
+                    .foregroundStyle(AppColor.color) // Custom color
                     .padding()
             }
             .sheet(isPresented: $showCreateView) {

@@ -44,7 +44,7 @@ struct club_details_template: View {
                         Text(club.name)
                             .font(.largeTitle)
                             .fontWeight(.bold)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         
                         HStack(spacing: 2) {
                             ForEach(0..<Int(floor(club.rating)), id: \.self) { _ in
@@ -52,18 +52,18 @@ struct club_details_template: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 20, height: 20)
-                                    .foregroundColor(.yellow)
+                                    .foregroundStyle(.yellow)
                             }
                             if club.rating.truncatingRemainder(dividingBy: 1) != 0 {
                                 Image(systemName: "star.leadinghalf.fill")
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 20, height: 20)
-                                    .foregroundColor(.yellow)
+                                    .foregroundStyle(.yellow)
                             }
                             Text("(\(club.reviewCount))")
                                 .font(.caption)
-                                .foregroundColor(.gray)
+                                .foregroundStyle(.gray)
                         }
                     }
                     .padding(.horizontal)
@@ -71,7 +71,7 @@ struct club_details_template: View {
                     // Description Section
                     Text(club.description)
                         .font(.body)
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
                         .padding(.horizontal)
                         .padding(.bottom, 15)
                     
@@ -79,10 +79,10 @@ struct club_details_template: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Address")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text(club.address)
                             .font(.body)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                     .padding(.horizontal)
 
@@ -90,10 +90,10 @@ struct club_details_template: View {
                     VStack(alignment: .leading, spacing: 5) {
                         Text("Busyness")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text(busynessDescription(for: mostCommonLineLength(from: lineReports)))
                             .font(.body)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                     .padding(.horizontal)
 
@@ -103,10 +103,10 @@ struct club_details_template: View {
                         VStack(alignment: .leading, spacing: 5) {
                             Text("Distance")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                             Text(String(format: "%.1f km | Approx. Time: %.0f mins", distanceInfo.distanceKm, distanceInfo.estimatedMinutes))
                                 .font(.body)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                         }
                         .padding(.horizontal)
                     }
@@ -117,7 +117,7 @@ struct club_details_template: View {
                     VStack(alignment: .leading, spacing: 15) {
                         Text("Report Line Length")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                             .padding(.top, 20)
                         
                         Picker("Select Line Length", selection: $selectedLineLengthOption) {
@@ -130,7 +130,7 @@ struct club_details_template: View {
                         .pickerStyle(SegmentedPickerStyle())
                         .background(Color.gray.opacity(1.0))
                         .cornerRadius(8)
-                        .foregroundColor(.white)
+                        .foregroundStyle(.white)
                         .padding(.horizontal)
                         
                         Button(action: {
@@ -138,7 +138,7 @@ struct club_details_template: View {
                         }) {
                             Text("Submit Report")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                                 .frame(width: 120, height: 20)
                                 .padding()
                                 .background(AppColor.color)
@@ -150,15 +150,15 @@ struct club_details_template: View {
                         
                         if reportSuccess {
                             Text("Report submitted successfully!")
-                                .foregroundColor(.green)
+                                .foregroundStyle(.green)
                                 .padding(.horizontal)
                         }  else if !selectedLineLengthOption.isEmpty && !isWithinProximity() {
                             Text("You are not close enough to report")
-                                .foregroundColor(.red)
+                                .foregroundStyle(.red)
                                 .padding(.horizontal)
                         }else if !isReportingAllowed && !selectedLineLengthOption.isEmpty {
                             Text("Please wait before submitting another report.")
-                                .foregroundColor(.red)
+                                .foregroundStyle(.red)
                                 .padding(.horizontal)
                         }
                     
@@ -166,22 +166,22 @@ struct club_details_template: View {
                         VStack(alignment: .leading, spacing: 10) {
                             Text("Recent Reports")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                             
                             if lineReports.isEmpty {
                                 Text("No reports available.")
                                     .font(.body)
-                                    .foregroundColor(.white)
+                                    .foregroundStyle(.white)
                             } else {
                                 ForEach(lineReports.prefix(3)) { report in
                                     HStack {
                                         Text("Length: \(report.lineLengthOption)")
                                             .font(.body)
-                                            .foregroundColor(.white)
+                                            .foregroundStyle(.white)
                                         Spacer()
                                         Text("Reported at: \(report.timestamp, style: .time)")
                                             .font(.body)
-                                            .foregroundColor(.white)
+                                            .foregroundStyle(.white)
                                     }
                                     .padding()
                                     .background(Color.black.opacity(0.8))
@@ -200,7 +200,7 @@ struct club_details_template: View {
                         }) {
                             Text(hasSubmittedRating ? "Done!" : "Rate Me")
                                 .font(.headline)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                                 .frame(width: 90, height: 10)
                                 .padding()
                                 .background(AppColor.color)
@@ -224,22 +224,25 @@ struct club_details_template: View {
                     VStack(alignment: .leading, spacing: 15) {
                         Text("Promotions")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                             .padding(.top, 20)
                         
                         // Fetch promotions from the club object
                         let sortedPromotions = club.promotions.sorted { $0.startDate < $1.startDate }
                         
                         if sortedPromotions.isEmpty {
-                            Text("No current promotions")
+                            Text("No promotions yet")
                                 .font(.body)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                         } else {
-                            ForEach(sortedPromotions) { promotion in
-                                VStack(alignment: .leading, spacing: 10) {
-                                    Promotion_Cell(promotion: promotion)
+                            ScrollView{
+                                ForEach(sortedPromotions) { promotion in
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        Promotion_Cell(promotion: promotion)
+                                    }
                                 }
                             }
+                            
                         }
                     }
                     .padding(.horizontal)
@@ -248,22 +251,25 @@ struct club_details_template: View {
                     VStack(alignment: .leading, spacing: 15) {
                         Text("Events")
                             .font(.headline)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                             .padding(.top, 20)
                         
                         // Fetch events from the club object
                         let sortedEvents = club.events.sorted { $0.startDate < $1.startDate }
                         
                         if sortedEvents.isEmpty {
-                            Text("No current Events")
+                            Text("No Events yet")
                                 .font(.body)
-                                .foregroundColor(.white)
+                                .foregroundStyle(.white)
                         } else {
-                            ForEach(sortedEvents) { event in
-                                VStack(alignment: .leading, spacing: 10) {
-                                    Event_Cell(event:event)
+                            ScrollView{
+                                ForEach(sortedEvents) { event in
+                                    VStack(alignment: .leading, spacing: 10) {
+                                        Event_Cell(event:event)
+                                    }
                                 }
                             }
+                            
                         }
                     }
                     .padding(.horizontal)

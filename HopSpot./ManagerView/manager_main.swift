@@ -17,16 +17,17 @@ struct manager_main: View {
         UITabBar.appearance().unselectedItemTintColor = UIColor.white
         
     }
+    
     var body: some View {
         TabView {
             manager_home_view()
                 .tabItem {
                     VStack() {
                         Image(systemName: "house.fill")
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text("Home")
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                     
                 }
@@ -34,35 +35,34 @@ struct manager_main: View {
                 .tabItem {
                     VStack {
                         Image(systemName: "bell")
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text("Promotions")
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                 }
             EventsView()
                 .tabItem {
                     VStack {
                         Image(systemName: "party.popper")
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text("Events")
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                 }
             manager_profile_view()
                 .tabItem {
                     VStack {
                         Image(systemName: "person")
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                         Text("Profile")
                             .font(.caption)
-                            .foregroundColor(.white)
+                            .foregroundStyle(.white)
                     }
                 }
             
         }
-        .accentColor(AppColor.color) // Set the color of the selected tab icon
 
     }
 }

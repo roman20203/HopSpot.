@@ -47,7 +47,7 @@ struct Promotion_Cell: View {
                 }) {
                     Text(isDescriptionExpanded ? "See Less" : "See More")
                         .font(.body)
-                        .foregroundColor(AppColor.color)
+                        .foregroundStyle(AppColor.color)
                         .padding(.top, 2)
                 }
             }
@@ -66,7 +66,7 @@ struct Promotion_Cell: View {
             if let link = promotion.link, !link.isEmpty {
                 Link("View Details", destination: URL(string: link)!)
                     .font(.body)
-                    .foregroundColor(AppColor.color)
+                    .foregroundStyle(AppColor.color)
                     .padding(.top, 2)
             }
         }

@@ -62,7 +62,7 @@ struct PromotionEditView: View {
 
                     if let errorMessage = errorMessage {
                         Text(errorMessage)
-                            .foregroundColor(.red)
+                            .foregroundStyle(.red)
                             .padding()
                     }
                 }
@@ -83,7 +83,7 @@ struct PromotionEditView: View {
                 Button("Delete") {
                     showDeleteConfirmation = true // Show the confirmation alert
                 }
-                .foregroundColor(.red)
+                .foregroundStyle(.red)
             }
             .navigationTitle("Edit Promotion")
             .background(Color.black.ignoresSafeArea())

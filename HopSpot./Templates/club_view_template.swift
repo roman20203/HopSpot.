@@ -23,7 +23,7 @@ struct club_view_template: View {
             VStack(alignment: .leading) {
                 HStack {
                     Text(club.name)
-                        .foregroundColor(.black)
+                        .foregroundStyle(.black)
                         .font(.headline)
                     
                     // Star rating
@@ -33,18 +33,18 @@ struct club_view_template: View {
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 10, height: 10)
-                                .foregroundColor(.yellow)
+                                .foregroundStyle(.yellow)
                         }
                         if club.rating.truncatingRemainder(dividingBy: 1) != 0 {
                             Image(systemName: "star.leadinghalf.fill")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 10, height: 10)
-                                .foregroundColor(.yellow)
+                                .foregroundStyle(.yellow)
                         }
                         Text("(\(club.reviewCount))")
                             .font(.caption)
-                            .foregroundColor(.gray)
+                            .foregroundStyle(.gray)
                     }
                 }
                 .padding(.bottom, 1)

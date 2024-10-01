@@ -32,7 +32,7 @@ struct club_events_view: View {
                 UpcomingEventsView(events: clubHandler.upcomingEvents)
             }
         }
-        .navigationTitle("Club Events")
+        .navigationTitle("Club and Club Events")
         .padding() // Padding for the whole view
     }
 }

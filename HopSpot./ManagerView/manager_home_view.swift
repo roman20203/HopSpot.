@@ -22,7 +22,7 @@ struct manager_home_view: View {
                 Text(viewModel.currentManager?.activeBusiness?.name ?? "Your Club")
                     .font(.largeTitle)
                     .fontWeight(.bold)
-                    .foregroundColor(.primary)
+                    .foregroundStyle(.primary)
                     .padding(.top)
 
                 // Star Rating and Review Count
@@ -32,18 +32,18 @@ struct manager_home_view: View {
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)
-                            .foregroundColor(.yellow)
+                            .foregroundStyle(.yellow)
                     }
                     if averageRating.truncatingRemainder(dividingBy: 1) != 0 {
                         Image(systemName: "star.leadinghalf.fill")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 20, height: 20)
-                            .foregroundColor(.yellow)
+                            .foregroundStyle(.yellow)
                     }
                     Text("(\(reviewCount))")
                         .font(.caption)
-                        .foregroundColor(.gray)
+                        .foregroundStyle(.gray)
                 }
 
                 // Recent Ratings
@@ -59,15 +59,15 @@ struct manager_home_view: View {
                             HStack {
                                 Text("Rating:")
                                     .font(.headline)
-                                    .foregroundColor(.primary)
+                                    .foregroundStyle(.primary)
                                 Text("\(Int(review.rating))") // Remove decimal places
                                     .font(.headline)
                                     .fontWeight(.bold)
-                                    .foregroundColor(.primary)
+                                    .foregroundStyle(.primary)
                             }
                         Text("Time: \(review.timestamp)")
                             .font(.caption)
-                            .foregroundColor(.primary)
+                            .foregroundStyle(.primary)
                         }
                         .padding()
                         .background(Color(UIColor.systemBackground))

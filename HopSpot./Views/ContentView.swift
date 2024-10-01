@@ -17,18 +17,22 @@ struct ContentView: View {
                     // Check if the manager has selected a club
                     if manager.activeBusiness != nil {
                         manager_main() // Navigate to Manager's Main View
+                            .preferredColorScheme(.dark)
                 
                     } else {
                         ClubSelectionView() // Navigate to Club Selection View
+                            .preferredColorScheme(.dark)
                             
                     }
                 } else if viewModel.currentUser != nil {
                     main_view() // Navigate to User's View
+                        .preferredColorScheme(.dark)
                         
     
                 }
             } else {
                 reg_or_log() // Navigate to Registration or Login View
+                    .preferredColorScheme(.light)
             }
         }
     }
