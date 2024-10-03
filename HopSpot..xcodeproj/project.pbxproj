@@ -72,6 +72,8 @@
 		ADF113CA2C65260C00BD4038 /* main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113C92C65260C00BD4038 /* main_view.swift */; };
 		ADF113CC2C6673BC00BD4038 /* near_by_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113CB2C6673BC00BD4038 /* near_by_view.swift */; };
 		ADF113CE2C66846700BD4038 /* whats_hot_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADF113CD2C66846700BD4038 /* whats_hot_view.swift */; };
+		D055585F2CACF6C0007C558B /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = D055585E2CACF6C0007C558B /* FirebaseMessaging */; };
+		D05558622CACF6E4007C558B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D05558612CACF6E4007C558B /* AppDelegate.swift */; };
 		D0AB958B2CA1F87F00404FEB /* BackgroundimageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB958A2CA1F87F00404FEB /* BackgroundimageViewController.swift */; };
 		D0AB958D2CA1F8A500404FEB /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB958C2CA1F8A500404FEB /* EditProfileViewController.swift */; };
 		D0AB958F2CA1F8D100404FEB /* seetingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0AB958E2CA1F8D100404FEB /* seetingsViewController.swift */; };
@@ -156,6 +158,8 @@
 		ADF113C92C65260C00BD4038 /* main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main_view.swift; sourceTree = "<group>"; };
 		ADF113CB2C6673BC00BD4038 /* near_by_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = near_by_view.swift; sourceTree = "<group>"; };
 		ADF113CD2C66846700BD4038 /* whats_hot_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = whats_hot_view.swift; sourceTree = "<group>"; };
+		D05558602CACF6C9007C558B /* HopSpot..entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = HopSpot..entitlements; sourceTree = "<group>"; };
+		D05558612CACF6E4007C558B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D0AB958A2CA1F87F00404FEB /* BackgroundimageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundimageViewController.swift; sourceTree = "<group>"; };
 		D0AB958C2CA1F8A500404FEB /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 		D0AB958E2CA1F8D100404FEB /* seetingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = seetingsViewController.swift; sourceTree = "<group>"; };
@@ -166,6 +170,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D055585F2CACF6C0007C558B /* FirebaseMessaging in Frameworks */,
 				ADA297CD2C37BFEF00D2A7E9 /* FirebaseDatabaseSwift in Frameworks */,
 				ADA297CB2C37BFEF00D2A7E9 /* FirebaseDatabase in Frameworks */,
 				ADA297C72C37BFEF00D2A7E9 /* FirebaseAnalytics in Frameworks */,
@@ -234,6 +239,7 @@
 				ADA297A32C36217E00D2A7E9 /* HopSpot.Tests */,
 				ADA297AD2C36217E00D2A7E9 /* HopSpot.UITests */,
 				ADA297912C36217D00D2A7E9 /* Products */,
+				D055585D2CACF6C0007C558B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -250,6 +256,7 @@
 		ADA297922C36217D00D2A7E9 /* HopSpot. */ = {
 			isa = PBXGroup;
 			children = (
+				D05558602CACF6C9007C558B /* HopSpot..entitlements */,
 				D0AB95892CA1F82100404FEB /* Controller */,
 				AD47131F2C6D1DB50087607D /* ManagerView */,
 				ADF113BC2C5C566800BD4038 /* Data */,
@@ -345,6 +352,7 @@
 				39D353812CA3A995005A87B6 /* GoogleService-Info.plist */,
 				ADA297972C36217E00D2A7E9 /* Assets.xcassets */,
 				ADA297932C36217D00D2A7E9 /* HopSpot_App.swift */,
+				D05558612CACF6E4007C558B /* AppDelegate.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -355,6 +363,13 @@
 				ADF113BD2C5C567900BD4038 /* LocationsDataService.swift */,
 			);
 			path = Data;
+			sourceTree = "<group>";
+		};
+		D055585D2CACF6C0007C558B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		D0AB95892CA1F82100404FEB /* Controller */ = {
@@ -391,6 +406,7 @@
 				ADA297CE2C37BFEF00D2A7E9 /* FirebaseFirestore */,
 				ADA297D02C37BFEF00D2A7E9 /* FirebaseFirestoreSwift */,
 				ADED5F832C515E34003AB6A0 /* FirebaseStorage */,
+				D055585E2CACF6C0007C558B /* FirebaseMessaging */,
 			);
 			productName = HopSpot.;
 			productReference = ADA297902C36217D00D2A7E9 /* HopSpot..app */;
@@ -544,6 +560,7 @@
 				ADCAE6162C66E90E004BBD13 /* home_view.swift in Sources */,
 				AD1AE6B02C98C2320090BBE8 /* frat_events_view.swift in Sources */,
 				ADED5F822C515C90003AB6A0 /* image_view.swift in Sources */,
+				D05558622CACF6E4007C558B /* AppDelegate.swift in Sources */,
 				AD4713312C77563C0087607D /* PromotionsView.swift in Sources */,
 				ADA1A5232C3F508E006844E7 /* user_promotion_view.swift in Sources */,
 				AD1AE6AE2C97B5160090BBE8 /* club_events_view.swift in Sources */,
@@ -725,6 +742,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HopSpot./HopSpot..entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HopSpot./Preview Content\"";
@@ -738,6 +756,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed for recommending nearby clubs";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library to allow users to select profile pictures.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We need your permission to track interactions for better user experience and notifications.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -766,6 +785,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = HopSpot./HopSpot..entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"HopSpot./Preview Content\"";
@@ -779,6 +799,7 @@
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed for recommending nearby clubs";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library to allow users to select profile pictures.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We need your permission to track interactions for better user experience and notifications.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -965,6 +986,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = ADA297C52C37BFEF00D2A7E9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		D055585E2CACF6C0007C558B /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = ADA297C52C37BFEF00D2A7E9 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

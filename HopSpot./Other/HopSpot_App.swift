@@ -11,24 +11,20 @@ import Firebase
 
 @main
 struct HopSpot_App: App {
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     @StateObject var viewModel = log_in_view_model()
     @StateObject var userLocation = UserLocation()
     @StateObject var clubHandler = club_firebase_handler()
-   // @StateObject var locationViewModel = LocationsViewModel()
-   
     
-    init(){
-        FirebaseApp.configure()
-    }
+   
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(viewModel)
                 .environmentObject(userLocation)
                 .environmentObject(clubHandler)
-                //.environmentObject(locationViewModel)
-                
-
         }
     }
 }
+
