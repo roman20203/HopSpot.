@@ -2,14 +2,22 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key></key>
-    <string></string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string></string>
-        <string>instagram</string>
-        <string>snapchat</string>
-    </array>
+	<key></key>
+	<string></string>
+	<key>CFBundleGetInfoString</key>
+	<string></string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string></string>
+		<string>instagram</string>
+		<string>snapchat</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 </dict>
 </plist>
-
