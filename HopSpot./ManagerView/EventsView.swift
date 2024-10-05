@@ -63,8 +63,8 @@ struct EventsView: View {
     
     private func filteredClubEvents(for events: [Event]) -> [Event] {
         // Ensure the user manager has a Club
-        print("User: \(String(describing: viewModel.currentUser?.getName()))")
-        print("Club Name: \(String(describing: viewModel.currentManager?.activeBusiness?.name))")
+        //print("User: \(String(describing: viewModel.currentUser?.getName()))")
+        //print("Club Name: \(String(describing: viewModel.currentManager?.activeBusiness?.name))")
         
         guard let club_Name = viewModel.currentManager?.activeBusiness?.name else {
             return [] // Return an empty array if the user is not a Manager

@@ -63,8 +63,8 @@ struct PromotionsView: View {
     
     private func filteredClubPromotions(for promos: [Promotion]) -> [Promotion] {
         // Ensure the user manager has a Club
-        print("User: \(String(describing: viewModel.currentManager?.name))")
-        print("Club Name: \(String(describing: viewModel.currentManager?.activeBusiness?.name))")
+        //print("User: \(String(describing: viewModel.currentManager?.name))")
+        //print("Club Name: \(String(describing: viewModel.currentManager?.activeBusiness?.name))")
         
         guard let club_Name = viewModel.currentManager?.activeBusiness?.name else {
             return [] // Return an empty array if the user is not a Manager

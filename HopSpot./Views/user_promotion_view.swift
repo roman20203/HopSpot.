@@ -40,10 +40,11 @@ struct user_promotion_view: View {
 
 struct TonightPromotionsView: View {
     var promotions: [Promotion]
+    
 
     var body: some View {
         let currentPromotions = promotions.filter { isCurrentPromotion($0) }
-
+        
         if currentPromotions.isEmpty{
             Text("No Promotions Tonight")
             Spacer()
@@ -56,34 +57,47 @@ struct TonightPromotionsView: View {
             }
         }
     }
+    
+
     func isCurrentPromotion(_ promotion: Promotion) -> Bool {
         let currentDate = Date()
         let calendar = Calendar.current
 
-        // Check if the promotion is ongoing or starts later today
-        if (promotion.startDate <= currentDate && promotion.endDate >= currentDate) ||
-           (calendar.isDateInToday(promotion.startDate) && promotion.startTime > currentDate) ||
-           (promotion.startDate == currentDate && promotion.startTime > currentDate) {
-            
-            // Get the start and end times as Date objects
-            let promotionStartTime = calendar.date(bySettingHour: calendar.component(.hour, from: promotion.startTime),
-                                                    minute: calendar.component(.minute, from: promotion.startTime),
-                                                    second: 0,
-                                                    of: promotion.startDate)
-            
-            let promotionEndTime = calendar.date(bySettingHour: calendar.component(.hour, from: promotion.endTime),
-                                                  minute: calendar.component(.minute, from: promotion.endTime),
-                                                  second: 0,
-                                                  of: promotion.endDate)
+        // Combine date and time for the start and end of the promotion
+        let promotionStartTime = calendar.date(bySettingHour: calendar.component(.hour, from: promotion.startTime),
+                                               minute: calendar.component(.minute, from: promotion.startTime),
+                                               second: 0,
+                                               of: promotion.startDate)
 
-            // Check if current time is between the promotion start and end time
-            if let promotionStart = promotionStartTime, let promotionEnd = promotionEndTime {
-                return currentDate >= promotionStart && currentDate <= promotionEnd
+        let promotionEndTime = calendar.date(bySettingHour: calendar.component(.hour, from: promotion.endTime),
+                                             minute: calendar.component(.minute, from: promotion.endTime),
+                                             second: 0,
+                                             of: promotion.endDate)
+
+        // Debugging: Print promotion title, start time, and end time
+        print("Promotion \(String(describing: promotion.title)) - Start Time: \(String(describing: promotionStartTime)), End Time: \(String(describing: promotionEndTime))")
+
+        // Check if the promotion is either:
+        // 1. Ongoing (start time <= current time <= end time)
+        // 2. Starting today (regardless of the current time of day)
+        if let startTime = promotionStartTime, let endTime = promotionEndTime {
+            // Check if promotion is ongoing
+            if currentDate >= startTime && currentDate <= endTime {
+                return true
+            }
+            
+            // Check if promotion starts today (but hasn't yet started)
+            if calendar.isDateInToday(promotion.startDate) && currentDate < startTime {
+                return true
             }
         }
+        
         return false
     }
 
+     
+
+     
 
 }
 

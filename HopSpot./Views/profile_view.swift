@@ -280,6 +280,8 @@ struct profile_view: View {
                                     //with a fratId)
                                     
                                     if(user?.isFrat == true){
+                                        Text(user?.frat?.name ?? "Uknown Frat")
+                                        
                                         frat_user_view()
                                             .overlay(
                                                 Button(action: {
