@@ -94,6 +94,9 @@ final class seetingsViewController: UIViewController {
         let section2 = [
             SettingCellModel(title: "Log Out") { [weak self] in
                 self?.didTapLogOut()
+            },
+            SettingCellModel(title: "Delete Account") { [weak self] in
+                self?.didTapDeleteAccount()
             }
         ]
         
@@ -110,6 +113,19 @@ final class seetingsViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { [weak self] _ in
             self?.viewModel.signOut()
            //  self?.navigateToRegOrLogScreen()
+        }))
+        present(alert, animated: true)
+    }
+    
+    private func didTapDeleteAccount() {
+        let alert = UIAlertController(title: "Delete Account",
+                                      message: "Are you sure you want to delete your account? This action cannot be undone.",
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Delete Account", style: .destructive, handler: { [weak self] _ in
+            Task{
+                await self?.viewModel.deleteAccount()
+            }
         }))
         present(alert, animated: true)
     }
