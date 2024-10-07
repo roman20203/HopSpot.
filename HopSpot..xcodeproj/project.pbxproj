@@ -753,10 +753,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = HopSpot.;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to allow users to upload profile pictures.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed for recommending nearby clubs";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library to allow users to select profile pictures.";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We need your permission to track interactions for better user experience and notifications.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -796,10 +794,8 @@
 				INFOPLIST_KEY_CFBundleDisplayName = HopSpot.;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_NSCameraUsageDescription = "This app requires access to the camera to allow users to upload profile pictures.";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location is needed for recommending nearby clubs";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "This app requires access to the photo library to allow users to select profile pictures.";
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "We need your permission to track interactions for better user experience and notifications.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
