@@ -7,7 +7,6 @@ struct register_view: View {
     @State private var password = ""
     @State private var fullname = ""
     @State private var confirmPassword = ""
-    @State private var gender: Gender = .male // Assume male as default
     @State private var joined = Date()
     @State private var birthdate = Date()
     
@@ -44,13 +43,7 @@ struct register_view: View {
                         InputView(text: $confirmPassword, title: "Confirm Password", placeholder: "Re-enter your password", isSecureField: true)
                             .autocorrectionDisabled()
 
-                        Picker("Select your gender", selection: $gender) {
-                            ForEach(Gender.allCases, id: \.self) { gender in
-                                Text(gender.rawValue)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        
+                                            
                         // Error message display
                         if let errorMessage = errorMessage {
                             Text(errorMessage)
@@ -68,7 +61,7 @@ struct register_view: View {
                                 .font(.headline)
                             Text("- Password must be at least 6 characters long.")
                             Text("- Confirm Password must match the Password.")
-                            Text("- You must be at least 18 years old.")
+                            Text("- You must be at least 17 years old.")
                             Text("- Email address must be valid.")
                         }
                         .font(.footnote)
@@ -78,7 +71,7 @@ struct register_view: View {
                         Button(action: {
                             Task {
                                 do {
-                                    try await viewModels.createUser(withEmail: email, password: password, fullname: fullname, joined: joined, birthdate: birthdate, gender: gender)
+                                    try await viewModels.createUser(withEmail: email, password: password, fullname: fullname, joined: joined, birthdate: birthdate)
                                     registrationSuccess = true
                                     //print("DEBUG: Registration successful. Redirecting to app.")
                                     errorMessage = nil
@@ -133,7 +126,7 @@ struct register_view: View {
             && password.count >= 6 // Changed to match the standard text
             && confirmPassword == password
             && !fullname.isEmpty
-            && age >= 18
+            && age >= 17
     }
 
 }

@@ -1,13 +1,5 @@
 import Foundation
 
-enum Gender: String, CaseIterable, Identifiable, Codable {
-    case male = "Male"
-    case female = "Female"
-    case other = "Other"
-    
-    var id: String { self.rawValue }
-}
-
 enum UserRole: String, Codable {
     case regularUser = "RegularUser"
     case bouncer = "Bouncer"
@@ -21,7 +13,6 @@ struct User: Identifiable, Codable {
     var passwordHash: String
     var joined: Date
     var birthdate: Date
-    var gender: Gender
     var role: UserRole
     var fraternityID: String?
     var frat: Fraternity?
@@ -57,13 +48,12 @@ struct User: Identifiable, Codable {
         return String(password.reversed())
     }
 
-    init(fullname: String, id: String, email: String, password: String, joined: Date, birthdate: Date, gender: Gender, role: UserRole, fraternityID: String? = nil, snapchatUsername: String? = nil, instagramUsername: String? = nil, profileImageUrl: String? = nil, backgroundImageUrl: String? = nil, school: String? = nil) {
+    init(fullname: String, id: String, email: String, password: String, joined: Date, birthdate: Date, role: UserRole, fraternityID: String? = nil, snapchatUsername: String? = nil, instagramUsername: String? = nil, profileImageUrl: String? = nil, backgroundImageUrl: String? = nil, school: String? = nil) {
         self.fullname = fullname
         self.email = email
         self.passwordHash = User.hashPassword(password)
         self.joined = joined
         self.birthdate = birthdate
-        self.gender = gender
         self.id = id
         self.role = role
         self.fraternityID = fraternityID
