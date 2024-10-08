@@ -9,10 +9,16 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var viewModel: log_in_view_model
+    @EnvironmentObject var appState: AppState
 
     var body: some View {
         Group {
-            if viewModel.userSession != nil {
+            if appState.isGuest {
+                // Show Guest Main View when in guest mode
+                guest_main_view()
+                    .preferredColorScheme(.dark)
+            }
+            else if viewModel.userSession != nil {
                 if let manager = viewModel.currentManager {
                     // Check if the manager has selected a club
                     if manager.activeBusiness != nil {

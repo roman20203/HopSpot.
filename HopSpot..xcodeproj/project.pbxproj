@@ -17,6 +17,9 @@
 		AD1AE6AE2C97B5160090BBE8 /* club_events_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6AD2C97B5160090BBE8 /* club_events_view.swift */; };
 		AD1AE6B02C98C2320090BBE8 /* frat_events_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6AF2C98C2320090BBE8 /* frat_events_view.swift */; };
 		AD1AE6B22C9A36870090BBE8 /* Event_Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD1AE6B12C9A36870090BBE8 /* Event_Cell.swift */; };
+		AD34684B2CB5AF0D0079C619 /* guest_main_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD34684A2CB5AF0D0079C619 /* guest_main_view.swift */; };
+		AD34684D2CB5AF950079C619 /* guest_profile_view.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD34684C2CB5AF950079C619 /* guest_profile_view.swift */; };
+		AD34684F2CB5B97C0079C619 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD34684E2CB5B97C0079C619 /* AppState.swift */; };
 		AD4713122C6A92CD0087607D /* AppColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713112C6A92CD0087607D /* AppColor.swift */; };
 		AD4713142C6A96360087607D /* StarRatingTemplate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713132C6A96360087607D /* StarRatingTemplate.swift */; };
 		AD47131A2C6C7F330087607D /* Business.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD4713192C6C7F330087607D /* Business.swift */; };
@@ -107,6 +110,9 @@
 		AD1AE6AD2C97B5160090BBE8 /* club_events_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = club_events_view.swift; sourceTree = "<group>"; };
 		AD1AE6AF2C98C2320090BBE8 /* frat_events_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = frat_events_view.swift; sourceTree = "<group>"; };
 		AD1AE6B12C9A36870090BBE8 /* Event_Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Event_Cell.swift; sourceTree = "<group>"; };
+		AD34684A2CB5AF0D0079C619 /* guest_main_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = guest_main_view.swift; sourceTree = "<group>"; };
+		AD34684C2CB5AF950079C619 /* guest_profile_view.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = guest_profile_view.swift; sourceTree = "<group>"; };
+		AD34684E2CB5B97C0079C619 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		AD4713112C6A92CD0087607D /* AppColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColor.swift; sourceTree = "<group>"; };
 		AD4713132C6A96360087607D /* StarRatingTemplate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingTemplate.swift; sourceTree = "<group>"; };
 		AD4713192C6C7F330087607D /* Business.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Business.swift; sourceTree = "<group>"; };
@@ -225,9 +231,9 @@
 				ADED5F812C515C90003AB6A0 /* image_view.swift */,
 				AD4713112C6A92CD0087607D /* AppColor.swift */,
 				ADED5F872C5BC3F7003AB6A0 /* club_details_template.swift */,
+				AD6F186A2CA26B0600CA6985 /* Promotion_Cell.swift */,
 				AD4713132C6A96360087607D /* StarRatingTemplate.swift */,
 				AD1AE6B12C9A36870090BBE8 /* Event_Cell.swift */,
-				AD6F186A2CA26B0600CA6985 /* Promotion_Cell.swift */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -317,6 +323,8 @@
 				AD6F186C2CA5D06E00CA6985 /* frat_user_view.swift */,
 				AD6F186E2CA5E2F000CA6985 /* frat_event_create_view.swift */,
 				AD6F18702CA8E4B600CA6985 /* frat_event_edit_view.swift */,
+				AD34684A2CB5AF0D0079C619 /* guest_main_view.swift */,
+				AD34684C2CB5AF950079C619 /* guest_profile_view.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -326,6 +334,7 @@
 			children = (
 				ADA1A52A2C3F597C006844E7 /* log_in_view_model.swift */,
 				ADED5F7F2C4E9B3C003AB6A0 /* club_firebase_handler.swift */,
+				AD34684E2CB5B97C0079C619 /* AppState.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -552,11 +561,14 @@
 				AD6F186F2CA5E2F000CA6985 /* frat_event_create_view.swift in Sources */,
 				ADA297962C36217D00D2A7E9 /* ContentView.swift in Sources */,
 				ADA1A5272C3F50BB006844E7 /* register_view.swift in Sources */,
+				AD34684F2CB5B97C0079C619 /* AppState.swift in Sources */,
 				AD4713212C6D1DE00087607D /* manager_home_view.swift in Sources */,
+				AD34684D2CB5AF950079C619 /* guest_profile_view.swift in Sources */,
 				ADA297E22C37C3C700D2A7E9 /* Club.swift in Sources */,
 				AD1AE6A42C8CE3110090BBE8 /* PromotionCreateView.swift in Sources */,
 				AD6F18712CA8E4B600CA6985 /* frat_event_edit_view.swift in Sources */,
 				AD4713292C6D1E500087607D /* manager_main.swift in Sources */,
+				AD34684B2CB5AF0D0079C619 /* guest_main_view.swift in Sources */,
 				ADCAE6162C66E90E004BBD13 /* home_view.swift in Sources */,
 				AD1AE6B02C98C2320090BBE8 /* frat_events_view.swift in Sources */,
 				ADED5F822C515C90003AB6A0 /* image_view.swift in Sources */,

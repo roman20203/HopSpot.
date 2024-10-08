@@ -1,9 +1,12 @@
+
+
 import SwiftUI
 
 struct log_in_view: View {
     @State private var email = ""
     @State private var password = ""
     @EnvironmentObject var viewModels: log_in_view_model
+    @EnvironmentObject var appState: AppState 
     @State private var loginSuccess = false
     @State private var isManager = false
     @State private var errorMessage: String?
@@ -66,6 +69,20 @@ struct log_in_view: View {
                             .background(AppColor.color)
                             .cornerRadius(10)
                             .padding(.top, 24)
+                            
+                            // Continue as Guest Button
+                            Button(action: {
+                                appState.continueAsGuest() // Switch to guest mode
+                            }) {
+                                Text("Continue as Guest")
+                                    .font(.headline)
+                                    .foregroundColor(AppColor.color)
+                                    //.background(Color.blue)
+                                    .cornerRadius(10)
+                            }
+                            .padding()
+                            
+                            
                         }
                         .padding(.horizontal)
                         .padding(.top, 30)
@@ -88,3 +105,4 @@ struct log_in_view: View {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 }
+
