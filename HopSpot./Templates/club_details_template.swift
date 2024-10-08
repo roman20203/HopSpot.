@@ -17,6 +17,7 @@ struct club_details_template: View {
     
     @EnvironmentObject var viewModel: log_in_view_model
     @EnvironmentObject var userLocation: UserLocation
+    @EnvironmentObject var appState: AppState 
     @State private var showRatingView = false
     @State private var hasSubmittedRating = false
     @State private var promotions: [Promotion] = []
@@ -158,6 +159,10 @@ struct club_details_template: View {
                                 .padding(.horizontal)
                         }else if !isReportingAllowed && !selectedLineLengthOption.isEmpty {
                             Text("Please wait before submitting another report.")
+                                .foregroundStyle(.red)
+                                .padding(.horizontal)
+                        } else if viewModel.currentUser == nil || appState.isGuest {
+                            Text("Only registered users can submit reports.")
                                 .foregroundStyle(.red)
                                 .padding(.horizontal)
                         }
