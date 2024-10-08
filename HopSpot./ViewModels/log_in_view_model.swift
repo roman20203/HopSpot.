@@ -121,12 +121,12 @@ class log_in_view_model: ObservableObject {
 
     
 
-    func createUser(withEmail email: String, password: String, fullname: String, joined: Date, birthdate: Date, gender: Gender) async throws {
+    func createUser(withEmail email: String, password: String, fullname: String, joined: Date, birthdate: Date) async throws {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
             
-            let user = User(fullname: fullname, id: result.user.uid, email: email, password: password, joined: joined, birthdate: birthdate, gender: gender, role: .regularUser)
+            let user = User(fullname: fullname, id: result.user.uid, email: email, password: password, joined: joined, birthdate: birthdate, role: .regularUser)
             let encodeduser = try Firestore.Encoder().encode(user)
             
             try await Firestore.firestore().collection("users").document(user.id).setData(encodeduser)
